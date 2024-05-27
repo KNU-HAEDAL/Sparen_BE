@@ -58,6 +58,9 @@ dependencies {
     // aws sqs
     implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.1")
     implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
