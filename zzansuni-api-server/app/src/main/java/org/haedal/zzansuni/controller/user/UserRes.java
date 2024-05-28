@@ -12,7 +12,15 @@ public class UserRes {
             String nickname,
             String profileImageUrl,
             String email,
-            Long exp,
+            TierDto tier
+    ) {
+    }
+
+    @Builder
+    public record UserDto(
+            Long id,
+            String nickname,
+            String profileImageUrl,
             TierDto tier
     ) {
     }
