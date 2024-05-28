@@ -56,8 +56,26 @@ public class ChallengeController {
     //숏폼 조회
     @Operation(summary = "챌린지 숏폼 조회", description = "챌린지 숏폼 조회한다.")
     @GetMapping("/api/challenges/shorts")
-    public ApiResponse<PagingResponse<ChallengeRes.ChallengeDto>> getChallengeShorts(
+    public ApiResponse<PagingResponse<ChallengeRes.ChallengeDto>> getChallengeShortsPaging(
             @RequestParam Long page
+    ) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Operation(summary = "진행중인 챌린지 조회", description = "진행중인 챌린지 조회한다.")
+    @GetMapping("/api/challenges/currents")
+    public ApiResponse<PagingResponse<ChallengeRes.ChallengeCurrentDto>> getChallengeCurrentsPaging(
+            @Valid PagingRequest pagingRequest,
+            @AuthenticationPrincipal JwtUser jwtUser
+    ) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Operation(summary = "완료한 챌린지 조회", description = "완료한 챌린지 페이징 조회한다.")
+    @GetMapping("/api/challenges/completes")
+    public ApiResponse<PagingResponse<ChallengeRes.ChallengeCompleteDto>> getChallengeCompletesPaging(
+            @Valid PagingRequest pagingRequest,
+            @AuthenticationPrincipal JwtUser jwtUser
     ) {
         throw new RuntimeException("Not implemented");
     }

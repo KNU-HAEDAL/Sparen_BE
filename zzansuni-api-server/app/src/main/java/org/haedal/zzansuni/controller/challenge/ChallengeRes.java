@@ -53,7 +53,6 @@ public class ChallengeRes {
     }
 
 
-
     @Builder
     public record ChallengeReviewDto(
             Long challengeId,
@@ -79,6 +78,33 @@ public class ChallengeRes {
             //획득 포인트
             Integer acquiredPoint,
             UserRes.UserDto user
+    ) {
+    }
+
+
+    @Builder
+    public record ChallengeCurrentDto(
+            Long id,
+            String title,
+
+            LocalDate participationDate,
+
+            ChallengeCategory category,
+            Boolean reviewWritten
+
+    ) {
+    }
+
+    @Builder
+    public record ChallengeCompleteDto(
+            Long id,
+            String title,
+
+            LocalDate successDate,
+
+            ChallengeCategory category,
+            Boolean reviewWritten
+
     ) {
     }
 }
