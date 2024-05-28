@@ -11,6 +11,7 @@ import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "challenges", description = "챌린지 관련 API")
@@ -51,4 +52,14 @@ public class ChallengeController {
     ) {
         throw new RuntimeException("Not implemented");
     }
+
+    //숏폼 조회
+    @Operation(summary = "챌린지 숏폼 조회", description = "챌린지 숏폼 조회한다.")
+    @GetMapping("/api/challenges/shorts")
+    public ApiResponse<PagingResponse<ChallengeRes.ChallengeDto>> getChallengeShorts(
+            @RequestParam Long page
+    ) {
+        throw new RuntimeException("Not implemented");
+    }
+
 }
