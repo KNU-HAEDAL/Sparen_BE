@@ -1,8 +1,10 @@
 package org.haedal.zzansuni.core.api;
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class ApiResponse<T> {
     private Result result;
     private T data;
