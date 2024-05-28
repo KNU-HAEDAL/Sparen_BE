@@ -13,8 +13,4 @@ public class HealthCheckController {
         return "ok";
     }
 
-    @GetMapping("/health2")
-    public ApiResponse<String> healthCheck2() {
-        return ApiResponse.success("ok");
-    }
 }
