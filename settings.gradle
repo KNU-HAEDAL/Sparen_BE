@@ -1,1 +1,6 @@
 rootProject.name = 'zzansuni'
+
+include(
+        'zzansuni-api-server:app',
+        'core',
+)

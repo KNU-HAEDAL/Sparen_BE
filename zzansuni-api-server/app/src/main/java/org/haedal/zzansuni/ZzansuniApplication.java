@@ -3,7 +3,8 @@ package org.haedal.zzansuni;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+
+@SpringBootApplication(scanBasePackages = {"org.haedal.zzansuni"})
 public class ZzansuniApplication {
 
     public static void main(String[] args) {
