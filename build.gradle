@@ -12,7 +12,6 @@ plugins {
 allprojects {
     group = 'org.haedal'
     version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '17'
 
     repositories {
         mavenCentral()
@@ -29,6 +28,7 @@ subprojects {
     apply plugin: 'io.spring.dependency-management' // 서브 프로젝트 블록안에서 적용
     apply plugin: 'org.springframework.boot' // 서브 프로젝트 블록안에서 적용
 
+    sourceCompatibility = '17'
 
     configurations {
         compileOnly {
