@@ -18,6 +18,14 @@ public class ApiResponse<T> {
                 .build();
     }
 
+    public static <T> ApiResponse<T> success(T data, String message) {
+        return ApiResponse.<T>builder()
+                .result(Result.SUCCESS)
+                .data(data)
+                .message(message)
+                .build();
+    }
+
     public static ApiResponse<Void> fail(String errorCode, String message) {
         return ApiResponse.<Void>builder()
                 .result(Result.FAIL)
