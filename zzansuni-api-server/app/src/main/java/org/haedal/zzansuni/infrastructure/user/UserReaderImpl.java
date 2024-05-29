@@ -19,7 +19,7 @@ public class UserReaderImpl implements UserReader {
     }
 
     @Override
-    public Optional<User> getByAuthToken(String authToken) {
+    public Optional<User> findByAuthToken(String authToken) {
         return userRepository.findByAuthToken(authToken);
     }
 }

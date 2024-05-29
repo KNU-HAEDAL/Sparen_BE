@@ -14,7 +14,7 @@ public class UserService {
      * 수정해야할 정보를 받고 해당 값으로 모두 업데이트
      */
     @Transactional
-    public void updateUser(Long id, UserCommand.Update userUpdate){
+    public void updateUser(Long id, UserCommand.Update userUpdate) {
         User user = userReader.getById(id);
         user.update(userUpdate);
     }

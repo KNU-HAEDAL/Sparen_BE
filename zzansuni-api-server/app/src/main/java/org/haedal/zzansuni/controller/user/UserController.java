@@ -3,6 +3,7 @@ package org.haedal.zzansuni.controller.user;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.user.UserService;
@@ -35,7 +36,7 @@ public class UserController {
     @Operation(summary = "내 정보 수정", description = "내 정보를 수정한다.")
     @PatchMapping("/api/user")
     public ApiResponse<Void> updateUser(
-            @RequestBody UserReq.UserUpdateRequest request,
+            @Valid @RequestBody UserReq.UserUpdateRequest request,
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
         var command = request.toCommand();
