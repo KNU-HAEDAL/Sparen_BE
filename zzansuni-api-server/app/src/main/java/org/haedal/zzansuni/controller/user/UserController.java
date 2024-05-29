@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.core.api.ApiResponse;
+import org.haedal.zzansuni.domain.user.UserService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 public class UserController {
+    private final UserService userService;
 
     @Operation(summary = "내 정보 조회", description = "내 정보를 조회한다.")
     @GetMapping("/api/user")
@@ -32,8 +34,13 @@ public class UserController {
 
     @Operation(summary = "내 정보 수정", description = "내 정보를 수정한다.")
     @PatchMapping("/api/user")
-    public ApiResponse<Void> updateUser(@RequestBody UserReq.UserUpdateRequest request) {
-        return ApiResponse.success(null);
+    public ApiResponse<Void> updateUser(
+            @RequestBody UserReq.UserUpdateRequest request,
+            @AuthenticationPrincipal JwtUser jwtUser
+    ) {
+        var command = request.toCommand();
+        userService.updateUser(jwtUser.getId(), command);
+        return ApiResponse.success(null, "수정에 성공하였습니다.");
     }
 
     @Operation(summary = "스트릭 조회", description = "스트릭을 조회한다.")
