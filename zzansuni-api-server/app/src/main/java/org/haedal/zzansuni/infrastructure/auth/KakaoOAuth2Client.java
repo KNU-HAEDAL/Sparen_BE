@@ -17,6 +17,7 @@ import org.springframework.web.client.RestClient;
 @Component
 @Profile({"prod", "dev"})
 public class KakaoOAuth2Client implements OAuth2Client {
+    private final AuthTokenGenerator authTokenGenerator;
     private final RestClient restClient = RestClient.create();
     private static final String GRANT_TYPE = "authorization_code";
 
@@ -62,7 +63,7 @@ public class KakaoOAuth2Client implements OAuth2Client {
 
         String id = userInfo.id().toString();
         String nickname = userInfo.properties().nickname();
-        String authToken = OAuth2Provider.KAKAO + "_" + id;
+        String authToken = authTokenGenerator.generate(id, OAuth2Provider.KAKAO);
         return OAuthUserInfoModel.builder()
                 .nickname(nickname)
                 .authToken(authToken)
