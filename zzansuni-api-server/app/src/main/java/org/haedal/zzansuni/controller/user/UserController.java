@@ -59,7 +59,7 @@ public class UserController {
         ));
     }
 
-    @Operation(summary = "유저 랭킹 조회", description = "전체 유저 랭킹을 조회 페이징")
+    @Operation(summary = "유저 랭킹 페이징", description = "전체 유저 랭킹을 조회 페이징")
     @GetMapping("/api/users/ranking")
     public ApiResponse<PagingResponse<Void>> getUsersRanking(
             @Valid @RequestParam Long page
