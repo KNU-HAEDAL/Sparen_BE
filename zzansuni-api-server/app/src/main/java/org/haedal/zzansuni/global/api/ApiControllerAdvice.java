@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.core.api.ErrorCode;
+import org.haedal.zzansuni.global.exception.ExternalServerConnectionException;
 import org.haedal.zzansuni.global.exception.UnauthorizedException;
 import org.slf4j.MDC;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -107,6 +108,17 @@ public class ApiControllerAdvice {
         String eventId = MDC.get(CommonHttpRequestInterceptor.HEADER_REQUEST_UUID_KEY);
         log.error("eventId = {} ", eventId, e);
         return ApiResponse.fail(ErrorCode.COMMON_SYSTEM_ERROR);
+    }
+
+    /**
+     * http status: 500 AND result: FAIL
+     * 외부 서버 연결 실패
+     */
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiResponse<Void> externalServerConnectionException(ExternalServerConnectionException e) {
+        log.error("외부 서버 연결 실패", e);
+        return ApiResponse.fail("EXTERNAL_SERVER_ERROR", e.getMessage());
     }
 
 

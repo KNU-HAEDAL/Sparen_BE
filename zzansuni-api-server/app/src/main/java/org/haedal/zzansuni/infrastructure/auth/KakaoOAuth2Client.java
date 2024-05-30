@@ -1,11 +1,13 @@
 package org.haedal.zzansuni.infrastructure.auth;
 
-import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.auth.OAuth2Client;
 import org.haedal.zzansuni.domain.auth.OAuth2Provider;
 import org.haedal.zzansuni.domain.auth.OAuthUserInfoModel;
+import org.haedal.zzansuni.global.exception.ExternalServerConnectionException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -13,17 +15,36 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-@RequiredArgsConstructor
 @Component
 @Profile({"prod", "dev"})
 public class KakaoOAuth2Client implements OAuth2Client {
     private final AuthTokenGenerator authTokenGenerator;
-    private final RestClient restClient = RestClient.create();
+    private final RestClient restClient;
+
+    public KakaoOAuth2Client(AuthTokenGenerator authTokenGenerator, ClientHttpRequestFactory clientHttpRequestFactory) {
+        this.authTokenGenerator = authTokenGenerator;
+        // 타임아웃 설정, 4xx, 5xx 에러 핸들러 설정
+        this.restClient = RestClient
+                .builder()
+                .requestFactory(clientHttpRequestFactory)
+                .defaultStatusHandler(HttpStatusCode::is4xxClientError, (request, response) -> {
+                    throw new IllegalStateException("카카오 인증 code 요청에 실패했습니다.");
+                })
+                .defaultStatusHandler(HttpStatusCode::is5xxServerError, (request, response) -> {
+                    throw new ExternalServerConnectionException("카카오 인증 서버로 부터 문제가 발생했습니다.");
+                })
+                .build();
+    }
+
+
     private static final String GRANT_TYPE = "authorization_code";
 
-    @Value("${kakao.client-id}") private String clientId;
-    @Value("${kakao.redirect-uri}") private String redirectUri;
-    @Value("${kakao.client-secret}") private String clientSecret;
+    @Value("${kakao.client-id}")
+    private String clientId;
+    @Value("${kakao.redirect-uri}")
+    private String redirectUri;
+    @Value("${kakao.client-secret}")
+    private String clientSecret;
 
     @Override
     public boolean canHandle(OAuth2Provider provider) {
