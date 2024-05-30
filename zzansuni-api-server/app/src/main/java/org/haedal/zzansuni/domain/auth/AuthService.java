@@ -1,10 +1,7 @@
 package org.haedal.zzansuni.domain.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.user.User;
-import org.haedal.zzansuni.domain.user.UserCommand;
-import org.haedal.zzansuni.domain.user.UserModel;
-import org.haedal.zzansuni.domain.user.UserReader;
+import org.haedal.zzansuni.domain.user.*;
 import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.haedal.zzansuni.global.jwt.JwtUtils;
@@ -21,6 +18,7 @@ public class AuthService {
     private final List<OAuth2Client> oAuth2Clients;
     private final JwtUtils jwtUtils;
     private final UserReader userReader;
+    private final UserStore userStore;
 
     /**
      * OAuth2 로그인 또는 회원가입 <br>
@@ -52,7 +50,8 @@ public class AuthService {
 
     private User signup(OAuthUserInfoModel oAuthUserInfoModel, OAuth2Provider provider) {
         UserCommand.CreateOAuth2 command = oAuthUserInfoModel.toCreateCommand(provider);
-        return User.create(command);
+        User user =  User.create(command);
+        return userStore.store(user);
     }
 
     private JwtToken createToken(User user) {
