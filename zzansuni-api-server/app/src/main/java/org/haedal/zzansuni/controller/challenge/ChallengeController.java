@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
+import org.haedal.zzansuni.domain.challenge.ChallengeCategory;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,8 @@ public class ChallengeController {
     @Operation(summary = "챌린지 목록 조회", description = "챌린지 목록 페이징 조회한다.")
     @GetMapping("/api/challenges")
     public ApiResponse<PagingResponse<ChallengeRes.ChallengeDto>> getChallengesPaging(
-            @Valid PagingRequest pagingRequest
+            @Valid PagingRequest pagingRequest,
+            @RequestParam ChallengeCategory category
     ) {
         throw new RuntimeException("Not implemented");
     }
