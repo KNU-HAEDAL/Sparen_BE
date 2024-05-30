@@ -1,7 +1,9 @@
 package org.haedal.zzansuni.domain.auth;
 
+import lombok.Builder;
 import org.haedal.zzansuni.domain.user.UserCommand;
 
+@Builder
 public record OAuthUserInfoModel(
         String authToken,
         String nickname
