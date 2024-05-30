@@ -21,7 +21,7 @@ public class UserRes {
             Long id,
             String nickname,
             String profileImageUrl,
-            TierInfoDto tier
+            TierInfoDto tierInfo
     ) {
     }
 

@@ -16,6 +16,15 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class ChallengeInteractController {
 
+    @Operation(summary = "챌린지 참여", description = "챌린지에 참여한다.")
+    @PostMapping("/api/challenges/{challengeId}/join")
+    public ApiResponse<Void> challengeParticipation(
+            @PathVariable Long challengeId,
+            @AuthenticationPrincipal JwtUser jwtUser
+    ) {
+        throw new RuntimeException("Not implemented");
+    }
+
     @Operation(summary = "챌린지 인증", description = "챌린지에 인증한다.")
     @PostMapping("/api/challenges/{challengeId}/verification")
     public ApiResponse<ChallengeInteractRes.ChallengeVerificationResponse> challengeVerification(

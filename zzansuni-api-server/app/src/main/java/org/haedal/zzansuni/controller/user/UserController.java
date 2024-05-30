@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.user.UserService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @Operation(summary = "내 정보 수정", description = "내 정보를 수정한다.")
-    @PatchMapping("/api/user")
+    @PutMapping("/api/user")
     public ApiResponse<Void> updateUser(
             @Valid @RequestBody UserReq.UserUpdateRequest request,
             @AuthenticationPrincipal JwtUser jwtUser
@@ -54,6 +55,15 @@ public class UserController {
         return ApiResponse.success(List.of(
                 new UserRes.StrickDto(LocalDate.now(), Map.of("운동하기",1))
         ));
+    }
+
+    @Operation(summary = "유저 랭킹 조회", description = "전체 유저 랭킹을 조회 페이징")
+    @GetMapping("/api/users/ranking")
+    public ApiResponse<PagingResponse<Void>> getUsersRanking(
+            @Valid @RequestParam Long page
+    ) {
+        // TODO
+        return ApiResponse.success(null);
     }
 
 
