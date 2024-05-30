@@ -50,6 +50,7 @@ jobs:
           port: 22
           script: |
             docker rm -f $(docker ps -qa) # 기존에 실행되고 있는 도커 프로세스들을 제거합니다.
+            docker rmi $(docker images -q) # 기존에 존재하는 도커 이미지들을 제거합니다.
+            docker image prune -f # 사용하지 않는 도커 이미지들을 제거합니다.
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
             docker run -d -p 80:8080 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
-            docker image prune -f
