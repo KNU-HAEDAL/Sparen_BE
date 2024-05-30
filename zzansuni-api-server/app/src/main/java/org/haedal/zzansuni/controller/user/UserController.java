@@ -53,7 +53,9 @@ public class UserController {
             @RequestParam(required = false) LocalDate endDate // false면 365일전
     ) {
         return ApiResponse.success(List.of(
-                new UserRes.StrickDto(LocalDate.now(), Map.of("운동하기",1))
+                new UserRes.StrickDto(LocalDate.now(), List.of(
+                        new UserRes.DayCountDto(LocalDate.now(), 1)
+                ))
         ));
     }
 
