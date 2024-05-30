@@ -1,7 +1,7 @@
 package org.haedal.zzansuni.global.security;
 
-import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.global.exception.UnauthorizedException;
 import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.haedal.zzansuni.global.jwt.JwtUtils;
@@ -32,7 +32,7 @@ public class JwtProvider implements AuthenticationProvider {
 
         // 토큰을 검증하는 단계
         if(!jwtUtils.validateToken(token)){
-            throw new JwtException("유효하지 않은 토큰입니다.");
+            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
         JwtUser jwtUser = jwtUtils.getJwtUser(JwtToken.ValidToken.of(token));
         Set<SimpleGrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(jwtUser.getRole().name()));

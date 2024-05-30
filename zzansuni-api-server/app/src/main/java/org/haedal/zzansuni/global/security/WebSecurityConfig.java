@@ -2,6 +2,7 @@ package org.haedal.zzansuni.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.core.api.ApiResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -75,20 +76,20 @@ public class WebSecurityConfig {
          */
         http.exceptionHandling((exception) -> exception
                 .authenticationEntryPoint((request, response, authException) -> {
-//                    var errorResponse = ErrorResponse.of("권한이 없습니다.");
-//                    var json = objectMapper.writeValueAsString(errorResponse);
+                    var errorResponse = ApiResponse.fail("UNAUTHORIZED", "인증이 필요합니다.");
+                    var json = objectMapper.writeValueAsString(errorResponse);
                     response.setStatus(401);
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//                    response.getWriter().write(json);
+                    response.getWriter().write(json);
                     response.getWriter().flush();
                 })
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                    var errorResponse = ErrorResponse.of("권한이 없습니다.");
-//                    var json = objectMapper.writeValueAsString(errorResponse);
+                    var errorResponse = ApiResponse.fail("ACCESS_DENIED", "권한이 없습니다.");
+                    var json = objectMapper.writeValueAsString(errorResponse);
 
                     response.setStatus(403);
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//                    response.getWriter().write(json);
+                    response.getWriter().write(json);
                     response.getWriter().flush();
                 })
         );

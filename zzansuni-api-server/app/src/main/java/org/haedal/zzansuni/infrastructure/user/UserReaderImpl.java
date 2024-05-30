@@ -6,6 +6,7 @@ import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserReader;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
@@ -15,7 +16,7 @@ public class UserReaderImpl implements UserReader {
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return userRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override

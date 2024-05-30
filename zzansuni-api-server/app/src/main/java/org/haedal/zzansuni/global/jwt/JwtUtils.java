@@ -1,9 +1,9 @@
 package org.haedal.zzansuni.global.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.haedal.zzansuni.global.exception.UnauthorizedException;
 import org.haedal.zzansuni.global.security.Role;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,7 +60,7 @@ public class JwtUtils implements InitializingBean {
     public String reissueAccessToken(JwtToken.ValidToken refreshToken) {
         Claims claims = extractClaims(refreshToken.getValue());
         if (claims.get(IS_ACCESS_TOKEN, Boolean.class)) {
-            throw new JwtException("RefreshToken이 유효하지 않습니다.");
+            throw new UnauthorizedException("RefreshToken이 유효하지 않습니다.");
         }
         JwtUser jwtUser = claimsToJwtUser(claims);
         return generateToken(jwtUser, true);
