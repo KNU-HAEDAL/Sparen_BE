@@ -16,11 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class ChallengeInteractController {
 
-    @Operation(summary = "챌린지 참여", description = "챌린지에 참여한다.")
+    @Operation(summary = "챌린지 인증", description = "챌린지에 인증한다.")
     @PostMapping("/api/challenges/{challengeId}/verification")
     public ApiResponse<ChallengeInteractRes.ChallengeVerificationResponse> challengeVerification(
             @PathVariable Long challengeId,
-            @RequestPart("content") ChallengeInteractReq.ChallengeVerificationRequest request,
+            @RequestPart("body") ChallengeInteractReq.ChallengeVerificationRequest request,
             @RequestPart("image") MultipartFile image
     ) {
         throw new RuntimeException("Not implemented");
@@ -47,9 +47,8 @@ public class ChallengeInteractController {
     }
 
     @Operation(summary = "챌린지 기록 상세 조회", description = "챌린지 기록 상세를 조회한다.")
-    @GetMapping("/api/challenges/{challengeId}/record/{recordId}")
+    @GetMapping("/api/challenges/record/{recordId}")
     public ApiResponse<ChallengeInteractRes.ChallengeRecordDetailDto> getChallengeRecordDetail(
-            @PathVariable Long challengeId,
             @PathVariable Long recordId,
             @AuthenticationPrincipal JwtUser jwtUser
     ) {

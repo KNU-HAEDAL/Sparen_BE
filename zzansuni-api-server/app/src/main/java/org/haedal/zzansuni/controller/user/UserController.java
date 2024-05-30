@@ -28,7 +28,7 @@ public class UserController {
     ) {
         return ApiResponse.success(
                 new UserRes.UserInfoDto(1L, "nickname", "profileImageUrl", "email",
-                        new UserRes.TierDto("tier", 100, 50)
+                        new UserRes.TierInfoDto("tier", 100, 50)
                 )
         );
     }

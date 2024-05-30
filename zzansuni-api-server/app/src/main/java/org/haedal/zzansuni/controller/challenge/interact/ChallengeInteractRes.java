@@ -21,7 +21,7 @@ public class ChallengeInteractRes {
             Integer successCount,
             LocalDate startDate,
             LocalDate endDate,
-            List<Long> recordDetailIds
+            List<Long> recordIds
     ) {
     }
 

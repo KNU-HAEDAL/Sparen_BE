@@ -34,7 +34,8 @@ public class ChallengeRes {
             LocalDate endDate,
             ChallengeCategory category,
             /////
-            List<String> imageUrl,
+            Integer maxDifficulty,
+            List<String> imageUrls,
             List<ChallengeDifficultyDto> difficulties
     ) {
     }

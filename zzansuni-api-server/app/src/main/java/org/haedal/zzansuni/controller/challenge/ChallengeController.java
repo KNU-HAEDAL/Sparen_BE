@@ -63,7 +63,7 @@ public class ChallengeController {
     }
 
     @Operation(summary = "진행중인 챌린지 조회", description = "진행중인 챌린지 조회한다.")
-    @GetMapping("/api/challenges/currents")
+    @GetMapping("/api/user/challenges/currents")
     public ApiResponse<PagingResponse<ChallengeRes.ChallengeCurrentDto>> getChallengeCurrentsPaging(
             @Valid PagingRequest pagingRequest,
             @AuthenticationPrincipal JwtUser jwtUser
@@ -72,7 +72,7 @@ public class ChallengeController {
     }
 
     @Operation(summary = "완료한 챌린지 조회", description = "완료한 챌린지 페이징 조회한다.")
-    @GetMapping("/api/challenges/completes")
+    @GetMapping("/api/user/challenges/completes")
     public ApiResponse<PagingResponse<ChallengeRes.ChallengeCompleteDto>> getChallengeCompletesPaging(
             @Valid PagingRequest pagingRequest,
             @AuthenticationPrincipal JwtUser jwtUser

@@ -12,7 +12,7 @@ public class UserRes {
             String nickname,
             String profileImageUrl,
             String email,
-            TierDto tier
+            TierInfoDto tierInfo
     ) {
     }
 
@@ -21,12 +21,12 @@ public class UserRes {
             Long id,
             String nickname,
             String profileImageUrl,
-            TierDto tier
+            TierInfoDto tier
     ) {
     }
 
     @Builder
-    public record TierDto(
+    public record TierInfoDto(
             String tier,
             Integer totalExp,
             Integer currentExp

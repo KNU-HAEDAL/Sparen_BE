@@ -9,6 +9,7 @@ import java.util.function.Function;
 @Builder
 public record PagingResponse<T>(
         Integer totalPage,
+        Boolean hasNext,
         List<T> data
 ) {
 
@@ -22,6 +23,7 @@ public record PagingResponse<T>(
     ) {
         return PagingResponse.<Model>builder()
                 .totalPage(page.getTotalPages())
+                .hasNext(page.hasNext())
                 .data(page.getContent().stream().map(converter).toList())
                 .build();
 

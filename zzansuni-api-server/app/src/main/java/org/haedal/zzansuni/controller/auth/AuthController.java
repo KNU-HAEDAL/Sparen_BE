@@ -21,7 +21,7 @@ public class AuthController {
         return ApiResponse.success(
                 new AuthRes.LoginResponse("accessToken", "refresh", new UserRes.UserInfoDto(
                         1L, "nickname", "profileImageUrl", "email",
-                        new UserRes.TierDto("tier", 100, 50)
+                        new UserRes.TierInfoDto("tier", 100, 50)
                 )));
     }
 
