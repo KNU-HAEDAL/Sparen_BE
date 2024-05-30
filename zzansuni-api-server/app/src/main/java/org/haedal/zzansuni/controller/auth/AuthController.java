@@ -20,7 +20,7 @@ public class AuthController {
     public ApiResponse<AuthRes.LoginResponse> oauth2(@RequestBody @Valid AuthReq.OAuth2LoginRequest request) {
         return ApiResponse.success(
                 new AuthRes.LoginResponse("accessToken", "refresh", new UserRes.UserInfoDto(
-                        1L, "nickname", "profileImageUrl", "email",
+                        1L, "nickname", "https://picsum.photos/200/300", "email",
                         new UserRes.TierInfoDto("tier", 100, 50)
                 )));
     }

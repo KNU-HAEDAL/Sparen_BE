@@ -28,7 +28,7 @@ public class UserController {
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
         return ApiResponse.success(
-                new UserRes.UserInfoDto(1L, "nickname", "profileImageUrl", "email",
+                new UserRes.UserInfoDto(1L, "nickname", "https://picsum.photos/200/300", "email",
                         new UserRes.TierInfoDto("tier", 100, 50)
                 )
         );
