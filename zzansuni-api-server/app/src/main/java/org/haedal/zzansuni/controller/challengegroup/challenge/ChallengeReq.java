@@ -1,8 +1,6 @@
-package org.haedal.zzansuni.controller.challenge.interact;
+package org.haedal.zzansuni.controller.challengegroup.challenge;
 
-import org.springframework.web.multipart.MultipartFile;
-
-public class ChallengeInteractReq {
+public class ChallengeReq {
 
     public record ChallengeVerificationRequest(
             String content

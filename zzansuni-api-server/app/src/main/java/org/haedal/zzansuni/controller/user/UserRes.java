@@ -3,6 +3,7 @@ package org.haedal.zzansuni.controller.user;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class UserRes {
@@ -36,7 +37,18 @@ public class UserRes {
     @Builder
     public record StrickDto(
             LocalDate date,
-            Map<String, Integer> activity
+            List<DayCountDto> dayCounts
+    ) {
+    }
+
+    /**
+     * 하루에 대한 스트릭 카운트
+     * 0인 것도 보낸다.
+     */
+    @Builder
+    public record DayCountDto(
+            LocalDate date,
+            Integer count
     ) {
     }
 

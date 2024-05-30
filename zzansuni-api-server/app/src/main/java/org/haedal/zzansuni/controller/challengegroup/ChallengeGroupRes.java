@@ -1,19 +1,18 @@
-package org.haedal.zzansuni.controller.challenge;
+package org.haedal.zzansuni.controller.challengegroup;
 
 import lombok.Builder;
 import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.domain.challenge.ChallengeCategory;
 import org.haedal.zzansuni.domain.challenge.DayType;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class ChallengeRes {
+public class ChallengeGroupRes {
 
 
     @Builder
-    public record ChallengeDto(
+    public record ChallengeGroupDto(
             Long id,
             String title,
             String content,
@@ -26,7 +25,7 @@ public class ChallengeRes {
     }
 
     @Builder
-    public record ChallengeDetailDto(
+    public record ChallengeGroupDetailDto(
             Long id,
             String title,
             String content,
@@ -37,12 +36,12 @@ public class ChallengeRes {
             /////
             Integer maxDifficulty,
             List<String> imageUrls,
-            List<ChallengeDifficultyDto> difficulties
+            List<ChallengeDto> challenges
     ) {
     }
 
     @Builder
-    public record ChallengeDifficultyDto(
+    public record ChallengeDto(
             Long id,
             Integer participantCount,
 
@@ -67,16 +66,16 @@ public class ChallengeRes {
 
 
     @Builder
-    public record ChallengeRankingPagingResponse(
-            List<ChallengeRankingDto> data,
+    public record ChallengeGroupRankingPagingResponse(
+            List<ChallengeGroupRankingDto> data,
             Integer totalPage,
-            ChallengeRankingDto myRanking //null이면 랭킹이 없는 것
+            ChallengeGroupRankingDto myRanking //null이면 랭킹이 없는 것
     ) {
     }
 
 
     @Builder
-    public record ChallengeRankingDto(
+    public record ChallengeGroupRankingDto(
             Integer ranking,
             //획득 포인트
             Integer acquiredPoint,
@@ -85,33 +84,4 @@ public class ChallengeRes {
     }
 
 
-    @Builder
-    public record ChallengeCurrentDto(
-            Long id,
-            String title,
-            Integer successCount,
-            Integer totalCount,
-
-            LocalDate participationDate,
-            LocalDate startDate,
-            LocalDate endDate,
-
-            ChallengeCategory category,
-            Boolean reviewWritten
-
-    ) {
-    }
-
-    @Builder
-    public record ChallengeCompleteDto(
-            Long id,
-            String title,
-
-            LocalDate successDate,
-
-            ChallengeCategory category,
-            Boolean reviewWritten
-
-    ) {
-    }
 }
