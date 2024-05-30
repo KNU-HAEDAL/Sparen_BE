@@ -28,10 +28,6 @@ jwt:
   secret: 4099a46b-39db-4860-a61b-2ae76ea24c43
   access-token-expire-time: 1800000 # 30 minutes
   refresh-token-expire-time: 2592000000 # 30 days
-kakao:
-  client-id: ${KAKAO_CLIENT_ID}
-  client-secret: ${KAKAO_CLIENT_SECRET}
-  redirect-uri: ${KAKAO_REDIRECT_URI}
 #cloud:
 #  aws:
 #    s3.bucket: zzansuni
@@ -43,6 +39,24 @@ kakao:
 #      auto: false
 #    stack:
 #      auto: false
+---
+spring:
+  config:
+    activate:
+      on-profile: dev, prod # dev, prod 공통 설정
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  h2.console.enabled: false
+jwt:
+  secret: ${JWT_SECRET}
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-uri: ${KAKAO_REDIRECT_URI}
 
 ---
 spring: # dev profile
@@ -53,15 +67,13 @@ spring: # dev profile
     url: jdbc:mysql://localhost:3306/zzansuni
     username: "root"
     password: "root"
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
   sql.init.mode: always
-  h2:
-    console:
-      enabled: false
+---
+spring: # prod profile
+  config:
+    activate:
+      on-profile: prod

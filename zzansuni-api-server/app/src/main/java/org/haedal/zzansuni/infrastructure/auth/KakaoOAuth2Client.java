@@ -5,6 +5,7 @@ import org.haedal.zzansuni.domain.auth.OAuth2Client;
 import org.haedal.zzansuni.domain.auth.OAuth2Provider;
 import org.haedal.zzansuni.domain.auth.OAuthUserInfoModel;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestClient;
 
 @RequiredArgsConstructor
 @Component
+@Profile({"prod", "dev"})
 public class KakaoOAuth2Client implements OAuth2Client {
     private final RestClient restClient = RestClient.create();
     private static final String GRANT_TYPE = "authorization_code";
