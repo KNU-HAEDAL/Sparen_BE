@@ -17,27 +17,28 @@ import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
-import org.haedal.zzansuni.domain.user.User;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class UserChallenge extends BaseTimeEntity {
+public class ChallengeVerification extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "challenge_id")
-    private Challenge challenge;
+    @JoinColumn(name = "user_challenge_id")
+    private UserChallenge userChallenge;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String imageUrl;
+
+    private String content;
 
     @Enumerated(EnumType.STRING)
-    private ChallengeStatus status;
+    private ChallengeVerificationStatus status;
+
+
 }
