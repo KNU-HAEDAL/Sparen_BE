@@ -50,6 +50,9 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.cors(
+                cors -> cors.configurationSource(corsConfigSource())
+        );
 
         /**
          * 인증, 인가 설정
