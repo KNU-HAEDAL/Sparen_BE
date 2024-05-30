@@ -2,8 +2,8 @@ package org.haedal.zzansuni.controller.challengegroup;
 
 import lombok.Builder;
 import org.haedal.zzansuni.controller.user.UserRes;
-import org.haedal.zzansuni.domain.challenge.ChallengeCategory;
-import org.haedal.zzansuni.domain.challenge.DayType;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
+import org.haedal.zzansuni.domain.challengegroup.DayType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,74 +13,80 @@ public class ChallengeGroupRes {
 
     @Builder
     public record ChallengeGroupDto(
-            Long id,
-            String title,
-            String content,
-            Integer participantCount,
-            LocalDate startDate,
-            LocalDate endDate,
-            ChallengeCategory category
+        Long id,
+        String title,
+        String content,
+        Integer participantCount,
+        LocalDate startDate,
+        LocalDate endDate,
+        ChallengeCategory category
 
     ) {
+
     }
 
     @Builder
     public record ChallengeGroupDetailDto(
-            Long id,
-            String title,
-            String content,
-            Integer participantCount,
-            LocalDate startDate,
-            LocalDate endDate,
-            ChallengeCategory category,
-            /////
-            Integer maxDifficulty,
-            List<String> imageUrls,
-            List<ChallengeDto> challenges
+        Long id,
+        String title,
+        String content,
+        Integer participantCount,
+        LocalDate startDate,
+        LocalDate endDate,
+        ChallengeCategory category,
+        /////
+        Integer maxDifficulty,
+        List<String> imageUrls,
+        List<ChallengeDto> challenges
     ) {
+
     }
 
     @Builder
     public record ChallengeDto(
-            Long id,
-            Integer participantCount,
+        Long id,
+        Integer participantCount,
 
-            Integer difficulty,
-            Integer onceExp,
-            Integer successExp,
-            DayType dayType,
-            Integer dayCount
+        Integer difficulty,
+        Integer onceExp,
+        Integer successExp,
+        DayType dayType,
+        Integer dayCount
     ) {
+
     }
 
 
     @Builder
     public record ChallengeReviewDto(
-            Long challengeId,
-            String challengeTitle,
-            UserRes.UserDto user,
-            String content,
-            Integer rating
+        Long challengeId,
+        String challengeTitle,
+        UserRes.UserDto user,
+        String content,
+        Integer rating
     ) {
+
     }
 
 
     @Builder
     public record ChallengeGroupRankingPagingResponse(
-            List<ChallengeGroupRankingDto> data,
-            Integer totalPage,
-            ChallengeGroupRankingDto myRanking //null이면 랭킹이 없는 것
+        List<ChallengeGroupRankingDto> data,
+        Integer totalPage,
+        ChallengeGroupRankingDto myRanking //null이면 랭킹이 없는 것
     ) {
+
     }
 
 
     @Builder
     public record ChallengeGroupRankingDto(
-            Integer ranking,
-            //획득 포인트
-            Integer acquiredPoint,
-            UserRes.UserDto user
+        Integer ranking,
+        //획득 포인트
+        Integer acquiredPoint,
+        UserRes.UserDto user
     ) {
+
     }
 
 

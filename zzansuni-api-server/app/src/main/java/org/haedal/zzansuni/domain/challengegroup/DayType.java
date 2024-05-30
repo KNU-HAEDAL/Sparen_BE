@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challenge;
+package org.haedal.zzansuni.domain.challengegroup;
 
 public enum DayType {
     DAY, WEEK, MONTH, YEAR
