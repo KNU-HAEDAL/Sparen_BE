@@ -4,6 +4,7 @@ import lombok.Builder;
 import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.domain.challenge.ChallengeCategory;
 import org.haedal.zzansuni.domain.challenge.DayType;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -87,8 +88,12 @@ public class ChallengeRes {
     public record ChallengeCurrentDto(
             Long id,
             String title,
+            Integer successCount,
+            Integer totalCount,
 
             LocalDate participationDate,
+            LocalDate startDate,
+            LocalDate endDate,
 
             ChallengeCategory category,
             Boolean reviewWritten

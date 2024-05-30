@@ -3,6 +3,7 @@ package org.haedal.zzansuni.controller.challenge.interact;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ChallengeInteractRes {
@@ -28,6 +29,7 @@ public class ChallengeInteractRes {
     @Builder
     public record ChallengeRecordDetailDto(
             Long id,
+            LocalDateTime createdAt,
             String content,
             String imageUrl
     ) {
