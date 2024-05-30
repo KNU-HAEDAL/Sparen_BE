@@ -45,7 +45,7 @@ public class ChallengeController {
 
     @Operation(summary = "챌린지 랭킹 조회", description = "챌린지 랭킹 조회한다.")
     @GetMapping("/api/challenges/{challengeId}/rankings")
-    public ApiResponse<PagingResponse<ChallengeRes.ChallengeRankingPagingResponse>> getChallengeRankings(
+    public ApiResponse<ChallengeRes.ChallengeRankingPagingResponse> getChallengeRankings(
             @AuthenticationPrincipal JwtUser jwtUser,
             @PathVariable Long challengeId,
             @Valid PagingRequest pagingRequest
