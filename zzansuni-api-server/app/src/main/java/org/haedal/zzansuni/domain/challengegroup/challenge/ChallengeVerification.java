@@ -15,8 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.DayType;
+import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 
 @Entity
 @AllArgsConstructor

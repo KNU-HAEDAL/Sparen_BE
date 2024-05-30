@@ -1,8 +1,6 @@
 package org.haedal.zzansuni.domain.challengegroup.challenge;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.DayType;
+import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 
 @Entity
 @AllArgsConstructor
