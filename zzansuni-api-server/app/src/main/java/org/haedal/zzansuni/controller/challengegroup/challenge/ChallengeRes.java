@@ -6,6 +6,8 @@ import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 
 public class ChallengeRes {
 
@@ -16,6 +18,14 @@ public class ChallengeRes {
         Integer obtainExp
     ) {
 
+        public static ChallengeVerificationResponse from(
+            ChallengeModel.ChallengeVerificationResult result) {
+            return ChallengeVerificationResponse.builder()
+                .totalCount(result.getTotalCount())
+                .successCount(result.getSuccessCount())
+                .obtainExp(result.getObtainExp())
+                .build();
+        }
     }
 
     @Builder
