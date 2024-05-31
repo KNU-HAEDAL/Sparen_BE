@@ -47,7 +47,7 @@ public class ChallengeVerification extends BaseTimeEntity {
             .userChallenge(userChallenge)
             .imageUrl(null)
             .content(command.getContent())
-            .status(ChallengeVerificationStatus.WAITING)
+            .status(ChallengeVerificationStatus.APPROVED)
             .build();
     }
 
