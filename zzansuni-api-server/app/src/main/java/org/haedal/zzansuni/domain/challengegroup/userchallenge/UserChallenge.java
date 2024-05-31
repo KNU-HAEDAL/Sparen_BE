@@ -48,4 +48,19 @@ public class UserChallenge extends BaseTimeEntity {
             .status(ChallengeStatus.PROCEEDING)
             .build();
     }
+
+    private void complete() {
+        this.status = ChallengeStatus.SUCCESS;
+    }
+
+    /**
+     * 챌린지 인증 참여횟수와 필요참여획수가 같으면 챌린지 완료로 변경
+     */
+    public void verification(Integer currentCount, Integer requiredCount) {
+        if (currentCount.equals(requiredCount)) {
+            complete();
+        }
+    }
+
+
 }
