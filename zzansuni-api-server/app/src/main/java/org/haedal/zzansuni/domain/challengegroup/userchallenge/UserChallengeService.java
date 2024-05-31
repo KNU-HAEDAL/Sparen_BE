@@ -25,6 +25,8 @@ public class UserChallengeService {
         Challenge challenge = challengeReader.getById(participateInfo.getChallengeId());
         UserChallenge userChallenge = UserChallenge.from(challenge, user);
         userChallengeStore.store(userChallenge);
+
+        // TODO: 챌린지 그룹 누적 참여자수 증가 로직 추가
     }
 
 }
