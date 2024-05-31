@@ -8,4 +8,7 @@ import org.springframework.stereotype.Service;
 public class ChallengeGroupService {
     public void createChallengeGroup(ChallengeGroupCommand.Create command) {
     }
+
+    public void deleteChallengeGroup(Long challengeGroupId) {
+    }
 }
