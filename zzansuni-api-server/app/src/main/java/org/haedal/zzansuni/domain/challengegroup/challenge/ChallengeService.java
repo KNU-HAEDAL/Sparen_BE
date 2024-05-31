@@ -2,6 +2,7 @@ package org.haedal.zzansuni.domain.challengegroup.challenge;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand.Verificate;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerification;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationReader;
@@ -32,10 +33,14 @@ public class ChallengeService {
     public ChallengeModel.ChallengeVerificationResult verification(Long userChallengeId,
         Verificate verificate) {
         UserChallenge userChallenge = userChallengeReader.getById(userChallengeId);
+        // TODO 이미지 업로드 로직 필요
         ChallengeVerification challengeVerification = ChallengeVerification.create(verificate,
             userChallenge);
         challengeVerificationStore.store(challengeVerification);
 
+        /**
+         * 챌린지 RequiredCount 가져오기 위해 챌린지 정보 가져온다
+         */
         Challenge challenge = userChallenge.getChallenge();
 
         /**
@@ -50,5 +55,19 @@ public class ChallengeService {
 
         return ChallengeModel.ChallengeVerificationResult
             .from(challenge.getRequiredCount(), currentCount, challenge.getOnceExp());
+    }
+
+    /**
+     * 챌린지 기록 가져오기
+     */
+    public ChallengeModel.ChallengeRecordDto getChallengeRecord(Long userId, Long challengeId) {
+        Challenge challenge = challengeReader.getById(challengeId);
+        ChallengeGroup challengeGroup = challenge.getChallengeGroup();
+        UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,
+            challengeId);
+        return ChallengeModel.ChallengeRecordDto
+            .from(challenge, challengeGroup,
+                challengeVerificationReader.findByUserChallengeId(userChallenge.getId()));
+
     }
 }
