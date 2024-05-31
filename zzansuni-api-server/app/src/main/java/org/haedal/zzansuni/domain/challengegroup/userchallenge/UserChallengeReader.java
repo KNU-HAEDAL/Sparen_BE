@@ -7,4 +7,8 @@ public interface UserChallengeReader {
     UserChallenge getById(Long id);
 
     Optional<UserChallenge> findById(Long id);
+
+    UserChallenge getByUserIdAndChallengeId(Long userId, Long challengeId);
+
+    Optional<UserChallenge> findByUserIdAndChallengeId(Long userId, Long challengeId);
 }

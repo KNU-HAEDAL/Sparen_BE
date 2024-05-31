@@ -22,4 +22,15 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
     public Optional<UserChallenge> findById(Long id) {
         return userChallengeRepository.findById(id);
     }
+
+    @Override
+    public UserChallenge getByUserIdAndChallengeId(Long userId, Long challengeId) {
+        return findByUserIdAndChallengeId(userId, challengeId).orElseThrow(
+            NoSuchElementException::new);
+    }
+
+    @Override
+    public Optional<UserChallenge> findByUserIdAndChallengeId(Long userId, Long challengeId) {
+        return userChallengeRepository.findByUserIdAndChallengeId(userId, challengeId);
+    }
 }
