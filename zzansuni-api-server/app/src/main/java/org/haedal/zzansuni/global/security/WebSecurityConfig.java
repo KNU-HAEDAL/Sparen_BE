@@ -1,8 +1,11 @@
 package org.haedal.zzansuni.global.security;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.core.api.ApiResponse;
+import org.haedal.zzansuni.global.exception.UnauthorizedException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -21,6 +24,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,23 +82,8 @@ public class WebSecurityConfig {
          * 2. 인가 예외 처리 (권한이 없는 사용자) 403
          */
         http.exceptionHandling((exception) -> exception
-                .authenticationEntryPoint((request, response, authException) -> {
-                    var errorResponse = ApiResponse.fail("UNAUTHORIZED", "인증이 필요합니다.");
-                    var json = objectMapper.writeValueAsString(errorResponse);
-                    response.setStatus(401);
-                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    response.getWriter().write(json);
-                    response.getWriter().flush();
-                })
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    var errorResponse = ApiResponse.fail("ACCESS_DENIED", "권한이 없습니다.");
-                    var json = objectMapper.writeValueAsString(errorResponse);
-
-                    response.setStatus(403);
-                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    response.getWriter().write(json);
-                    response.getWriter().flush();
-                })
+                .authenticationEntryPoint((request, response, authException) -> responseError(response, "UNAUTHORIZED", "인증이 필요합니다."))
+                .accessDeniedHandler((request, response, accessDeniedException) -> responseError(response, "ACCESS_DENIED", "권한이 없습니다."))
         );
 
         /**
@@ -105,7 +94,30 @@ public class WebSecurityConfig {
          */
         http.addFilterBefore(jwtAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class);
 
+        //jwtAuthenticationFilter에서 예외가 발생했을때, 예외를 받는 필터를 추가한다.
+        http.addFilterBefore((servletRequest, servletResponse, filterChain) -> {
+            try {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } catch (UnauthorizedException e) {
+                HttpServletResponse response = (HttpServletResponse) servletResponse;
+                responseError(response, "UNAUTHORIZED", "인증이 필요합니다.");
+            }
+        }, AuthorizationJwtHeaderFilter.class);
+
         return http.build();
+    }
+
+    /**
+     * 인증 예외 처리 응답을 생성하는 메서드
+     */
+    private void responseError(HttpServletResponse response, String code, String message) throws IOException {
+        var errorResponse = ApiResponse.fail(code, message);
+        var json = objectMapper.writeValueAsString(errorResponse);
+        response.setStatus(401);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
+        response.getWriter().flush();
     }
 
     @Bean
