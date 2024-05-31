@@ -38,6 +38,16 @@ public class ChallengeRes {
         List<Long> recordIds
     ) {
 
+        public static ChallengeRecordResponse from(ChallengeModel.ChallengeRecordDto dto) {
+            return ChallengeRecordResponse.builder()
+                .title(dto.getTitle())
+                .totalCount(dto.getTotalCount())
+                .successCount(dto.getSuccessCount())
+                .startDate(dto.getStartDate())
+                .endDate(dto.getEndDate())
+                .recordIds(dto.getRecordIds())
+                .build();
+        }
     }
 
     @Builder
