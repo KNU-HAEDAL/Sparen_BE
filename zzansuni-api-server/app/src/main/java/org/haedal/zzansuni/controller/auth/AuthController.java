@@ -12,6 +12,7 @@ import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "auth", description = "인증 관련 API")
@@ -41,6 +42,20 @@ public class AuthController {
     public ApiResponse<AuthRes.LoginResponse> login(@RequestBody @Valid AuthReq.EmailLoginRequest request) {
         Pair<JwtToken, UserModel> pair = authService.login(request.email(), request.password());
         var response = AuthRes.LoginResponse.from(pair.getFirst(), pair.getSecond());
+        return ApiResponse.success(response);
+    }
+
+    @Operation(summary = "액세스 토큰 재발급", description = "리프레시 토큰을 이용하여 액세스 토큰을 재발급한다.")
+    @PostMapping("/api/auth/refresh")
+    public ApiResponse<AuthRes.AccessTokenResponse> refresh(
+            @RequestHeader("Authorization") String authorization
+    ) {
+        if(authorization == null || !authorization.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Bearer 토큰이 필요합니다.");
+        }
+        String rawToken = authorization.substring("Bearer ".length());
+        String accessToken = authService.reissueToken(rawToken);
+        var response = AuthRes.AccessTokenResponse.of(accessToken);
         return ApiResponse.success(response);
     }
 

@@ -100,4 +100,14 @@ public class AuthService {
         UserModel userModel = UserModel.from(user);
         return Pair.of(jwtToken, userModel);
     }
+
+    public String reissueToken(String rawToken) {
+        if(!jwtUtils.validateToken(rawToken)){
+            throw new IllegalArgumentException("RefreshToken이 유효하지 않습니다.");
+        }
+        JwtToken.ValidToken token = JwtToken.ValidToken.of(rawToken);
+        jwtUtils.reissueAccessToken(token);
+
+        return jwtUtils.reissueAccessToken(JwtToken.ValidToken.of(rawToken));
+    }
 }

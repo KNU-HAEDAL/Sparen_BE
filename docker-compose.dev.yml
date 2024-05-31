@@ -1,0 +1,14 @@
+version: '3'
+  # 실행명령어
+  # docker-compose -f ./docker-compose.dev.yml up
+services:
+  zzansuni-mysql:
+    image: mysql
+    restart: always
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: zzansuni
+      MYSQL_ROOT_PASSWORD: root

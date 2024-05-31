@@ -21,4 +21,15 @@ public class AuthRes {
                     .build();
         }
     }
+
+    @Builder
+    public record AccessTokenResponse(
+            String accessToken
+    ) {
+        public static AccessTokenResponse of(String accessToken) {
+            return AccessTokenResponse.builder()
+                    .accessToken(accessToken)
+                    .build();
+        }
+    }
 }
