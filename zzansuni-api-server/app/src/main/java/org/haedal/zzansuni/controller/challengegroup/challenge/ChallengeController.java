@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeService;
@@ -39,13 +40,19 @@ public class ChallengeController {
     }
 
     @Operation(summary = "챌린지 인증", description = "챌린지에 인증한다.")
-    @PostMapping("/api/challenges/{challengeId}/verification")
+    @PostMapping("/api/challenges/{userChallengeId}/verification")
     public ApiResponse<ChallengeRes.ChallengeVerificationResponse> challengeVerification(
-        @PathVariable Long challengeId,
+        @PathVariable Long userChallengeId,
         @RequestPart("body") ChallengeReq.ChallengeVerificationRequest request,
-        @RequestPart("image") MultipartFile image
+        @RequestPart("image") MultipartFile image,
+        @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        throw new RuntimeException("Not implemented");
+        ChallengeCommand.Verificate command = new ChallengeCommand.Verificate(
+            request.content(), image);
+        ChallengeRes.ChallengeVerificationResponse response = ChallengeRes.ChallengeVerificationResponse.from(
+            challengeService.verification(userChallengeId, command, jwtUser.getId())
+        );
+        return ApiResponse.success(response, "챌린지 인증에 성공하였습니다.");
     }
 
     @ResponseStatus(HttpStatus.CREATED)
