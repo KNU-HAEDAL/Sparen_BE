@@ -25,6 +25,15 @@ public class UserChallengeService {
         UserChallengeCommand.Participate participateInfo) {
         User user = userReader.getById(userId);
         Challenge challenge = challengeReader.getById(participateInfo.getChallengeId());
+
+        /**
+         * 이미 참여한 챌린지인지 확인
+         */
+        userChallengeReader.findByUserIdAndChallengeId(userId, participateInfo.getChallengeId())
+            .ifPresent(userChallenge -> {
+                throw new IllegalArgumentException("이미 참여한 챌린지입니다.");
+            });
+        
         UserChallenge userChallenge = UserChallenge.from(challenge, user);
         userChallengeStore.store(userChallenge);
 
