@@ -8,9 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
-import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
@@ -36,7 +34,7 @@ public class ChallengeController {
     ) {
         UserChallengeCommand.Participate command = new UserChallengeCommand.Participate(challengeId,
             jwtUser.getId());
-        userChallengeService.participateChallenge(jwtUser.getId(), command);
+        userChallengeService.participateChallenge(1L, command);
         return ApiResponse.success(null, "챌린지 참여에 성공하였습니다.");
     }
 
