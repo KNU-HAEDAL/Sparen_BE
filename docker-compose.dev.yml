@@ -12,19 +12,3 @@ services:
     environment:
       MYSQL_DATABASE: zzansuni
       MYSQL_ROOT_PASSWORD: root
-  zzanuni-spring:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
-    restart: always
-    ports:
-      - "80:8080"
-    depends_on:
-      - zzansuni-mysql
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      JWT_SECRET: 4099a46b-39db-4860-a61b-2ae76ea24c43
-      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-      KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
-      NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-      NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
-
