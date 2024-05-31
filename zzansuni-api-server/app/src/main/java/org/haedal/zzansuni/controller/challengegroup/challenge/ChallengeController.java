@@ -36,7 +36,7 @@ public class ChallengeController {
     ) {
         UserChallengeCommand.Participate command = new UserChallengeCommand.Participate(challengeId,
             1L);
-        userChallengeService.participateChallenge(1L, command);
+        userChallengeService.participateChallenge(jwtUser.getId(), command);
         return ApiResponse.success(null, "챌린지 참여에 성공하였습니다.");
     }
 
@@ -64,7 +64,9 @@ public class ChallengeController {
         @AuthenticationPrincipal JwtUser jwtUser,
         @RequestBody ChallengeReq.ChallengeReviewCreateRequest request
     ) {
-        throw new RuntimeException("Not implemented");
+        Long response = challengeService.reviewCreate(request.toCommand(), challengeId,
+            jwtUser.getId());
+        return ApiResponse.success(response, "챌린지 리뷰 작성에 성공하였습니다.");
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -75,7 +77,7 @@ public class ChallengeController {
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
         ChallengeRes.ChallengeRecordResponse response = ChallengeRes.ChallengeRecordResponse.from(
-            challengeService.getChallengeRecord(1L, challengeId)
+            challengeService.getChallengeRecord(jwtUser.getId(), challengeId)
         );
         return ApiResponse.success(response, "챌린지 기록 조회에 성공하였습니다.");
     }
@@ -90,15 +92,17 @@ public class ChallengeController {
         ChallengeRes.ChallengeRecordDetailDto response = ChallengeRes.ChallengeRecordDetailDto.from(
             challengeService.getChallengeRecordDetail(recordId)
         );
+        log.info("response: {}", response);
         return ApiResponse.success(response, "챌린지 기록 상세 조회에 성공하였습니다.");
     }
 
     @Operation(summary = "진행중인 챌린지 조회", description = "진행중인 챌린지 조회한다.")
     @GetMapping("/api/user/challenges/currents")
-    public ApiResponse<PagingResponse<ChallengeRes.ChallengeCurrentDto>> getChallengeCurrentsPaging(
+    public ApiResponse<PagingResponse<ChallengeRes.ChallengeCurrentResponse>> getChallengeCurrentsPaging(
         @Valid PagingRequest pagingRequest,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
+//        challengeService.getChallengeCurrentsPaging(1L, pagingRequest);
         throw new RuntimeException("Not implemented");
     }
 
