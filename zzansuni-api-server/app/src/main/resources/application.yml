@@ -77,3 +77,12 @@ spring: # prod profile
   config:
     activate:
       on-profile: prod
+  datasource:
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  sql.init.mode: always
