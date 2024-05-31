@@ -70,10 +70,21 @@ public class AuthService {
         command.changePassword(passwordEncoder.encode(command.getPassword()));
 
         User user = User.create(command);
-        user = userStore.store(user);
+        userStore.store(user);
         JwtToken jwtToken = createToken(user);
         UserModel userModel = UserModel.from(user);
         return Pair.of(jwtToken, userModel);
+    }
+
+    @Transactional
+    public void createManager(UserCommand.Create command){
+        if(userReader.existsByEmail(command.getEmail())){
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+        command.changePassword(passwordEncoder.encode(command.getPassword()));
+
+        User user = User.createManager(command);
+        userStore.store(user);
     }
 
     @Transactional(readOnly = true)
