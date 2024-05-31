@@ -6,7 +6,6 @@ import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
 
@@ -22,9 +21,9 @@ public class ChallengeRes {
         public static ChallengeVerificationResponse from(
             ChallengeModel.ChallengeVerificationResult result) {
             return ChallengeVerificationResponse.builder()
-                .totalCount(result.getTotalCount())
-                .successCount(result.getSuccessCount())
-                .obtainExp(result.getObtainExp())
+                .totalCount(result.totalCount())
+                .successCount(result.successCount())
+                .obtainExp(result.obtainExp())
                 .build();
         }
     }
@@ -41,12 +40,12 @@ public class ChallengeRes {
 
         public static ChallengeRecordResponse from(ChallengeModel.ChallengeRecordDto dto) {
             return ChallengeRecordResponse.builder()
-                .title(dto.getTitle())
-                .totalCount(dto.getTotalCount())
-                .successCount(dto.getSuccessCount())
-                .startDate(dto.getStartDate())
-                .endDate(dto.getEndDate())
-                .recordIds(dto.getRecordIds())
+                .title(dto.title())
+                .totalCount(dto.totalCount())
+                .successCount(dto.successCount())
+                .startDate(dto.startDate())
+                .endDate(dto.endDate())
+                .recordIds(dto.recordIds())
                 .build();
         }
     }
@@ -73,13 +72,13 @@ public class ChallengeRes {
 
 
     @Builder
-    public record ChallengeCurrentDto(
-        Long id,
+    public record ChallengeCurrentResponse(
+        Long challengeId,
         String title,
         Integer successCount,
         Integer totalCount,
 
-        LocalDate participationDate,
+        LocalDateTime participationDate,
         LocalDate startDate,
         LocalDate endDate,
 
