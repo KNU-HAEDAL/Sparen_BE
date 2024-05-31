@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.user.UserService;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Tag(name = "user", description = "유저 API")
 @RequiredArgsConstructor
@@ -27,11 +27,8 @@ public class UserController {
     public ApiResponse<UserRes.UserInfoDto> getUserInfo(
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        return ApiResponse.success(
-                new UserRes.UserInfoDto(1L, "nickname", "https://picsum.photos/200/300", "email",
-                        new UserRes.TierInfoDto("tier", 100, 50)
-                )
-        );
+        var userModel = userService.getUserModel(jwtUser.getId());
+        return ApiResponse.success(UserRes.UserInfoDto.from(userModel));
     }
 
     @Operation(summary = "내 정보 수정", description = "내 정보를 수정한다.")
@@ -61,13 +58,13 @@ public class UserController {
 
     @Operation(summary = "유저 랭킹 페이징", description = "전체 유저 랭킹을 조회 페이징")
     @GetMapping("/api/users/ranking")
-    public ApiResponse<PagingResponse<Void>> getUsersRanking(
-            @Valid @RequestParam Long page
+    public ApiResponse<PagingResponse<UserRes.UserInfoDto>> getUsersRanking(
+            @Valid PagingRequest request
     ) {
-        // TODO
-        return ApiResponse.success(null);
+        var userModelPage = userService.getUserPagingByRanking(request.toPageable());
+        var response = PagingResponse.from(userModelPage, UserRes.UserInfoDto::from);
+        return ApiResponse.success(response);
     }
-
 
 
 }
