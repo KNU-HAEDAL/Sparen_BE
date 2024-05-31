@@ -8,7 +8,9 @@ import org.haedal.zzansuni.global.jwt.JwtUtils;
 import org.springframework.data.util.Pair;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
     private final List<OAuth2Client> oAuth2Clients;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final UserReader userReader;
     private final UserStore userStore;
@@ -59,4 +62,31 @@ public class AuthService {
         return jwtUtils.createToken(jwtUser);
     }
 
+    @Transactional
+    public Pair<JwtToken, UserModel> signup(UserCommand.Create command){
+        if(userReader.existsByEmail(command.getEmail())){
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+        command.changePassword(passwordEncoder.encode(command.getPassword()));
+
+        User user = User.create(command);
+        user = userStore.store(user);
+        JwtToken jwtToken = createToken(user);
+        UserModel userModel = UserModel.from(user);
+        return Pair.of(jwtToken, userModel);
+    }
+
+    @Transactional(readOnly = true)
+    public Pair<JwtToken, UserModel> login(String email, String password) {
+        User user = userReader.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        JwtToken jwtToken = createToken(user);
+        UserModel userModel = UserModel.from(user);
+        return Pair.of(jwtToken, userModel);
+    }
 }

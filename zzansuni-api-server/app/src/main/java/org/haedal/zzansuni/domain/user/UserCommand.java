@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.domain.user;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,30 @@ import lombok.Getter;
 import org.haedal.zzansuni.core.utils.SelfValidating;
 import org.haedal.zzansuni.domain.auth.OAuth2Provider;
 
+import java.util.function.Function;
+
 public class UserCommand {
+    @Getter
+    @Builder
+    public static class Create extends SelfValidating<UserCommand.Create> {
+        @Email(message = "이메일 형식은 유효하여야 합니다.")
+        private final String email;
+        @NotBlank(message = "password는 필수입니다.")
+        private String password;
+        @NotBlank(message = "닉네임은 필수입니다.")
+        private final String nickname;
+
+        public Create(String email, String password, String nickname) {
+            this.email = email;
+            this.password = password;
+            this.nickname = nickname;
+            this.validateSelf();
+        }
+
+        public void changePassword(String encodedPassword){
+            this.password = encodedPassword;
+        }
+    }
 
     @Getter
     @Builder

@@ -50,6 +50,19 @@ public class User {
                 .build();
     }
 
+    public static User create(UserCommand.Create command){
+        return User.builder()
+                .nickname(command.getNickname())
+                .email(command.getEmail())
+                .password(command.getPassword())
+                .role(Role.USER)
+                .provider(null)
+                .authToken(null)
+                .exp(0)
+                .profileImageUrl(null)
+                .build();
+    }
+
     public void update(UserCommand.Update userUpdate) {
         this.nickname = userUpdate.getNickname();
     }
