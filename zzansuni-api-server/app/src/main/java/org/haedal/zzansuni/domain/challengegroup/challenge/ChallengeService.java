@@ -9,10 +9,12 @@ import org.haedal.zzansuni.domain.challengegroup.challengeverification.Challenge
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
+@Transactional
 public class ChallengeService {
 
     private final ChallengeReader challengeReader;
@@ -28,7 +30,7 @@ public class ChallengeService {
      * 엔티티에서 참여횟수 가져오기 4. 참여횟수와 필요참여횟수가 같으면 챌린지 완료로 변경
      */
     public ChallengeModel.ChallengeVerificationResult verification(Long userChallengeId,
-        Verificate verificate, Long userId) {
+        Verificate verificate) {
         UserChallenge userChallenge = userChallengeReader.getById(userChallengeId);
         ChallengeVerification challengeVerification = ChallengeVerification.create(verificate,
             userChallenge);
@@ -44,7 +46,6 @@ public class ChallengeService {
         /**
          * 참여횟수와 필요참여횟수가 같으면 챌린지 완료로 변경
          */
-
         userChallenge.verification(currentCount, challenge.getRequiredCount());
 
         return ChallengeModel.ChallengeVerificationResult
