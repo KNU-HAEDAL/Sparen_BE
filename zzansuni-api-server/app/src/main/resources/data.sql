@@ -1,26 +1,93 @@
 /*
  어드민 1명, 매니저 1명, 유저 18명 INSERT
  */
-INSERT INTO users (exp, created_at, last_modified_at, auth_token, email, nickname, password, profile_image_url, provider, role)
+INSERT INTO users (exp, created_at, last_modified_at, auth_token, email, nickname, password, profile_image_url,
+                   provider, role)
+VALUES (0, '2023-05-31 10:00:00', '2023-05-31 12:00:00', 'NAVER_HP6Yyh7SIkk8QS1VFtEylxrxo23UxNTBHcAjfTw-BHM', null,
+        'bayy', null, null, 'NAVER', 'ADMIN'),
+       (0, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test1@a.c', 'testUser1',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'MANAGER'),
+       (49, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test0@a.c', '이원',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (94, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test1@a.c', '재광',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (87, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test2@a.c', '조한',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (87, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test3@a.c', '태혁',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (47, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test4@a.c', '태윤',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (43, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test5@a.c', '예승',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (83, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test6@a.c', '효신',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (52, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test7@a.c', '준범',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (68, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test8@a.c', '소담',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (40, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test9@a.c', '준섭',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (32, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test10@a.c', '강은',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (17, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test11@a.c', '의빈',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (3, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test12@a.c', '승지',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (66, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test13@a.c', '휘서',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (60, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test14@a.c', '영후',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (25, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test15@a.c', '형우',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (38, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test16@a.c', '희범',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
+       (31, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test17@a.c', '효범',
+        '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER');
+
+/*
+챌린지 그룹 20개 INSERT
+ */
+INSERT INTO challenge_group (cumulative_count, created_at, last_modified_at, content, title, category)
 VALUES
-    (0, '2023-05-31 10:00:00', '2023-05-31 12:00:00', 'NAVER_HP6Yyh7SIkk8QS1VFtEylxrxo23UxNTBHcAjfTw-BHM', null, 'bayy', null, null, 'NAVER', 'ADMIN'),
-    (0, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test1@a.c', 'testUser1', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'MANAGER'),
-    (49, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test0@a.c', '이원', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (94, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test1@a.c', '재광', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (87, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test2@a.c', '조한', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (87, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test3@a.c', '태혁', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (47, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test4@a.c', '태윤', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (43, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test5@a.c', '예승', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (83, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test6@a.c', '효신', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (52, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test7@a.c', '준범', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (68, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test8@a.c', '소담', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (40, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test9@a.c', '준섭', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (32, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test10@a.c', '강은', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (17, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test11@a.c', '의빈', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (3, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test12@a.c', '승지', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (66, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test13@a.c', '휘서', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (60, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test14@a.c', '영후', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (25, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test15@a.c', '형우', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (38, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test16@a.c', '희범', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER'),
-    (31, '2023-05-31 10:00:00', '2023-05-31 12:00:00', null, 'test17@a.c', '효범', '$2a$10$h1VlKrjjHSnuRoeCnl1reOh.oaAw6EqxrSMB0FVClpOb1S2D.K.ZK', null, null, 'USER');
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '아니하는 보호를 다만, 보장하기 가진다. 승인된 모성의 무상으로 보호한다.. 재외국민을 죄를 보호할. 노력하여야 판결이 필요한.', '창달에 영장을 헌법에', 'SHARE'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '사생활의 의하여 법률에 무상으로 범죄에 보장하기. 이상의 증거인멸의 사생활의 범하고 통신·방송의 정하는. 조약과 창달에 정하는 처벌받지 승인된 노력하여야 국민은 사후에 범하고 3년.
+헌법에 사항은 사후에 범하고 진다. 현행범인인. 범죄를 진다. 증거인멸의. 체결·공포된 이상의 죄를.
+대하여 통신·방송의 창달에 보호를 범죄에 무죄로 사후에 필요한 의무교육은 범죄에. 위하여 한다. 법률이 청구할 국가는 보호를 염려가 계승·발전과 보장하기. 무죄로 위하여 ', '행위시의 법률로써 의무교육은', 'HEALTH'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '계승·발전과 법률이 다만, 영장을 창달에 구성하지 일반적으로. 국민은 유죄의 행위로 판결이 모든 신문의 무상으로. 거듭 대하여 신문의 있다..', '도피 수 신문의', 'SHARE'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '침해받지 정한다. 기능을 확정될. 의무를 진흥하여야 시설기준과 권리는 현행범인인. 법률이 신문의 예술가의.
+승인된 소추되지 재외국민을 경우와 진다. 필요한 노력하여야 정한다.. 같은 무죄로 통신·방송의 사항은 모성의 기능을 영장을 법률로 또는. 예술가의 무상으로 아니하는 진흥하여야 추정된다. 또는 무죄로 때까지는 바에 소추되지.
+증거인멸의 국내법과 신문의 있다. 장기 형사피고인은 정하는 평생교육을 소추되지. 죄를 염려가 때에는. 전통문화의 전통문화의 ', '같은 한다. 행위시의', 'SHARE'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '범죄에 국민은 전통문화의 바에 확정될 수 승인된. 형사피고인은 정하는 무죄로. 범죄를 때까지는 보호를 염려가 한다. 있을 처벌받지 통신·방송의 한다. 처벌받지.
+보장하기 가진다. 법률이 가진다. 행위시의 확정될 현행범인인 소추되지. 행위로 법률에 국민은 있다.. 아니하며, 비밀과 아니하며, 거듭 국민은.
+승인된 가진다. 권리는 필요한 보장하기. 진다. 사항은 위하여 판결이 형에 노력하여야. 도피 법률에 창달에 때에는 기능을.', '거듭 법률로 범하고', 'HEALTH'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '법률로 행위시의 비밀과 같은 추정된다. 효력을 수 판결이 법률로 처벌받지.', '다만, 노력하여야 이상의', 'ECHO'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '진흥하여야 형에 대하여 청구할 의하여.', '의하여 가진다. 국제법규는', 'HEALTH'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '거듭 추정된다. 헌법에 아니하며, 시설기준과 신체의 사항은 형사피고인은 전통문화의. 헌법에 저작자·발명가·과학기술자와 보호를 노력하여야.
+시설기준과 창달에 신체의. 처벌받지 영장을 국민은 체결·공포된 국민은 체결·공포된 유죄의. 다만, 국제법규는 영장을 기능을 범죄를.
+계승·발전과 아니하며, 조약과 의무교육은. 보호한다. 진흥하여야 추정된다. 비밀과 신문의 비밀과 ', '보호를 처벌받지 형에', 'VOLUNTEER'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '염려가 유죄의 형에 한다. 필요한 헌법에 법률이 장기 법률이 있을.
+장기 증거인멸의 국내법과 법률이 있을 신문의 형에.
+보호를 범하고 체결·공포된 때에는 청구할 평생교육을 한다. 있다. 기능을 다만,.
+영장을 현행범인인 민족문화의 국내법과 시설기준과 무상으로.', '증거인멸의 법률에 또는', 'VOLUNTEER'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '때에는 있다. 국민은 행위로 국제법규는 비밀과 바에.', '행위시의 유죄의 있을', 'HEALTH'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '시설기준과 정한다. 통신·방송의.', '자유를 시설기준과 신문의', 'ECHO'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '무죄로 시설기준과 법률에 한다. 평생교육을 민족문화의 보장하기. 아니하는 확정될 무죄로. 재외국민을 경우와 범하고 정하는 확정될 의무교육은 바에.', '국민은 사후에 증거인멸의', 'ECHO'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '헌법에 효력을 아니하며, 의무교육은. 통신·방송의 보호할 국제법규는 국가는 정하는 헌법에 바에 같은. 이상의 모성의 승해받지.', '정한다. 아니하는 저작자·발명가·과학기술자와', 'VOLUNTEER'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '행위로 영장을 행위로 진흥하여야 헌법에 조약과 행위로 신체의 기능을.', '전통문화의 국내법과 권리는', 'ECHO'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '신체의 예술가의 민족문화의 승인된 바에 의무를 무상으로. 사생활의 사생활의 헌법에 정한다. 무죄로 국민은 신문의 민족문화의 형사피고인은. 계승·발전과 아니하며, 있을.
+효력을 동일한 기능을 예술가의 같은 법률에. 조약과 행위로 가진다. 모성의 승인된 정한다. 의무를 도피 노력하여야 의하여. 거듭 체결·공포된 의하여.
+예술가의 증거인멸의 국제법규는. 유죄의 확정될 범죄에 자유를 시설기준과 사후에 통신·방송의. 전통문화의 모든 신문의 예술가의 저작자·발명', '노력하여야 처벌받지 장기', 'SHARE'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '비밀과 사항은 헌법에 아니한다.. 진다. 확정될 거듭 이상의. 바에 범하고 법률로써 보호한다..
+기능을 위하여 정하는. 법률에 신체의 동일한 법률로 진다. 권리는 법률이 아니하며,. 기능을 침해받지 국가는 진다. 같은.
+의무를 구성하지 때에는 신문의. 정하는 통신·방송의 의무교육은. 경우와 범하고 승인된 범죄에 같은 창달에.', '국민은 법률에 국제법규는', 'HEALTH'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '거듭 도피 의하여 신문의 창달에 계승·발전과 추정된다. 필요한 자유를.', '의무교육은 전통문화의 아니하며,', 'VOLUNTEER'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '형에 형에 있다. 법률에.
+사항은 자유를 확정될 민족문화의 국제법규는 도피.
+국내법과 국내법과 경우와 있을 기능을 범죄에.', '아니하며, 법률이 노력하여야', 'VOLUNTEER'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '무상으로 범죄에 이상의.
+도피 사항은 노력하여야 유죄의 보호할 조약과 비밀과.
+권리는 창달에 판결이 형사피고인은 저작자·발명가·과학기술자와 정한다. 계승·발전과 필요한.', '또는 판결이 자유를', 'HEALTH'),
+    (100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '법률에 모성의 추정된다. 소추되지.', '효력을 사항은 평생교육을', 'HEALTH');
+
+
 
