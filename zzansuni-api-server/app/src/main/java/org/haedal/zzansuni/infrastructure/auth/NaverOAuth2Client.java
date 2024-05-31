@@ -36,8 +36,6 @@ public class NaverOAuth2Client implements OAuth2Client {
     private static final String GRANT_TYPE = "authorization_code";
     @Value("${naver.client-id}")
     private String clientId;
-    @Value("${naver.redirect-uri}")
-    private String redirectUri;
     @Value("${naver.client-secret}")
     private String clientSecret;
 
@@ -52,7 +50,6 @@ public class NaverOAuth2Client implements OAuth2Client {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", GRANT_TYPE);
         body.add("client_id", clientId);
-        body.add("redirect_uri", redirectUri);
         body.add("code", code);
         body.add("client_secret", clientSecret);
         body.add("state", state);
