@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,10 @@ public class Challenge extends BaseTimeEntity {
     private Integer successExp;
 
     private Integer difficulty;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 
 
 }
