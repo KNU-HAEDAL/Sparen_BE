@@ -44,13 +44,12 @@ public class ChallengeController {
     public ApiResponse<ChallengeRes.ChallengeVerificationResponse> challengeVerification(
         @PathVariable Long userChallengeId,
         @RequestPart("body") ChallengeReq.ChallengeVerificationRequest request,
-        @RequestPart("image") MultipartFile image,
-        @AuthenticationPrincipal JwtUser jwtUser
+        @RequestPart("image") MultipartFile image
     ) {
         ChallengeCommand.Verificate command = new ChallengeCommand.Verificate(
             request.content(), image);
         ChallengeRes.ChallengeVerificationResponse response = ChallengeRes.ChallengeVerificationResponse.from(
-            challengeService.verification(userChallengeId, command, jwtUser.getId())
+            challengeService.verification(userChallengeId, command)
         );
         return ApiResponse.success(response, "챌린지 인증에 성공하였습니다.");
     }
