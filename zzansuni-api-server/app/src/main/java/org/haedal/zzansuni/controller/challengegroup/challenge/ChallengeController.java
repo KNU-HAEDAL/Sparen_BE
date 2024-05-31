@@ -80,14 +80,17 @@ public class ChallengeController {
         return ApiResponse.success(response, "챌린지 기록 조회에 성공하였습니다.");
     }
 
+
     @Operation(summary = "챌린지 기록 상세 조회", description = "챌린지 기록 상세를 조회한다.")
     @GetMapping("/api/challenges/record/{recordId}")
     public ApiResponse<ChallengeRes.ChallengeRecordDetailDto> getChallengeRecordDetail(
         @PathVariable Long recordId,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-
-        throw new RuntimeException("Not implemented");
+        ChallengeRes.ChallengeRecordDetailDto response = ChallengeRes.ChallengeRecordDetailDto.from(
+            challengeService.getChallengeRecordDetail(recordId)
+        );
+        return ApiResponse.success(response, "챌린지 기록 상세 조회에 성공하였습니다.");
     }
 
     @Operation(summary = "진행중인 챌린지 조회", description = "진행중인 챌린지 조회한다.")
