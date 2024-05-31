@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ChallengeStatus {
     PROCEEDING("진행중"),
-    FINISHED("종료");
+    SUCCESS("성공"),
+    FAIL("실패");
 
     private final String korean;
 }
