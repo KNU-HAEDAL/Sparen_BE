@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.infrastructure.challengegroup.challengeverification;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,11 @@ public class ChallengeVerificationReaderImpl implements ChallengeVerificationRea
     @Override
     public Integer countByUserChallengeId(Long userChallengeId) {
         return challengeVerificationRepository.countByUserChallengeId(userChallengeId);
+    }
+
+    @Override
+    public List<ChallengeVerification> findByUserChallengeId(Long id) {
+        return challengeVerificationRepository.findByUserChallengeId(id);
     }
 
 }
