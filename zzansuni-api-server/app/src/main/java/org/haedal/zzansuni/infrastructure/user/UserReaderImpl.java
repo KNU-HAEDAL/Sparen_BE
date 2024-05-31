@@ -27,6 +27,16 @@ public class UserReaderImpl implements UserReader {
     }
 
     @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public Optional<User> findByAuthToken(String authToken) {
         return userRepository.findByAuthToken(authToken);
     }

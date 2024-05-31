@@ -28,6 +28,22 @@ public class AuthController {
         return ApiResponse.success(response);
     }
 
+    @Operation(summary = "이메일 회원가입", description = "이메일 회원가입을 한다.")
+    @PostMapping("/api/auth/signup")
+    public ApiResponse<AuthRes.LoginResponse> signup(@RequestBody @Valid AuthReq.EmailSignupRequest request) {
+        Pair<JwtToken, UserModel> pair = authService.signup(request.toCommand());
+        var response = AuthRes.LoginResponse.from(pair.getFirst(), pair.getSecond());
+        return ApiResponse.success(response);
+    }
+
+    @Operation(summary = "로그인", description = "로그인한다.")
+    @PostMapping("/api/auth/login")
+    public ApiResponse<AuthRes.LoginResponse> login(@RequestBody @Valid AuthReq.EmailLoginRequest request) {
+        Pair<JwtToken, UserModel> pair = authService.login(request.email(), request.password());
+        var response = AuthRes.LoginResponse.from(pair.getFirst(), pair.getSecond());
+        return ApiResponse.success(response);
+    }
+
     @Operation(summary = "로그아웃", description = "로그아웃한다.")
     @PostMapping("/api/auth/logout")
     public ApiResponse<Void> logout() {
