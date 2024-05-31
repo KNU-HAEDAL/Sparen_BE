@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup.challenge;
+package org.haedal.zzansuni.domain.challengegroup.userchallenge;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,8 +15,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.DayType;
+import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
 import org.haedal.zzansuni.domain.user.User;
 
 @Entity
@@ -40,4 +40,12 @@ public class UserChallenge extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private ChallengeStatus status;
+
+    public static UserChallenge from(Challenge challenge, User user) {
+        return UserChallenge.builder()
+            .challenge(challenge)
+            .user(user)
+            .status(ChallengeStatus.PROCEEDING)
+            .build();
+    }
 }
