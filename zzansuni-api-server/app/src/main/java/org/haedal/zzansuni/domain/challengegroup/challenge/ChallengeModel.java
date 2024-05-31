@@ -1,11 +1,13 @@
 package org.haedal.zzansuni.domain.challengegroup.challenge;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerification;
@@ -35,14 +37,9 @@ public class ChallengeModel {
             .build();
     }
 
-    @Getter
     @Builder
-    @AllArgsConstructor
-    public static class ChallengeVerificationResult {
-
-        private final Integer totalCount;
-        private final Integer successCount;
-        private final Integer obtainExp;
+    public record ChallengeVerificationResult(Integer totalCount, Integer successCount,
+                                              Integer obtainExp) {
 
         public static ChallengeVerificationResult from(Integer totalCount, Integer successCount,
             Integer obtainExp) {
@@ -54,17 +51,10 @@ public class ChallengeModel {
         }
     }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class ChallengeRecordDto {
 
-        private final String title;
-        private final Integer totalCount;
-        private final Integer successCount;
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final List<Long> recordIds;
+    @Builder
+    public record ChallengeRecordDto(String title, Integer totalCount, Integer successCount,
+                                     LocalDate startDate, LocalDate endDate, List<Long> recordIds) {
 
         public static ChallengeRecordDto from(Challenge challenge, ChallengeGroup challengeGroup,
             List<ChallengeVerification> challengeVerificationList) {
@@ -80,4 +70,6 @@ public class ChallengeModel {
                 .build();
         }
     }
+
+
 }
