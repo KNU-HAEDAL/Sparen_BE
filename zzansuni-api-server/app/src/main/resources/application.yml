@@ -39,7 +39,27 @@ jwt:
 #      auto: false
 #    stack:
 #      auto: false
-
+---
+spring:
+  config:
+    activate:
+      on-profile: dev, prod # dev, prod 공통 설정
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  h2.console.enabled: false
+jwt:
+  secret: ${JWT_SECRET}
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-uri: ${KAKAO_REDIRECT_URI}
+naver:
+  client-id: ${NAVER_CLIENT_ID}
+  client-secret: ${NAVER_CLIENT_SECRET}
 ---
 spring: # dev profile
   config:
@@ -49,15 +69,13 @@ spring: # dev profile
     url: jdbc:mysql://localhost:3306/zzansuni
     username: "root"
     password: "root"
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
   sql.init.mode: always
-  h2:
-    console:
-      enabled: false
+---
+spring: # prod profile
+  config:
+    activate:
+      on-profile: prod

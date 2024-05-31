@@ -1,14 +1,15 @@
 package org.haedal.zzansuni.domain.user;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.haedal.zzansuni.domain.auth.OAuth2Provider;
 import org.haedal.zzansuni.global.security.Role;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -29,9 +30,25 @@ public class User {
     @Column(nullable = false)
     private Integer exp;
 
+    @Enumerated(EnumType.STRING)
+    private OAuth2Provider provider;
+
     private String authToken;
 
     private String profileImageUrl;
+
+    public static User create(UserCommand.CreateOAuth2 command) {
+        return User.builder()
+                .nickname(command.getNickname())
+                .email(null)
+                .password(null)
+                .role(Role.USER)
+                .provider(command.getProvider())
+                .authToken(command.getAuthToken())
+                .exp(0)
+                .profileImageUrl(null)
+                .build();
+    }
 
     public void update(UserCommand.Update userUpdate) {
         this.nickname = userUpdate.getNickname();
