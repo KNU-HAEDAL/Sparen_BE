@@ -2,14 +2,21 @@ package org.haedal.zzansuni.domain.challengegroup.challenge;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.haedal.zzansuni.controller.PagingRequest;
+import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand.ReviewCreate;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand.Verificate;
+import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReview;
+import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReviewStore;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerification;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationReader;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationStore;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +33,9 @@ public class ChallengeService {
 
     private final ChallengeVerificationStore challengeVerificationStore;
     private final ChallengeVerificationReader challengeVerificationReader;
+
+    private final ChallengeReviewStore challengeReviewStore;
+    private final ChallengeReviewReader challengeReviewReader;
 
     /**
      * 챌린지 인증하기 1. ChallengeVerification 테이블에 데이터 추가 2. Challenge 엔티티에서 필요참여횟수 가져오기 3. UserChallenge
@@ -77,5 +87,26 @@ public class ChallengeService {
      */
     public ChallengeVerificationModel getChallengeRecordDetail(Long recordId) {
         return ChallengeVerificationModel.from(challengeVerificationReader.getById(recordId));
+    }
+
+    /**
+     * 챌린지 리뷰 작성하기
+     */
+    public Long reviewCreate(ReviewCreate command, Long challengeId, Long id) {
+        UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(id,
+            challengeId);
+        ChallengeReview challengeReview = ChallengeReview.create(userChallenge,
+            command.getContent(),
+            command.getRating());
+        /**
+         * 이미 리뷰를 작성했는지 확인
+         */
+        challengeReviewReader.findByUserChallengeId(challengeId)
+            .ifPresent(review -> {
+                throw new IllegalArgumentException("이미 리뷰를 작성했습니다.");
+            });
+
+        challengeReviewStore.store(challengeReview);
+        return challengeReview.getId();
     }
 }
