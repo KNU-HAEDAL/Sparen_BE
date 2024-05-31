@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
 
 public class ChallengeRes {
 
@@ -57,6 +58,16 @@ public class ChallengeRes {
         String content,
         String imageUrl
     ) {
+
+        public static ChallengeRecordDetailDto from(ChallengeVerificationModel model) {
+            return ChallengeRecordDetailDto.builder()
+                .id(model.getId())
+                .createdAt(model.getCreatedAt())
+                .content(model.getContent())
+                .imageUrl(model.getImageUrl())
+                .build();
+
+        }
 
     }
 
