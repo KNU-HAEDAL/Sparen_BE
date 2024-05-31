@@ -2,6 +2,7 @@ package org.haedal.zzansuni.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.haedal.zzansuni.domain.BaseTimeEntity;
 import org.haedal.zzansuni.domain.auth.OAuth2Provider;
 import org.haedal.zzansuni.global.security.Role;
 
@@ -11,7 +12,7 @@ import org.haedal.zzansuni.global.security.Role;
 @Builder
 @AllArgsConstructor
 @Table(name = "users")
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
