@@ -34,7 +34,7 @@ public class ChallengeController {
     ) {
         UserChallengeCommand.Participate command = new UserChallengeCommand.Participate(challengeId,
             jwtUser.getId());
-        userChallengeService.participateChallenge(1L, command);
+        userChallengeService.participateChallenge(jwtUser.getId(), command);
         return ApiResponse.success(null, "챌린지 참여에 성공하였습니다.");
     }
 
