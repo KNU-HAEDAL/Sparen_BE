@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand.Verificate;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerification;
+import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationReader;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationStore;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
@@ -69,5 +70,12 @@ public class ChallengeService {
             .from(challenge, challengeGroup,
                 challengeVerificationReader.findByUserChallengeId(userChallenge.getId()));
 
+    }
+
+    /**
+     * 챌린지 기록 상세 가져오기
+     */
+    public ChallengeVerificationModel getChallengeRecordDetail(Long recordId) {
+        return ChallengeVerificationModel.from(challengeVerificationReader.getById(recordId));
     }
 }
