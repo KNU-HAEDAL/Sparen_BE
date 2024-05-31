@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup.challenge;
+package org.haedal.zzansuni.domain.challengegroup.challengeverification;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +15,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand.Verificate;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeVerificationStatus;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 
 @Entity
@@ -39,5 +41,14 @@ public class ChallengeVerification extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ChallengeVerificationStatus status;
 
+    public static ChallengeVerification create(Verificate command,
+        UserChallenge userChallenge) {
+        return ChallengeVerification.builder()
+            .userChallenge(userChallenge)
+            .imageUrl(null)
+            .content(command.getContent())
+            .status(ChallengeVerificationStatus.WAITING)
+            .build();
+    }
 
 }
