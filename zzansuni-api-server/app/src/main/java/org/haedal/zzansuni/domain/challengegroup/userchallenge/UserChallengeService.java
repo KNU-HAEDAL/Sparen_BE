@@ -6,9 +6,11 @@ import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeReader;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserReader;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserChallengeService {
 
     private final UserChallengeStore userChallengeStore;
