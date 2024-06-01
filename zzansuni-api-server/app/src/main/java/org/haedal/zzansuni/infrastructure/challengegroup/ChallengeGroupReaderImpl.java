@@ -6,10 +6,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupReader;
-import org.haedal.zzansuni.domain.challengegroup.QChallengeGroup;
+import org.haedal.zzansuni.domain.challengegroup.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -75,6 +73,16 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
                 .fetch();
 
         return new PageImpl<>(page, pageable, count == null ? 0 : count);
+    }
+
+    @Override
+    public Optional<ChallengeGroupUserExp> findByChallengeGroupIdAndUserId(Long challengeGroupId, Long userId) {
+        ChallengeGroupUserExp result = queryFactory
+                .selectFrom(QChallengeGroupUserExp.challengeGroupUserExp)
+                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId)
+                        .and(QChallengeGroupUserExp.challengeGroupUserExp.user.id.eq(userId)))
+                .fetchOne();
+        return Optional.ofNullable(result);
     }
 
 }

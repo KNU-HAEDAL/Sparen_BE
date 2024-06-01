@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupReader;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupUserExpStore;
 import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
@@ -26,7 +29,8 @@ public class UserChallengeService {
     private final ChallengeReviewReader challengeReviewReader;
     private final UserReader userReader;
     private final ChallengeReader challengeReader;
-
+    private final ChallengeGroupReader challengeGroupReader;
+    private final ChallengeGroupUserExpStore challengeGroupUserExpStore;
     /**
      * 챌린지 참여하기 1. 유저와 챌린지 정보를 받아서 UserChallenge 테이블에 데이터 추가
      */
@@ -56,11 +60,29 @@ public class UserChallengeService {
     @Transactional
     public ChallengeModel.ChallengeVerificationResult verification(
         Long userChallengeId,
+        Long userId,
         ChallengeCommand.VerificationCreate command
     ) {
         UserChallenge userChallenge = userChallengeReader.getByIdWithVerificationAndChallenge(
             userChallengeId);
+        if(!userChallenge.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("해당 챌린지에 참여한 유저가 아닙니다.");
+        }
+
+        Integer beforeExp = userChallenge.getUser().getExp();
         userChallenge.addChallengeVerification(command);
+        Integer afterExp = userChallenge.getUser().getExp();
+
+        // 챌린지 경험치 획득 로직
+        ChallengeGroupUserExp challengeGroupUserExp = challengeGroupReader
+            .findByChallengeGroupIdAndUserId(userChallenge.getChallenge().getChallengeGroup().getId(),
+                userId)
+            .orElseGet(() -> {
+                ChallengeGroupUserExp entity = ChallengeGroupUserExp
+                    .create(userChallenge.getChallenge().getChallengeGroup(), userChallenge.getUser());
+                return challengeGroupUserExpStore.store(entity);
+            });
+        challengeGroupUserExp.addExp(afterExp - beforeExp);
 
         // 챌린지 RequiredCount 가져오기 위해 챌린지 정보 가져온다
         Challenge challenge = userChallenge.getChallenge();

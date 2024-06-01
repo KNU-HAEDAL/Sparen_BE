@@ -52,9 +52,11 @@ public class UserChallenge extends BaseTimeEntity {
     public void addChallengeVerification(ChallengeCommand.VerificationCreate command) {
         ChallengeVerification challengeVerification = ChallengeVerification.create(command, this);
         this.challengeVerifications.add(challengeVerification);
+        user.addExp(challenge.getOnceExp());
 
         // 만약 챌린지 인증 참여횟수와 필요참여획수가 같으면 챌린지 완료로 변경
         if(this.challengeVerifications.size() == this.challenge.getRequiredCount()) {
+            user.addExp(challenge.getSuccessExp());
             complete();
         }
     }

@@ -80,4 +80,8 @@ public class User extends BaseTimeEntity {
     public void update(UserCommand.Update userUpdate) {
         this.nickname = userUpdate.getNickname();
     }
+
+    public void addExp(Integer exp){
+        this.exp += exp;
+    }
 }
