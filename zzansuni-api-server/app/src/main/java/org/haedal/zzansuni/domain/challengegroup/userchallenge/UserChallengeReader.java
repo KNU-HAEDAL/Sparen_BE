@@ -5,6 +5,7 @@ import java.util.Optional;
 public interface UserChallengeReader {
 
     UserChallenge getById(Long id);
+    UserChallenge getByIdWithVerificationAndChallenge(Long id);
 
     Optional<UserChallenge> findById(Long id);
 
