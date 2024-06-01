@@ -8,6 +8,7 @@ import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.Challe
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewStore;
 import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
@@ -74,7 +75,7 @@ public class ChallengeService {
             .getId();
 
         //이미 리뷰를 작성했는지 확인
-        challengeReviewReader.findByUserChallengeId(challengeId)
+        challengeReviewReader.findByUserChallengeId(userChallenge.getId())
             .ifPresent(review -> {
                 throw new IllegalArgumentException("이미 리뷰를 작성했습니다.");
             });
@@ -94,5 +95,16 @@ public class ChallengeService {
             challengeGroupId, pageable);
 
         return challengeReviewPage.map(ChallengeReviewWithChallenge::from);
+    }
+
+    /**
+     * 챌린지 리뷰 가져오기
+     */
+    @Transactional(readOnly = true)
+    public Page<ChallengeReviewWithUserInfo> getChallengeReviews(Pageable pageable) {
+        Page<ChallengeReview> challengeReviewPage = challengeReviewReader.getChallengeReviewPage(
+            pageable);
+
+        return challengeReviewPage.map(ChallengeReviewWithUserInfo::from);
     }
 }

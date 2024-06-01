@@ -90,6 +90,7 @@ public class UserChallengeService {
     /**
      * 완료한 챌린지 페이징 조회
      */
+    @Transactional(readOnly = true)
     public Page<ChallengeModel.ChallengeComplete> getCompleteChallenges(Long userId,
         Pageable pageable) {
         Page<UserChallenge> userChallengePage = userChallengeReader

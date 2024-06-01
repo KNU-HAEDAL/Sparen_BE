@@ -14,6 +14,18 @@ public class ChallengeReviewModel {
         Integer rating
     ) {
 
+        public static ChallengeReviewWithUserInfo from(ChallengeReview challengeReview) {
+            var userModel = UserModel.from(challengeReview.getUserChallenge().getUser());
+            return ChallengeReviewWithUserInfo.builder()
+                .challengeId(challengeReview.getUserChallenge().getChallenge().getId())
+                .challengeTitle(
+                    challengeReview.getUserChallenge().getChallenge().getChallengeGroup()
+                        .getTitle())
+                .user(userModel)
+                .content(challengeReview.getContent())
+                .rating(challengeReview.getRating())
+                .build();
+        }
     }
 
     @Builder
