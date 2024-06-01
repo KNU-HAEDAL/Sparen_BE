@@ -2,7 +2,17 @@
 
 ## 데모
 
+[KakaoTalk_Video_2024-06-02-04-50-08.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-08.mp4)
+[KakaoTalk_Video_2024-06-02-04-50-11.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-11.mp4)
+[KakaoTalk_Video_2024-06-02-04-50-15.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-15.mp4)
+[KakaoTalk_Video_2024-06-02-04-50-23.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-23.mp4)
+
 ## 참여
+
+1. [해달] 권다운
+2. [해달] 권수현
+3. [해달] 김강민
+4. [해달] 손홍석
 
 ## 기획
 
@@ -116,12 +126,25 @@
 - 유저들의 챌린지 요청 게시글을 볼 수 있다.
 - 추천기능이 존재하여, 사용자들의 수요를 볼 수 있다.
 
+## 향후 아키텍쳐
+
+![img.png](img.png)
+
+## 전체적인 View
+
+![img_1.png](img_1.png)
+
 ## 기술 스택
 
-## 사용자 플로우
+- Frontend: React, styled-components
+- Backend: Spring, JPA, MySQL, S3
 
-## API
+## ERD
 
-## 향후 아키텍쳐
+![img_2.png](img_2.png)
+
+## CLASS DIAGRAM
+
+![img_3.png](img_3.png)
 
 
