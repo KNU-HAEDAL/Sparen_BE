@@ -6,6 +6,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.ImageUploader;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,8 @@ import java.io.InputStream;
 import java.util.UUID;
 
 @Component
+@Order(1)
+@Profile("prod")
 @RequiredArgsConstructor
 public class FakeUploader implements ImageUploader {
     private final AmazonS3 amazonS3;
@@ -49,5 +53,14 @@ public class FakeUploader implements ImageUploader {
 
         // 업로드된 파일의 URL을 반환합니다.
         return amazonS3.getUrl(bucket, uniqueFilename).toString();
+    }
+}
+
+@Component
+@Order(2)
+class MockUploader implements ImageUploader {
+    @Override
+    public String upload(MultipartFile imageFile) {
+        return "https://example.com/image.jpg";
     }
 }
