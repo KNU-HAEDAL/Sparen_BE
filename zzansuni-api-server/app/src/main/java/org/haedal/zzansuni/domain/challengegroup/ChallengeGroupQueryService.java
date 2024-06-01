@@ -14,7 +14,7 @@ public class ChallengeGroupQueryService {
 
     @Transactional(readOnly = true)
     public ChallengeGroupModel.Detail getChallengeGroupDetail(Long challengeGroupId) {
-        ChallengeGroup challengeGroup = challengeGroupReader.getById(challengeGroupId);
+        ChallengeGroup challengeGroup = challengeGroupReader.getByIdWithChallenges(challengeGroupId);
         List<ChallengeGroupImage> challengeGroupImages = challengeGroupImageReader.getByChallengeGroupId(challengeGroupId);
         return ChallengeGroupModel.Detail.from(challengeGroup, challengeGroupImages);
     }
