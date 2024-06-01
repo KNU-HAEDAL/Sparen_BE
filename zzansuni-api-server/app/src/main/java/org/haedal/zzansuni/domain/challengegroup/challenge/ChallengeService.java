@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewStore;
 import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
@@ -13,6 +15,8 @@ import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificat
 import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificationReader;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,17 +69,30 @@ public class ChallengeService {
         UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,
             challengeId);
         Long challengeGroupId = userChallenge
-                .getChallenge()
-                .getChallengeGroup()
-                .getId();
+            .getChallenge()
+            .getChallengeGroup()
+            .getId();
 
         //이미 리뷰를 작성했는지 확인
         challengeReviewReader.findByUserChallengeId(challengeId)
             .ifPresent(review -> {
                 throw new IllegalArgumentException("이미 리뷰를 작성했습니다.");
             });
-        ChallengeReview challengeReview = ChallengeReview.create(userChallenge, command, challengeGroupId);
+        ChallengeReview challengeReview = ChallengeReview.create(userChallenge, command,
+            challengeGroupId);
         challengeReviewStore.store(challengeReview);
         return challengeReview.getId();
+    }
+
+    /**
+     * groupId로 챌린지 리뷰 가져오기
+     */
+    @Transactional(readOnly = true)
+    public Page<ChallengeReviewModel.ChallengeReviewWithChallenge> getChallengeReviewsByGroupId(
+        Long challengeGroupId, Pageable pageable) {
+        Page<ChallengeReview> challengeReviewPage = challengeReviewReader.getChallengeReviewPageByChallengeGroupId(
+            challengeGroupId, pageable);
+
+        return challengeReviewPage.map(ChallengeReviewWithChallenge::from);
     }
 }
