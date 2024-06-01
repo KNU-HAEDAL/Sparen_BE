@@ -51,6 +51,7 @@ public class ChallengeGroupController {
           new ChallengeGroupRes.ChallengeGroupDetailDto(
                   1L, "title", "thumbnailUrl", 12,
                   LocalDate.now(), LocalDate.now(), ChallengeCategory.VOLUNTEER,
+                  "가이드",
                   12,
                   List.of("https://picsum.photos/200/300"),
                   List.of(
