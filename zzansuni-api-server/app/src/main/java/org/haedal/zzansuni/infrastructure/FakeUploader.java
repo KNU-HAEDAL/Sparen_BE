@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.ImageUploader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 @Component
-@Qualifier("imageUploader")
+@Primary
 @Profile("prod")
 @RequiredArgsConstructor
 public class FakeUploader implements ImageUploader {
@@ -58,7 +59,6 @@ public class FakeUploader implements ImageUploader {
 }
 
 @Component
-@Qualifier("mock")
 class MockUploader implements ImageUploader {
     @Override
     public String upload(MultipartFile imageFile) {
