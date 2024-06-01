@@ -10,7 +10,7 @@ import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeComplete;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeCurrent;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
-import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
+import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificationModel;
 
 public class ChallengeRes {
 

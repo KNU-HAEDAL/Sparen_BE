@@ -9,8 +9,8 @@ import lombok.Getter;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
-import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerification;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
+import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
 
 @Getter
 @Builder
@@ -23,6 +23,8 @@ public class ChallengeModel {
     private Integer onceExp;
     private Integer successExp;
     private Integer difficulty;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public static ChallengeModel from(Challenge challenge) {
         return ChallengeModel.builder()
@@ -33,6 +35,8 @@ public class ChallengeModel {
             .onceExp(challenge.getOnceExp())
             .successExp(challenge.getSuccessExp())
             .difficulty(challenge.getDifficulty())
+            .startDate(challenge.getStartDate())
+            .endDate(challenge.getEndDate())
             .build();
     }
 
@@ -81,30 +85,30 @@ public class ChallengeModel {
 
     @Builder
     public record ChallengeCurrent(
-        Long challengeId,
-        String title,
-        Integer totalCount,
-        Integer successCount,
-        LocalDateTime participationDate,
-        LocalDate startDate,
-        LocalDate endDate,
-        ChallengeCategory category,
-        Boolean reviewWritten
+            Long challengeId,
+            String title,
+            Integer totalCount,
+            Integer successCount,
+            LocalDateTime participationDate,
+            LocalDate startDate,
+            LocalDate endDate,
+            ChallengeCategory category,
+            Boolean reviewWritten
     ) {
 
         public static ChallengeCurrent from(UserChallenge userChallenge, Boolean reviewWritten) {
             Challenge challenge = userChallenge.getChallenge();
             return ChallengeCurrent.builder()
-                .challengeId(challenge.getId())
-                .title(challenge.getChallengeGroup().getTitle())
-                .totalCount(challenge.getRequiredCount())
-                .successCount(userChallenge.getChallengeVerifications().size())
-                .participationDate(userChallenge.getCreatedAt())
-                .startDate(challenge.getStartDate())
-                .endDate(challenge.getEndDate())
-                .category(challenge.getChallengeGroup().getCategory())
-                .reviewWritten(reviewWritten)
-                .build();
+                    .challengeId(challenge.getId())
+                    .title(challenge.getChallengeGroup().getTitle())
+                    .totalCount(challenge.getRequiredCount())
+                    .successCount(userChallenge.getChallengeVerifications().size())
+                    .participationDate(userChallenge.getCreatedAt())
+                    .startDate(challenge.getStartDate())
+                    .endDate(challenge.getEndDate())
+                    .category(challenge.getChallengeGroup().getCategory())
+                    .reviewWritten(reviewWritten)
+                    .build();
         }
 
     }

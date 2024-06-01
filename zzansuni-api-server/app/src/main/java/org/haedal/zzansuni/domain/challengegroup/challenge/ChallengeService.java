@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReview;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReviewReader;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReviewStore;
-import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerification;
-import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
-import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationReader;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewStore;
+import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
+import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificationModel;
+import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificationReader;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
 import org.springframework.stereotype.Service;
@@ -62,18 +62,20 @@ public class ChallengeService {
      */
     @Transactional
     public Long createReview(ChallengeCommand.ReviewCreate command, Long challengeId, Long userId) {
-        UserChallenge userChallenge = userChallengeReader.findByUserIdAndChallengeId(userId,
-            challengeId).orElseThrow(() -> new IllegalArgumentException("현재 참여중인 챌린지가 아닙니다."));
+        UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,
+            challengeId);
+        Long challengeGroupId = userChallenge
+                .getChallenge()
+                .getChallengeGroup()
+                .getId();
 
         //이미 리뷰를 작성했는지 확인
         challengeReviewReader.findByUserChallengeId(challengeId)
             .ifPresent(review -> {
                 throw new IllegalArgumentException("이미 리뷰를 작성했습니다.");
             });
-        ChallengeReview challengeReview = ChallengeReview.create(userChallenge, command);
+        ChallengeReview challengeReview = ChallengeReview.create(userChallenge, command, challengeGroupId);
         challengeReviewStore.store(challengeReview);
         return challengeReview.getId();
     }
-
-
 }

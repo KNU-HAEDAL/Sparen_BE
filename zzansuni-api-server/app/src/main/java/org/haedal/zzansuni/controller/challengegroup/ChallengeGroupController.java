@@ -9,6 +9,8 @@ import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupQueryService;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class ChallengeGroupController {
+    private final ChallengeGroupQueryService challengeGroupQueryService;
 
     @Operation(summary = "챌린지 그룹 목록 페이징", description = "챌린지 그룹 페이징 조회.")
     @GetMapping("/api/challengeGroups")
@@ -47,44 +50,12 @@ public class ChallengeGroupController {
     public ApiResponse<ChallengeGroupRes.ChallengeGroupDetailDto> getChallengeDetail(
             @PathVariable Long challengeGroupId
     ) {
-        return ApiResponse.success(
-          new ChallengeGroupRes.ChallengeGroupDetailDto(
-                  1L, "title", "thumbnailUrl", 12,
-                  LocalDate.now(), LocalDate.now(), ChallengeCategory.VOLUNTEER,
-                  12,
-                  List.of("https://picsum.photos/200/300"),
-                  List.of(
-                          new ChallengeGroupRes.ChallengeDto(
-                                  1L, 12,1,1,1, DayType.DAY, 12
-                          )
-                  )
-          )
-        );
+        ChallengeGroupModel.Detail challengeGroupDetail = challengeGroupQueryService.getChallengeGroupDetail(challengeGroupId);
+        var response = ChallengeGroupRes.ChallengeGroupDetailDto.from(challengeGroupDetail);
+        return ApiResponse.success(response);
     }
 
-    @Operation(summary = "챌린지 그룹 최근 리뷰 페이징", description = "챌린지 최근 리뷰 페이징 조회.")
-    @GetMapping("/api/challengeGroups/reviews")
-    public ApiResponse<PagingResponse<ChallengeGroupRes.ChallengeReviewDto>> getChallengeReviews(
-            @Valid PagingRequest pagingRequest
-    ) {
-        return ApiResponse.success(
-                PagingResponse.<ChallengeGroupRes.ChallengeReviewDto>builder()
-                        .hasNext(false)
-                        .totalPage(1)
-                        .data(List.of(
-                                new ChallengeGroupRes.ChallengeReviewDto(
-                                        1L, "title",
-                                        new UserRes.UserDto(
-                                                1L, "nickname", "https://picsum.photos/200/300", new UserRes.TierInfoDto(
-                                                "tier", 100, 50
-                                        )),
-                                        "content", 12
 
-                                )
-                        ))
-                        .build()
-        );
-    }
 
     @Operation(summary = "챌린지 그룹 랭킹 조회", description = "챌린지 랭킹 조회한다.")
     @GetMapping("/api/challengeGroups/{challengeGroupId}/rankings")

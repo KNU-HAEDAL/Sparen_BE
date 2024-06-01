@@ -10,7 +10,7 @@ import org.haedal.zzansuni.domain.BaseTimeEntity;
 import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
-import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerification;
+import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
 import org.haedal.zzansuni.domain.user.User;
 
 import java.util.ArrayList;

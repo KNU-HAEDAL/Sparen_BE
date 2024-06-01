@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup.challengereview;
+package org.haedal.zzansuni.domain.challengegroup.review;
 
 public interface ChallengeReviewStore {
 

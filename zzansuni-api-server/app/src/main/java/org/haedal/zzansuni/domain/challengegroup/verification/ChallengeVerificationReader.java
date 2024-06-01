@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup.challengeverification;
+package org.haedal.zzansuni.domain.challengegroup.verification;
 
 import java.util.List;
 import java.util.Optional;

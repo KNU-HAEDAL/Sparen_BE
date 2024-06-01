@@ -1,10 +1,9 @@
 package org.haedal.zzansuni.infrastructure.challengegroup.challengereview;
 
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReview;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReviewStore;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewStore;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 @RequiredArgsConstructor

@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReview;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewReader;
 import org.springframework.stereotype.Component;
 
 @Component
