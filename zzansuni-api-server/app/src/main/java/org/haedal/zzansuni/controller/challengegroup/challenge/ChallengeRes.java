@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeCurrent;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
 
@@ -88,6 +89,19 @@ public class ChallengeRes {
 
     ) {
 
+        public static ChallengeCurrentResponse from(ChallengeCurrent challengeCurrent) {
+            return ChallengeCurrentResponse.builder()
+                .challengeId(challengeCurrent.challengeId())
+                .title(challengeCurrent.title())
+                .successCount(challengeCurrent.successCount())
+                .totalCount(challengeCurrent.totalCount())
+                .participationDate(challengeCurrent.participationDate())
+                .startDate(challengeCurrent.startDate())
+                .endDate(challengeCurrent.endDate())
+                .category(challengeCurrent.category())
+                .reviewWritten(challengeCurrent.reviewWritten())
+                .build();
+        }
     }
 
     @Builder

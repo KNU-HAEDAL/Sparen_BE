@@ -11,9 +11,11 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.ImageUploader;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeCurrent;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -102,8 +104,13 @@ public class ChallengeController {
         @Valid PagingRequest pagingRequest,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-//        challengeService.getChallengeCurrentsPaging(1L, pagingRequest);
-        throw new RuntimeException("Not implemented");
+        Page<ChallengeCurrent> page = userChallengeService.getCurrentChallenges(
+            jwtUser.getId(), pagingRequest.toPageable());
+
+        PagingResponse<ChallengeRes.ChallengeCurrentResponse> response = PagingResponse.from(
+            page, ChallengeRes.ChallengeCurrentResponse::from
+        );
+        return ApiResponse.success(response);
     }
 
     @Operation(summary = "완료한 챌린지 조회", description = "완료한 챌린지 페이징 조회한다.")
