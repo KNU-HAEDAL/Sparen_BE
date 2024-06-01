@@ -62,8 +62,8 @@ public class ChallengeService {
      */
     @Transactional
     public Long createReview(ChallengeCommand.ReviewCreate command, Long challengeId, Long userId) {
-        UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,
-            challengeId);
+        UserChallenge userChallenge = userChallengeReader.findByUserIdAndChallengeId(userId,
+            challengeId).orElseThrow(() -> new IllegalArgumentException("현재 참여중인 챌린지가 아닙니다."));
 
         //이미 리뷰를 작성했는지 확인
         challengeReviewReader.findByUserChallengeId(challengeId)
@@ -74,4 +74,6 @@ public class ChallengeService {
         challengeReviewStore.store(challengeReview);
         return challengeReview.getId();
     }
+
+
 }
