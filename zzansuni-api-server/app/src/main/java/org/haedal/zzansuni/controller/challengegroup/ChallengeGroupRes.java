@@ -57,16 +57,6 @@ public class ChallengeGroupRes {
     }
 
 
-    @Builder
-    public record ChallengeReviewDto(
-        Long challengeId,
-        String challengeTitle,
-        UserRes.UserDto user,
-        String content,
-        Integer rating
-    ) {
-
-    }
 
 
     @Builder

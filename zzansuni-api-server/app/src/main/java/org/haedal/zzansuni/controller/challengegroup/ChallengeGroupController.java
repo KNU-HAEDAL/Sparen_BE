@@ -62,29 +62,7 @@ public class ChallengeGroupController {
         );
     }
 
-    @Operation(summary = "챌린지 그룹 최근 리뷰 페이징", description = "챌린지 최근 리뷰 페이징 조회.")
-    @GetMapping("/api/challengeGroups/reviews")
-    public ApiResponse<PagingResponse<ChallengeGroupRes.ChallengeReviewDto>> getChallengeReviews(
-            @Valid PagingRequest pagingRequest
-    ) {
-        return ApiResponse.success(
-                PagingResponse.<ChallengeGroupRes.ChallengeReviewDto>builder()
-                        .hasNext(false)
-                        .totalPage(1)
-                        .data(List.of(
-                                new ChallengeGroupRes.ChallengeReviewDto(
-                                        1L, "title",
-                                        new UserRes.UserDto(
-                                                1L, "nickname", "https://picsum.photos/200/300", new UserRes.TierInfoDto(
-                                                "tier", 100, 50
-                                        )),
-                                        "content", 12
 
-                                )
-                        ))
-                        .build()
-        );
-    }
 
     @Operation(summary = "챌린지 그룹 랭킹 조회", description = "챌린지 랭킹 조회한다.")
     @GetMapping("/api/challengeGroups/{challengeGroupId}/rankings")
