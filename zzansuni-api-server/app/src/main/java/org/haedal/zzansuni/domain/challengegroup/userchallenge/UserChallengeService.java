@@ -8,7 +8,7 @@ import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeReader;
-import org.haedal.zzansuni.domain.challengegroup.challengereview.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserReader;
 import org.springframework.data.domain.Page;
