@@ -12,6 +12,7 @@ import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -32,25 +33,17 @@ public class ChallengeReviewController {
     @GetMapping("/api/challengeGroups/reviews")
     public ApiResponse<PagingResponse<ChallengeReviewRes.ChallengeReviewDto>> getChallengeReviews(
         @Valid PagingRequest pagingRequest
+        //TODO SORTING
     ) {
-        return ApiResponse.success(
-            PagingResponse.<ChallengeReviewRes.ChallengeReviewDto>builder()
-                .hasNext(false)
-                .totalPage(1)
-                .data(List.of(
-                    new ChallengeReviewRes.ChallengeReviewDto(
-                        1L, "title",
-                        new UserRes.UserDto(
-                            1L, "nickname", "https://picsum.photos/200/300",
-                            new UserRes.TierInfoDto(
-                                "tier", 100, 50
-                            )),
-                        "content", 12
+        Page<ChallengeReviewWithUserInfo> page = challengeService.getChallengeReviews(
+            pagingRequest.toPageable());
 
-                    )
-                ))
-                .build()
+        PagingResponse<ChallengeReviewRes.ChallengeReviewDto> response = PagingResponse.from(
+            page, ChallengeReviewRes.ChallengeReviewDto::from
         );
+
+        return ApiResponse.success(response);
+
     }
 
 
