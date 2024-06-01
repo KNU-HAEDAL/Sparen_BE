@@ -10,7 +10,9 @@ for (let i = 0; i < 50; i++) {
     const lastModifiedAt = faker.date.recent().toISOString().slice(0, 19).replace('T', ' ');
     const dayTypes = ['DAY', 'MONTH', 'WEEK'];
     const dayType = dayTypes[Math.floor(Math.random() * dayTypes.length)];
+    const startDate = faker.date.past().toISOString().slice(0, 19).replace('T', ' ');
+    const endDate = faker.date.past().toISOString().slice(0, 19).replace('T', ' ');
 
-    const sql = `(${difficulty}, ${onceExp}, ${requiredCount}, ${successExp}, ${challengeGroupId}, '${createdAt}', '${lastModifiedAt}', '${dayType}'),`;
+    const sql = `(${difficulty}, ${onceExp}, ${requiredCount}, ${successExp}, ${challengeGroupId}, '${createdAt}', '${lastModifiedAt}', '${dayType}', '${startDate}', '${endDate}'),`;
     console.log(sql);
 }
