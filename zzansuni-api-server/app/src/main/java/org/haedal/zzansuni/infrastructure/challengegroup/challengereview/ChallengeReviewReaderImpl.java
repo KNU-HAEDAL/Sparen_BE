@@ -106,4 +106,13 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
 
         return new PageImpl<>(challengeReviews, pageable, count == null ? 0 : count);
     }
+
+    @Override
+    public List<ChallengeReview> findByChallengeGroupId(Long challengeGroupId) {
+        return queryFactory
+            .select(QChallengeReview.challengeReview)
+            .from(QChallengeReview.challengeReview)
+            .where(QChallengeReview.challengeReview.challengeGroupId.eq(challengeGroupId))
+            .fetch();
+    }
 }

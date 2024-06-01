@@ -107,4 +107,15 @@ public class ChallengeService {
 
         return challengeReviewPage.map(ChallengeReviewWithUserInfo::from);
     }
+
+    /**
+     * 챌린지 그룹 리뷰 평점 가져오기
+     */
+    @Transactional(readOnly = true)
+    public ChallengeReviewModel.ChallengeReviewScore getChallengeGroupReviewScore(
+        Long challengeGroupId) {
+        List<ChallengeReview> challengeReviews = challengeReviewReader.findByChallengeGroupId(
+            challengeGroupId);
+        return ChallengeReviewModel.ChallengeReviewScore.of(challengeReviews);
+    }
 }

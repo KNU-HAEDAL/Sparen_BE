@@ -11,6 +11,7 @@ import org.haedal.zzansuni.controller.challengegroup.challenge.ChallengeReq;
 import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 import org.haedal.zzansuni.global.jwt.JwtUser;
@@ -78,4 +79,14 @@ public class ChallengeReviewController {
         return ApiResponse.success(response, "챌린지 리뷰 작성에 성공하였습니다.");
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "챌린지 그룹별 리뷰 평점 조회", description = "챌린지 그룹별 리뷰 평점 조회")
+    @GetMapping("/api/challengeGroups/{challengeGroupId}/reviews/score")
+    public ApiResponse<ChallengeReviewRes.ChallengeReviewScoreResponse> getChallengeGroupReviewScore(
+        @PathVariable Long challengeGroupId
+    ) {
+        var response = ChallengeReviewRes.ChallengeReviewScoreResponse.from(
+            challengeService.getChallengeGroupReviewScore(challengeGroupId));
+        return ApiResponse.success(response, "챌린지 그룹별 리뷰 평점 조회에 성공하였습니다.");
+    }
 }
