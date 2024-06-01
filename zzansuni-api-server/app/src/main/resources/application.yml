@@ -17,6 +17,11 @@ spring: # default test profile
     console:
       enabled: true
       path: /h2-console
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+      resolve-lazily: true # 파일 업로드 시점에 메모리에 저장
 logging.level:
   org.hibernate:
     orm.jdbc.bind: trace
