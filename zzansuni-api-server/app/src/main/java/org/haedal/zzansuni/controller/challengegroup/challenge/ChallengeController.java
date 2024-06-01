@@ -7,10 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
+import org.haedal.zzansuni.controller.challengegroup.challenge.ChallengeRes.ChallengeCompleteResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.ImageUploader;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeComplete;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeCurrent;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeService;
@@ -104,10 +105,16 @@ public class ChallengeController {
 
     @Operation(summary = "완료한 챌린지 조회", description = "완료한 챌린지 페이징 조회한다.")
     @GetMapping("/api/user/challenges/completes")
-    public ApiResponse<PagingResponse<ChallengeRes.ChallengeCompleteDto>> getChallengeCompletesPaging(
+    public ApiResponse<PagingResponse<ChallengeCompleteResponse>> getChallengeCompletesPaging(
         @Valid PagingRequest pagingRequest,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        throw new RuntimeException("Not implemented");
+        Page<ChallengeComplete> page = userChallengeService.getCompleteChallenges(
+            jwtUser.getId(), pagingRequest.toPageable());
+
+        PagingResponse<ChallengeCompleteResponse> response = PagingResponse.from(
+            page, ChallengeRes.ChallengeCompleteResponse::from
+        );
+        return ApiResponse.success(response);
     }
 }

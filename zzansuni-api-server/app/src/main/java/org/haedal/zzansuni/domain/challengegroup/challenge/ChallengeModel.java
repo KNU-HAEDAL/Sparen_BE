@@ -113,6 +113,32 @@ public class ChallengeModel {
 
     }
 
+    @Builder
+    public record ChallengeComplete(
+        Long challengeId,
+        String title,
+        LocalDate successDate,
+        ChallengeCategory category,
+        Boolean reviewWritten
+    ) {
 
+        public static ChallengeComplete from(UserChallenge userChallenge, Boolean reviewWritten
+        ) {
+            Challenge challenge = userChallenge.getChallenge();
+            return ChallengeComplete.builder()
+                .challengeId(challenge.getId())
+                .title(challenge.getChallengeGroup().getTitle())
+                // 성공한 날짜는 가장 최근에 인증한 날짜로 설정
+                .successDate(userChallenge.getChallengeVerifications().stream()
+                    .map(ChallengeVerification::getCreatedAt)
+                    .max(LocalDateTime::compareTo)
+                    .map(LocalDateTime::toLocalDate)
+                    .orElse(null))
+                .category(challenge.getChallengeGroup().getCategory())
+                .reviewWritten(reviewWritten)
+                .build();
+        }
+
+    }
 
 }
