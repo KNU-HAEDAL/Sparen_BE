@@ -8,12 +8,10 @@
 ## 데모
 ![GIFMaker_me](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/cd8624f1-1d69-4a5f-baed-efa63b76d05a)
 ![GIFMaker_me (2)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/a3dfa89d-77db-452a-a796-3fc28fcf11f4)
-
 ![GIFMaker_me (1)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/ce8708aa-9fb0-408b-a159-ba66d106eaa9)
-
 ![GIFMaker_me (3)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/bd22c755-f9bd-4233-b5e6-3f448fcc904d)
 ![GIFMaker_me (4)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/441ed724-776b-42ab-ab85-04b28df60081)
-
+![GIFMaker_me (5)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/8cfd9810-8d52-43cc-90d2-b7a34b9e5387)
 
 
 
