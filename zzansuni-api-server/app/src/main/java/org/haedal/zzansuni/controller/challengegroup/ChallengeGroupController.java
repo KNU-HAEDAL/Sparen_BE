@@ -13,6 +13,7 @@ import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupQueryService;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
 import org.haedal.zzansuni.global.jwt.JwtUser;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,15 +35,9 @@ public class ChallengeGroupController {
             @Valid PagingRequest pagingRequest,
             @RequestParam ChallengeCategory category
     ) {
-        return ApiResponse.success(PagingResponse.<ChallengeGroupRes.ChallengeGroupDto>builder()
-                .hasNext(false)
-                .totalPage(1)
-                .data(List.of(
-                        new ChallengeGroupRes.ChallengeGroupDto(1L,
-                                "title", "thumbnailUrl", 12,
-                                LocalDate.now(), LocalDate.now(), ChallengeCategory.VOLUNTEER)
-                ))
-                .build());
+        var page = challengeGroupQueryService.getChallengeGroupsPaging(pagingRequest.toPageable(), category);
+        var response = PagingResponse.from(page, ChallengeGroupRes.ChallengeGroupDto::from);
+        return ApiResponse.success(response);
     }
 
     @Operation(summary = "챌린지 그룹 상세 조회", description = "챌린지 상세 조회한다.")
