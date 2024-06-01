@@ -59,12 +59,12 @@ public class UserChallengeService {
      */
     @Transactional
     public ChallengeModel.ChallengeVerificationResult verification(
-        Long userChallengeId,
+        Long challengeId,
         Long userId,
         ChallengeCommand.VerificationCreate command
     ) {
-        UserChallenge userChallenge = userChallengeReader.getByIdWithVerificationAndChallenge(
-            userChallengeId);
+        UserChallenge userChallenge = userChallengeReader.getByChallengeIdWithVerificationAndChallenge(
+            challengeId);
         if(!userChallenge.getUser().getId().equals(userId)) {
             throw new IllegalArgumentException("해당 챌린지에 참여한 유저가 아닙니다.");
         }

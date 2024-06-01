@@ -10,6 +10,8 @@ public interface UserChallengeReader {
 
     UserChallenge getByIdWithVerificationAndChallenge(Long id);
 
+    UserChallenge getByChallengeIdWithVerificationAndChallenge(Long challengeId);
+
     Optional<UserChallenge> findById(Long id);
 
     UserChallenge getByUserIdAndChallengeId(Long userId, Long challengeId);

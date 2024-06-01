@@ -45,17 +45,17 @@ public class ChallengeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "챌린지 인증", description = "챌린지에 인증한다.")
-    @PostMapping("/api/challenges/{userChallengeId}/verification")
+    @PostMapping("/api/challenges/{challengeId}/verification")
     public ApiResponse<ChallengeRes.ChallengeVerificationResponse> challengeVerification(
         @AuthenticationPrincipal JwtUser jwtUser,
-        @PathVariable Long userChallengeId,
+        @PathVariable Long challengeId,
         @RequestPart("body") ChallengeReq.ChallengeVerificationRequest request,
         @RequestPart("image") MultipartFile image
     ) {
         ChallengeCommand.Verificate command = request.toCommand(image);
         String imageUrl = imageUploader.upload(command.getImage());
         ChallengeCommand.VerificationCreate afterUpload = command.afterUpload(imageUrl);
-        var model = userChallengeService.verification(userChallengeId, jwtUser.getId(), afterUpload);
+        var model = userChallengeService.verification(challengeId, jwtUser.getId(), afterUpload);
         var response = ChallengeRes.ChallengeVerificationResponse.from(model);
         return ApiResponse.success(response, "챌린지 인증에 성공하였습니다.");
     }

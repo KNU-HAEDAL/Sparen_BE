@@ -36,6 +36,13 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
     }
 
     @Override
+    public UserChallenge getByChallengeIdWithVerificationAndChallenge(Long challengeId) {
+        return userChallengeRepository
+            .findByChallengeIdWithFetchLazy(challengeId)
+            .orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
     public Optional<UserChallenge> findById(Long id) {
         return userChallengeRepository.findById(id);
     }

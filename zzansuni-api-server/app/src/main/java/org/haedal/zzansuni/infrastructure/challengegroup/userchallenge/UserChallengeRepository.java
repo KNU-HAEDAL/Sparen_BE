@@ -19,4 +19,9 @@ public interface UserChallengeRepository extends JpaRepository<UserChallenge, Lo
             "WHERE uc.id = :id")
     Optional<UserChallenge> findByIdWithFetchLazy(@Param("id") Long id);
 
+    @Query("SELECT uc FROM UserChallenge uc " +
+            "LEFT JOIN FETCH uc.challengeVerifications " +
+            "LEFT JOIN FETCH uc.challenge " +
+            "WHERE uc.challenge.id = :challengeId")
+    Optional<UserChallenge> findByChallengeIdWithFetchLazy(@Param("challengeId") Long challengeId);
 }
