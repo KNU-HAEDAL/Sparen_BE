@@ -9,8 +9,8 @@ import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
-import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.http.HttpStatus;
@@ -34,9 +34,7 @@ public class ChallengeController {
         @PathVariable Long challengeId,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        UserChallengeCommand.Participate command = new UserChallengeCommand.Participate(challengeId,
-            1L);
-        userChallengeService.participateChallenge(jwtUser.getId(), command);
+        userChallengeService.participateChallenge(jwtUser.getId(), challengeId);
         return ApiResponse.success(null, "챌린지 참여에 성공하였습니다.");
     }
 
@@ -48,11 +46,10 @@ public class ChallengeController {
         @RequestPart("body") ChallengeReq.ChallengeVerificationRequest request,
         @RequestPart("image") MultipartFile image
     ) {
-        ChallengeCommand.Verificate command = new ChallengeCommand.Verificate(
-            request.content(), image);
-        ChallengeRes.ChallengeVerificationResponse response = ChallengeRes.ChallengeVerificationResponse.from(
-            challengeService.verification(userChallengeId, command)
-        );
+        ChallengeCommand.Verificate command = request.toCommand(image);
+        ChallengeModel.ChallengeVerificationResult model = userChallengeService.verification(
+            userChallengeId, command);
+        var response = ChallengeRes.ChallengeVerificationResponse.from(model);
         return ApiResponse.success(response, "챌린지 인증에 성공하였습니다.");
     }
 
@@ -64,7 +61,7 @@ public class ChallengeController {
         @AuthenticationPrincipal JwtUser jwtUser,
         @RequestBody ChallengeReq.ChallengeReviewCreateRequest request
     ) {
-        Long response = challengeService.reviewCreate(request.toCommand(), challengeId,
+        Long response = challengeService.createReview(request.toCommand(), challengeId,
             jwtUser.getId());
         return ApiResponse.success(response, "챌린지 리뷰 작성에 성공하였습니다.");
     }

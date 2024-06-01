@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 
 @Entity
@@ -34,12 +35,12 @@ public class ChallengeReview extends BaseTimeEntity {
 
     private Integer rating;
 
-    public static ChallengeReview create(UserChallenge userChallenge, String content,
-        Integer rating) {
+    public static ChallengeReview create(UserChallenge userChallenge,
+        ChallengeCommand.ReviewCreate command) {
         return ChallengeReview.builder()
             .userChallenge(userChallenge)
-            .content(content)
-            .rating(rating)
+            .content(command.getContent())
+            .rating(command.getRating())
             .build();
     }
 

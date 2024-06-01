@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
 
 public class ChallengeRes {
@@ -38,7 +39,7 @@ public class ChallengeRes {
         List<Long> recordIds
     ) {
 
-        public static ChallengeRecordResponse from(ChallengeModel.ChallengeRecordDto dto) {
+        public static ChallengeRecordResponse from(ChallengeRecord dto) {
             return ChallengeRecordResponse.builder()
                 .title(dto.title())
                 .totalCount(dto.totalCount())

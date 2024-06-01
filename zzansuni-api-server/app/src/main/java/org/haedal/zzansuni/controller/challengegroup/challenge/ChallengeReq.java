@@ -2,12 +2,20 @@ package org.haedal.zzansuni.controller.challengegroup.challenge;
 
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ChallengeReq {
 
     public record ChallengeVerificationRequest(
         String content
     ) {
+
+        public ChallengeCommand.Verificate toCommand(MultipartFile image) {
+            return ChallengeCommand.Verificate.builder()
+                .content(content)
+                .image(image)
+                .build();
+        }
 
     }
 
