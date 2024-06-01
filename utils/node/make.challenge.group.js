@@ -7,7 +7,8 @@ for(let i=0; i<20; i++) {
     const selectedCategory = category[Math.floor(Math.random() * category.length)];
     const content = faker.lorem.text().substring(0,254);
     const title = faker.lorem.words(3);
+    const guide = faker.lorem.text().substring(0,254);
 
-    const sql = `(100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '${content}', '${title}', '${selectedCategory}'),`;
+    const sql = `(100, '2023-05-31 10:00:00', '2023-05-31 12:00:00', '${content}', '${title}', '${selectedCategory}', '${guide}'),`;
     console.log(sql);
 }
