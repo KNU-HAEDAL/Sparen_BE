@@ -3,6 +3,7 @@ package org.haedal.zzansuni.domain.challengegroup;
 import lombok.Builder;
 import lombok.Getter;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.user.UserModel;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -114,6 +115,14 @@ public class ChallengeGroupModel {
                     .challenges(challenges)
                     .build();
         }
+    }
+
+    @Getter
+    @Builder
+    public static class Ranking {
+        private UserModel user;
+        private Integer rank;
+        private Integer accumulatedPoint;
     }
 
 }

@@ -6,6 +6,7 @@ import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -135,6 +136,19 @@ public class ChallengeGroupRes {
         Integer totalPage,
         ChallengeGroupRankingDto myRanking //null이면 랭킹이 없는 것
     ) {
+        public static ChallengeGroupRankingPagingResponse from(
+                Page<ChallengeGroupModel.Ranking> rankingPage,
+                ChallengeGroupModel.Ranking myRanking
+        ){
+            var data = rankingPage.getContent().stream()
+                .map(ChallengeGroupRankingDto::from)
+                .toList();
+            return ChallengeGroupRankingPagingResponse.builder()
+                    .data(data)
+                    .totalPage(rankingPage.getTotalPages())
+                    .myRanking(ChallengeGroupRankingDto.from(myRanking))
+                    .build();
+        }
 
     }
 
@@ -146,6 +160,16 @@ public class ChallengeGroupRes {
         Integer acquiredPoint,
         UserRes.UserDto user
     ) {
+        public static ChallengeGroupRankingDto from(
+                ChallengeGroupModel.Ranking model
+        ){
+            var user = UserRes.UserDto.from(model.getUser());
+            return ChallengeGroupRankingDto.builder()
+                    .ranking(model.getRank())
+                    .acquiredPoint(model.getAccumulatedPoint())
+                    .user(user)
+                    .build();
+        }
 
     }
 
