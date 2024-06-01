@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.ImageUploader;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
@@ -15,7 +16,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 @Component
-@Order(1)
+@Qualifier("imageUploader")
 @Profile("prod")
 @RequiredArgsConstructor
 public class FakeUploader implements ImageUploader {
@@ -57,7 +58,7 @@ public class FakeUploader implements ImageUploader {
 }
 
 @Component
-@Order(2)
+@Qualifier("mock")
 class MockUploader implements ImageUploader {
     @Override
     public String upload(MultipartFile imageFile) {
