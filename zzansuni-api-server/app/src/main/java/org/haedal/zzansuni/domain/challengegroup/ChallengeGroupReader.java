@@ -9,4 +9,6 @@ public interface ChallengeGroupReader {
     ChallengeGroup getByIdWithChallenges(Long challengeGroupId);
 
     Page<ChallengeGroup> getChallengeGroupsPagingByCategory(Pageable pageable, ChallengeCategory category);
+
+    Page<ChallengeGroup> getChallengeGroupsShortsPaging(Pageable pageable, Long userId);
 }

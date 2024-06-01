@@ -1,5 +1,9 @@
 package org.haedal.zzansuni.infrastructure.challengegroup;
 
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
@@ -51,4 +55,29 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
 
         return new PageImpl<>(page, pageable, count == null ? 0 : count);
     }
+
+    @Override
+    public Page<ChallengeGroup> getChallengeGroupsShortsPaging(Pageable pageable, Long userId) {
+        Double seed = Double.valueOf(userId);
+
+        // 해시 값을 기준으로 정렬
+        NumberTemplate<Double> hashOrder = Expressions
+                .numberTemplate(Double.class, "SHA1(CONCAT({0}, id))", seed);
+
+
+        Long count = queryFactory
+                .select(QChallengeGroup.challengeGroup.count())
+                .from(QChallengeGroup.challengeGroup)
+                .fetchOne();
+        List<ChallengeGroup> page = queryFactory
+                .selectFrom(QChallengeGroup.challengeGroup)
+                .leftJoin(QChallengeGroup.challengeGroup.challenges).fetchJoin()
+                .orderBy(Expressions.numberTemplate(Double.class, "RAND({0})", userId).asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(page, pageable, count == null ? 0 : count);
+    }
+
 }
