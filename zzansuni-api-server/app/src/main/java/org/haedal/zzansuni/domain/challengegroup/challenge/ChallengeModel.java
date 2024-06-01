@@ -23,6 +23,8 @@ public class ChallengeModel {
     private Integer onceExp;
     private Integer successExp;
     private Integer difficulty;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public static ChallengeModel from(Challenge challenge) {
         return ChallengeModel.builder()
@@ -33,6 +35,8 @@ public class ChallengeModel {
             .onceExp(challenge.getOnceExp())
             .successExp(challenge.getSuccessExp())
             .difficulty(challenge.getDifficulty())
+            .startDate(challenge.getStartDate())
+            .endDate(challenge.getEndDate())
             .build();
     }
 
