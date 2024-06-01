@@ -1,17 +1,16 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
+import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,6 +30,10 @@ public class ChallengeGroup extends BaseTimeEntity {
 
     private String content;
 
+    private String guide;
+
     private Integer cumulativeCount;
 
+    @OneToMany(mappedBy = "challengeGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Challenge> challenges = new ArrayList<>();
 }
