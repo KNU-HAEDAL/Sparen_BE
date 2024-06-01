@@ -87,19 +87,13 @@ public class ChallengeGroupController {
     @Operation(summary = "챌린지 그룹 숏폼 페이징", description = "챌린지 숏폼 페이징 조회한다.")
     @GetMapping("/api/challengeGroups/shorts")
     public ApiResponse<PagingResponse<ChallengeGroupRes.ChallengeGroupDto>> getChallengeShortsPaging(
-            @RequestParam Long page
+            @Valid PagingRequest pagingRequest,
+            @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        return ApiResponse.success(
-                PagingResponse.<ChallengeGroupRes.ChallengeGroupDto>builder()
-                        .hasNext(false)
-                        .totalPage(1)
-                        .data(List.of(
-                                new ChallengeGroupRes.ChallengeGroupDto(1L,
-                                        "title", "thumbnailUrl", 12,
-                                        LocalDate.now(), LocalDate.now(), ChallengeCategory.VOLUNTEER)
-                        ))
-                        .build()
-        );
+        var page = challengeGroupQueryService.getChallengeGroupsShortsPaging(pagingRequest.toPageable(), jwtUser.getId());
+        var response = PagingResponse.from(page, ChallengeGroupRes.ChallengeGroupDto::from);
+
+        return ApiResponse.success(response);
 
     }
 

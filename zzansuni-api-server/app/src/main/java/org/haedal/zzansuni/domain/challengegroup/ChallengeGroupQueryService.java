@@ -26,4 +26,10 @@ public class ChallengeGroupQueryService {
         List<ChallengeGroupImage> challengeGroupImages = challengeGroupImageReader.getByChallengeGroupId(challengeGroupId);
         return ChallengeGroupModel.Detail.from(challengeGroup, challengeGroupImages);
     }
+
+    @Transactional(readOnly = true)
+    public Page<ChallengeGroupModel.Info> getChallengeGroupsShortsPaging(Pageable pageable, Long userId) {
+        Page<ChallengeGroup> challengeGroups = challengeGroupReader.getChallengeGroupsShortsPaging(pageable, userId);
+        return challengeGroups.map(ChallengeGroupModel.Info::from);
+    }
 }
