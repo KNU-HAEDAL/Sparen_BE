@@ -36,4 +36,19 @@ public class ChallengeGroup extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "challengeGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Challenge> challenges = new ArrayList<>();
+
+    public static ChallengeGroup create(ChallengeGroupCommand.Create command) {
+        List<Challenge> challenges = new ArrayList<>();
+        ChallengeGroup group =  ChallengeGroup.builder()
+                .category(command.getCategory())
+                .title(command.getTitle())
+                .content(command.getContent())
+                .guide(command.getGuide())
+                .cumulativeCount(0)
+                .challenges(challenges)
+                .build();
+        command.getCreateChallenges().stream().map(challenge -> Challenge.create(challenge, group))
+                .forEach(challenges::add);
+        return group;
+    }
 }

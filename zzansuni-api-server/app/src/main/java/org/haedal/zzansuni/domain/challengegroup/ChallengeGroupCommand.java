@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import org.haedal.zzansuni.controller.admin.AdminReq;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,10 +16,12 @@ public class ChallengeGroupCommand {
         private final String title;
         @NotBlank(message = "content는 필수값입니다.")
         private final String content;
+        @NotBlank(message = "guide는 필수값입니다.")
+        private final String guide;
         @NotNull(message = "category는 필수값입니다.")
         private final ChallengeCategory category;
         @NotNull(message = "challenges는 필수값입니다.")
-        private final List<CreateChallenge> challenges;
+        private final List<CreateChallenge> createChallenges;
 
     }
 

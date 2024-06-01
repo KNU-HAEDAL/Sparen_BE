@@ -15,6 +15,8 @@ public class AdminReq {
             String title,
             @NotBlank(message = "content는 필수값입니다.")
             String content,
+            @NotBlank(message = "guide는 필수값입니다.")
+            String guide,
             @NotNull(message = "category는 필수값입니다.")
             ChallengeCategory category,
             @NotNull(message = "challenges는 필수값입니다.")
@@ -24,8 +26,9 @@ public class AdminReq {
             return ChallengeGroupCommand.Create.builder()
                     .title(title)
                     .content(content)
+                    .guide(guide)
                     .category(category)
-                    .challenges(challenges.stream().map(CreateChallengeRequest::toCommand).toList())
+                    .createChallenges(challenges.stream().map(CreateChallengeRequest::toCommand).toList())
                     .build();
         }
     }
