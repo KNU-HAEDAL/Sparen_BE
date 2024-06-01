@@ -59,28 +59,11 @@ public class ChallengeGroupController {
             @PathVariable Long challengeGroupId,
             @Valid PagingRequest pagingRequest
     ) {
-        return ApiResponse.success(
-                new ChallengeGroupRes.ChallengeGroupRankingPagingResponse(
-                        List.of(
-                                new ChallengeGroupRes.ChallengeGroupRankingDto(1, 12,
-                                        new UserRes.UserDto(
-                                                1L, "nickname", "https://picsum.photos/200/300", new UserRes.TierInfoDto(
-                                                "tier", 100, 50
-
-                                        )
-                                        )
-                                )
-                        ),
-                        1,
-                        new ChallengeGroupRes.ChallengeGroupRankingDto(
-                                1, 12,
-                                new UserRes.UserDto(
-                                        1L, "nickname", "https://picsum.photos/200/300", new UserRes.TierInfoDto(
-                                        "tier", 100, 50
-                                )
-                                )
-                        )
-                ));
+        var rankingPage = challengeGroupQueryService.getChallengeGroupRankingsPaging(challengeGroupId, pagingRequest.toPageable());
+        var rankingModel = challengeGroupQueryService.getChallengeGroupRanking(challengeGroupId, jwtUser.getId());
+        var response = ChallengeGroupRes.ChallengeGroupRankingPagingResponse
+                .from(rankingPage, rankingModel);
+        return ApiResponse.success(response);
     }
 
     //숏폼 조회

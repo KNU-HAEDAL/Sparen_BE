@@ -32,4 +32,14 @@ public class ChallengeGroupQueryService {
         Page<ChallengeGroup> challengeGroups = challengeGroupReader.getChallengeGroupsShortsPaging(pageable, userId);
         return challengeGroups.map(ChallengeGroupModel.Info::from);
     }
+
+    public Page<ChallengeGroupModel.Ranking> getChallengeGroupRankingsPaging(Long challengeGroupId, Pageable pageable) {
+        ChallengeGroup challengeGroup = challengeGroupReader.getById(challengeGroupId);
+        throw new UnsupportedOperationException("Not implemented yet");
+
+    }
+
+    public ChallengeGroupModel.Ranking getChallengeGroupRanking(Long challengeGroupId, Long id) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }
