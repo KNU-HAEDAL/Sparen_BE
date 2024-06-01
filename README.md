@@ -2,11 +2,13 @@
 
 ## 데모
 ![GIFMaker_me](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/cd8624f1-1d69-4a5f-baed-efa63b76d05a)
+![GIFMaker_me (2)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/a3dfa89d-77db-452a-a796-3fc28fcf11f4)
 
-[KakaoTalk_Video_2024-06-02-04-50-08.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-08.mp4)
-[KakaoTalk_Video_2024-06-02-04-50-11.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-11.mp4)
-[KakaoTalk_Video_2024-06-02-04-50-15.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-15.mp4)
-[KakaoTalk_Video_2024-06-02-04-50-23.mp4](..%2F..%2F..%2FDownloads%2FKakaoTalk_Video_2024-06-02-04-50-23.mp4)
+![GIFMaker_me (1)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/ce8708aa-9fb0-408b-a159-ba66d106eaa9)
+
+
+
+
 
 ## 참여
 
