@@ -8,5 +8,9 @@ public enum ChallengeStatus {
     SUCCESS("성공"),
     FAIL("실패");
 
+    public boolean isProceeding() {
+        return this == PROCEEDING;
+    }
+
     private final String korean;
 }
