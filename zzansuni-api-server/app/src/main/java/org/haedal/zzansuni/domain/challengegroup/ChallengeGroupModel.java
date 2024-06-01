@@ -30,6 +30,48 @@ public class ChallengeGroupModel {
 
     @Getter
     @Builder
+    public static class Info {
+        private Long id;
+        private ChallengeCategory category;
+        private String title;
+        private String content;
+        private String guide;
+        private Integer cumulativeCount;
+        private List<ChallengeModel> challenges;
+
+        public LocalDate getMinStartDate() {
+            return challenges.stream()
+                    .map(ChallengeModel::getStartDate)
+                    .min(LocalDate::compareTo)
+                    .orElse(LocalDate.now());
+        }
+
+        public LocalDate getMaxEndDate() {
+            return challenges.stream()
+                    .map(ChallengeModel::getEndDate)
+                    .max(LocalDate::compareTo)
+                    .orElse(LocalDate.now());
+        }
+
+        public static Info from(ChallengeGroup challengeGroup) {
+            var challenges = challengeGroup.getChallenges().stream()
+                    .map(ChallengeModel::from)
+                    .toList();
+            return Info.builder()
+                    .id(challengeGroup.getId())
+                    .category(challengeGroup.getCategory())
+                    .title(challengeGroup.getTitle())
+                    .content(challengeGroup.getContent())
+                    .guide(challengeGroup.getGuide())
+                    .cumulativeCount(challengeGroup.getCumulativeCount())
+                    .challenges(challenges)
+                    .build();
+        }
+    }
+
+
+    @Getter
+    @Builder
     public static class Detail {
         private Long id;
         private ChallengeCategory category;
