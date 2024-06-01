@@ -1,7 +1,5 @@
 package org.haedal.zzansuni.domain.challengegroup.userchallenge;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,5 +16,7 @@ public interface UserChallengeReader {
 
     Optional<UserChallenge> findByUserIdAndChallengeId(Long userId, Long challengeId);
 
-    Page<UserChallenge> getPageByUserId(Long userId, Pageable pageable);
+    Page<UserChallenge> getCurrentChallengePageByUserId(Long userId, Pageable pageable);
+
+    Page<UserChallenge> getCompletedChallengePageByUserId(Long userId, Pageable pageable);
 }

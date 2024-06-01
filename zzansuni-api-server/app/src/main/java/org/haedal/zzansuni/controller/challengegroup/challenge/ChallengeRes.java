@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeComplete;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeCurrent;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
 import org.haedal.zzansuni.domain.challengegroup.challengeverification.ChallengeVerificationModel;
@@ -105,16 +106,22 @@ public class ChallengeRes {
     }
 
     @Builder
-    public record ChallengeCompleteDto(
+    public record ChallengeCompleteResponse(
         Long id,
         String title,
-
         LocalDate successDate,
-
         ChallengeCategory category,
         Boolean reviewWritten
-
     ) {
 
+        public static ChallengeCompleteResponse from(ChallengeComplete challengeComplete) {
+            return ChallengeCompleteResponse.builder()
+                .id(challengeComplete.challengeId())
+                .title(challengeComplete.title())
+                .successDate(challengeComplete.successDate())
+                .category(challengeComplete.category())
+                .reviewWritten(challengeComplete.reviewWritten())
+                .build();
+        }
     }
 }

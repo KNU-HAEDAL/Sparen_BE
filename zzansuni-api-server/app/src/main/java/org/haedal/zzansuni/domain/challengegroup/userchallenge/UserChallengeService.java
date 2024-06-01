@@ -77,7 +77,7 @@ public class UserChallengeService {
     public Page<ChallengeModel.ChallengeCurrent> getCurrentChallenges(Long userId,
         Pageable pageable) {
         Page<UserChallenge> userChallengePage = userChallengeReader
-            .getPageByUserId(userId, pageable);
+            .getCurrentChallengePageByUserId(userId, pageable);
 
         List<Long> userChallengeIds = userChallengePage.map(UserChallenge::getId).getContent();
         Map<Long, Boolean> reviewWrittenMap = challengeReviewReader
@@ -85,5 +85,21 @@ public class UserChallengeService {
 
         return userChallengePage.map(
             m -> ChallengeModel.ChallengeCurrent.from(m, reviewWrittenMap.get(m.getId())));
+    }
+
+    /**
+     * 완료한 챌린지 페이징 조회
+     */
+    public Page<ChallengeModel.ChallengeComplete> getCompleteChallenges(Long userId,
+        Pageable pageable) {
+        Page<UserChallenge> userChallengePage = userChallengeReader
+            .getCompletedChallengePageByUserId(userId, pageable);
+
+        List<Long> userChallengeIds = userChallengePage.map(UserChallenge::getId).getContent();
+        Map<Long, Boolean> reviewWrittenMap = challengeReviewReader
+            .getReviewWrittenMapByUserChallengeId(userChallengeIds);
+
+        return userChallengePage.map(
+            m -> ChallengeModel.ChallengeComplete.from(m, reviewWrittenMap.get(m.getId())));
     }
 }
