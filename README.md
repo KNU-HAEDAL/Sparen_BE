@@ -159,6 +159,70 @@
 
 http://api.reditus.site/swagger-ui/index.html#/
 
+## Router 설정
+
+이 프로젝트는 `react-router-dom`의 `createBrowserRouter`를 사용하여 라우팅을 설정합니다. 라우터 설정은 다음과 같습니다:
+
+### 기본 경로 ('/main'):
+- `NavigateBar` 컴포넌트를 래핑하고 있으며, 이는 모든 하위 경로에서 네비게이션 바를 포함하게 합니다.
+- `Outlet`은 하위 경로에서 렌더링될 컴포넌트를 표시합니다.
+
+### 하위 경로:
+
+#### 메인 페이지:
+- 경로: `/`
+- 컴포넌트: `LoginPage`
+
+#### 챌린지 관련 경로:
+- 경로: `/challenge`
+- 컴포넌트: `MyChallenge`
+  - 하위 경로:
+    - 챌린지 목록:
+      - 경로: `/challenge/list`
+      - 컴포넌트: `ChallengeList`
+    - 기록된 챌린지 목록:
+      - 경로: `/challenge/record-list`
+      - 컴포넌트: `ListRecordChallenge`
+
+#### 쇼츠 챌린지:
+- 경로: `/shorts`
+- 컴포넌트: `ShortsChallenge`
+
+#### 랭킹 페이지:
+- 경로: `/rank`
+- 컴포넌트: `RankPage`
+
+#### 대시보드:
+- 경로: `/dashboard`
+- 컴포넌트: `Dashboard`
+
+#### 챌린지 상세 페이지:
+- 경로: `/challenge-detail`
+- 컴포넌트: `ChallengeDetailPage`
+
+#### 챌린지 기록 페이지:
+- 경로: `/challenge-record`
+- 컴포넌트: `ChallengeRecordPage`
+
+#### 리뷰 작성 페이지:
+- 경로: `/writing-reivew`
+- 컴포넌트: `WritingReview`
+
+#### 리뷰 목록 페이지:
+- 경로: `/reivew-list`
+- 컴포넌트: `ReviewList`
+
+### 로그인 관련 경로:
+
+#### 로그인 페이지:
+- 경로: `/login`
+- 컴포넌트: `LoginPage`
+
+#### 카카오 리디렉트 페이지:
+- 경로: `/login/kakao`
+- 컴포넌트: `RedirectPage`
+
+
 
 
 
