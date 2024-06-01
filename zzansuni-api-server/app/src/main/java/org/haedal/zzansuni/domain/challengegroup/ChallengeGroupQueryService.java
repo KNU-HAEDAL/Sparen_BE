@@ -15,8 +15,9 @@ public class ChallengeGroupQueryService {
     private final ChallengeGroupImageReader challengeGroupImageReader;
 
     @Transactional(readOnly = true)
-    public Page<ChallengeGroupModel.Detail> getChallengeGroupsPaging(Pageable pageable, ChallengeCategory category) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public Page<ChallengeGroupModel.Info> getChallengeGroupsPaging(Pageable pageable, ChallengeCategory category) {
+        Page<ChallengeGroup> challengeGroups = challengeGroupReader.getChallengeGroupsPagingByCategory(pageable, category);
+        return challengeGroups.map(ChallengeGroupModel.Info::from);
     }
 
     @Transactional(readOnly = true)

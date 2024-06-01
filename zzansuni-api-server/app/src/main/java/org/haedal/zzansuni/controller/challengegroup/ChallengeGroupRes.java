@@ -37,6 +37,19 @@ public class ChallengeGroupRes {
                     .category(challengeGroupDetail.getCategory())
                     .build();
         }
+        public static ChallengeGroupDto from(
+                ChallengeGroupModel.Info challengeGroupInfo
+        ){
+            return ChallengeGroupDto.builder()
+                    .id(challengeGroupInfo.getId())
+                    .title(challengeGroupInfo.getTitle())
+                    .content(challengeGroupInfo.getContent())
+                    .participantCount(challengeGroupInfo.getCumulativeCount())
+                    .startDate(challengeGroupInfo.getMinStartDate())
+                    .endDate(challengeGroupInfo.getMaxEndDate())
+                    .category(challengeGroupInfo.getCategory())
+                    .build();
+        }
 
     }
 
