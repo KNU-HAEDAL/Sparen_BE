@@ -19,4 +19,6 @@ public interface ChallengeReviewReader {
 
     Page<ChallengeReview> getChallengeReviewPage(Pageable pageable);
 
+    List<ChallengeReview> findByChallengeGroupId(Long challengeGroupId);
+
 }

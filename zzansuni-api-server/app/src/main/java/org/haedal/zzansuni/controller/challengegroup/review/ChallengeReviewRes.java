@@ -1,7 +1,9 @@
 package org.haedal.zzansuni.controller.challengegroup.review;
 
+import java.util.Map;
 import lombok.Builder;
 import org.haedal.zzansuni.controller.user.UserRes;
+import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 
@@ -54,4 +56,23 @@ public class ChallengeReviewRes {
                 .build();
         }
     }
+
+    @Builder
+    public record ChallengeReviewScoreResponse(
+        Float averageRating,
+        /**
+         * key: rating, value: count
+         */
+        Map<Integer, Integer> ratingCount
+    ) {
+
+        public static ChallengeReviewScoreResponse from(
+            ChallengeReviewModel.ChallengeReviewScore challengeReviewScore) {
+            return ChallengeReviewScoreResponse.builder()
+                .averageRating(challengeReviewScore.averageRating())
+                .ratingCount(challengeReviewScore.ratingCount())
+                .build();
+        }
+    }
+
 }
