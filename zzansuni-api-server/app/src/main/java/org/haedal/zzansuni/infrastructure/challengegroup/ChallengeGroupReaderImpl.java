@@ -58,12 +58,9 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
 
     @Override
     public Page<ChallengeGroup> getChallengeGroupsShortsPaging(Pageable pageable, Long userId) {
-        Double seed = Double.valueOf(userId);
-
-        // 해시 값을 기준으로 정렬
-        NumberTemplate<Double> hashOrder = Expressions
-                .numberTemplate(Double.class, "SHA1(CONCAT({0}, id))", seed);
-
+        OrderSpecifier<Double> orderSpecifier = Expressions
+                .numberTemplate(Double.class, "RAND({0})", userId)
+                .asc();
 
         Long count = queryFactory
                 .select(QChallengeGroup.challengeGroup.count())
@@ -72,7 +69,7 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
         List<ChallengeGroup> page = queryFactory
                 .selectFrom(QChallengeGroup.challengeGroup)
                 .leftJoin(QChallengeGroup.challengeGroup.challenges).fetchJoin()
-                .orderBy(Expressions.numberTemplate(Double.class, "RAND({0})", userId).asc())
+                .orderBy(orderSpecifier)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
