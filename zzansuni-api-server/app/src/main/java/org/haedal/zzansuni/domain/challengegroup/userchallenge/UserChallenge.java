@@ -41,11 +41,26 @@ public class UserChallenge extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ChallengeStatus status;
 
-    public static UserChallenge from(Challenge challenge, User user) {
+    public static UserChallenge create(Challenge challenge, User user) {
         return UserChallenge.builder()
             .challenge(challenge)
             .user(user)
             .status(ChallengeStatus.PROCEEDING)
             .build();
     }
+
+    private void complete() {
+        this.status = ChallengeStatus.SUCCESS;
+    }
+
+    /**
+     * 챌린지 인증 참여횟수와 필요참여획수가 같으면 챌린지 완료로 변경
+     */
+    public void tryComplete(Integer currentCount, Integer requiredCount) {
+        if (currentCount.equals(requiredCount)) {
+            complete();
+        }
+    }
+
+
 }

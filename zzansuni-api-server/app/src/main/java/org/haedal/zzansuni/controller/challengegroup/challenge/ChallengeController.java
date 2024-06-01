@@ -8,8 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
-import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.http.HttpStatus;
@@ -26,26 +27,30 @@ public class ChallengeController {
     private final ChallengeService challengeService;
     private final UserChallengeService userChallengeService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "챌린지 참여", description = "챌린지에 참여한다.")
     @PostMapping("/api/challenges/{challengeId}/join")
     public ApiResponse<Void> challengeParticipation(
         @PathVariable Long challengeId,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        UserChallengeCommand.Participate command = new UserChallengeCommand.Participate(challengeId,
-            jwtUser.getId());
-        userChallengeService.participateChallenge(jwtUser.getId(), command);
+        userChallengeService.participateChallenge(jwtUser.getId(), challengeId);
         return ApiResponse.success(null, "챌린지 참여에 성공하였습니다.");
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "챌린지 인증", description = "챌린지에 인증한다.")
-    @PostMapping("/api/challenges/{challengeId}/verification")
+    @PostMapping("/api/challenges/{userChallengeId}/verification")
     public ApiResponse<ChallengeRes.ChallengeVerificationResponse> challengeVerification(
-        @PathVariable Long challengeId,
+        @PathVariable Long userChallengeId,
         @RequestPart("body") ChallengeReq.ChallengeVerificationRequest request,
         @RequestPart("image") MultipartFile image
     ) {
-        throw new RuntimeException("Not implemented");
+        ChallengeCommand.Verificate command = request.toCommand(image);
+        ChallengeModel.ChallengeVerificationResult model = userChallengeService.verification(
+            userChallengeId, command);
+        var response = ChallengeRes.ChallengeVerificationResponse.from(model);
+        return ApiResponse.success(response, "챌린지 인증에 성공하였습니다.");
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -56,17 +61,24 @@ public class ChallengeController {
         @AuthenticationPrincipal JwtUser jwtUser,
         @RequestBody ChallengeReq.ChallengeReviewCreateRequest request
     ) {
-        throw new RuntimeException("Not implemented");
+        Long response = challengeService.createReview(request.toCommand(), challengeId,
+            jwtUser.getId());
+        return ApiResponse.success(response, "챌린지 리뷰 작성에 성공하였습니다.");
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "챌린지 기록 조회", description = "챌린지 기록을 조회한다.")
     @GetMapping("/api/challenges/{challengeId}/record")
     public ApiResponse<ChallengeRes.ChallengeRecordResponse> getChallengeRecord(
         @PathVariable Long challengeId,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        throw new RuntimeException("Not implemented");
+        ChallengeRes.ChallengeRecordResponse response = ChallengeRes.ChallengeRecordResponse.from(
+            challengeService.getChallengeRecord(jwtUser.getId(), challengeId)
+        );
+        return ApiResponse.success(response, "챌린지 기록 조회에 성공하였습니다.");
     }
+
 
     @Operation(summary = "챌린지 기록 상세 조회", description = "챌린지 기록 상세를 조회한다.")
     @GetMapping("/api/challenges/record/{recordId}")
@@ -74,15 +86,20 @@ public class ChallengeController {
         @PathVariable Long recordId,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        throw new RuntimeException("Not implemented");
+        ChallengeRes.ChallengeRecordDetailDto response = ChallengeRes.ChallengeRecordDetailDto.from(
+            challengeService.getChallengeRecordDetail(recordId)
+        );
+        log.info("response: {}", response);
+        return ApiResponse.success(response, "챌린지 기록 상세 조회에 성공하였습니다.");
     }
 
     @Operation(summary = "진행중인 챌린지 조회", description = "진행중인 챌린지 조회한다.")
     @GetMapping("/api/user/challenges/currents")
-    public ApiResponse<PagingResponse<ChallengeRes.ChallengeCurrentDto>> getChallengeCurrentsPaging(
+    public ApiResponse<PagingResponse<ChallengeRes.ChallengeCurrentResponse>> getChallengeCurrentsPaging(
         @Valid PagingRequest pagingRequest,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
+//        challengeService.getChallengeCurrentsPaging(1L, pagingRequest);
         throw new RuntimeException("Not implemented");
     }
 
