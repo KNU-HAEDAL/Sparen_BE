@@ -17,4 +17,11 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
                 .findById(challengeGroupId)
                 .orElseThrow(NoSuchElementException::new);
     }
+
+    @Override
+    public ChallengeGroup getByIdWithChallenges(Long challengeGroupId) {
+        return challengeGroupRepository
+                .findByIdWithChallenges(challengeGroupId)
+                .orElseThrow(NoSuchElementException::new);
+    }
 }
