@@ -1,21 +1,9 @@
 package org.haedal.zzansuni.domain.challengegroup.challengeverification;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand.Verificate;
+import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeVerificationStatus;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 
@@ -41,11 +29,10 @@ public class ChallengeVerification extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ChallengeVerificationStatus status;
 
-    public static ChallengeVerification create(Verificate command,
-        UserChallenge userChallenge) {
+    public static ChallengeVerification create(ChallengeCommand.VerificationCreate command, UserChallenge userChallenge) {
         return ChallengeVerification.builder()
             .userChallenge(userChallenge)
-            .imageUrl(null)
+            .imageUrl(command.getImageUrl())
             .content(command.getContent())
             .status(ChallengeVerificationStatus.APPROVED)
             .build();

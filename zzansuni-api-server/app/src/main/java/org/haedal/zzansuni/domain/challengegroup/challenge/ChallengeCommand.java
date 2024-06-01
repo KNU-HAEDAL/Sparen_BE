@@ -24,6 +24,27 @@ public class ChallengeCommand {
             this.image = image;
             this.validateSelf();
         }
+
+        public VerificationCreate afterUpload(String imageUrl) {
+            return VerificationCreate.builder()
+                .content(content)
+                .imageUrl(imageUrl)
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    public static class VerificationCreate extends SelfValidating<Verificate> {
+        @NotBlank(message = "내용은 필수입니다.")
+        private final String content;
+        private final String imageUrl;
+
+        public VerificationCreate(String content, String imageUrl) {
+            this.content = content;
+            this.imageUrl = imageUrl;
+            this.validateSelf();
+        }
     }
 
     @Getter

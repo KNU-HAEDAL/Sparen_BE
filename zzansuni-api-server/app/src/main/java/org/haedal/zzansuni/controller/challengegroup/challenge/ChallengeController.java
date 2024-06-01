@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
+import org.haedal.zzansuni.domain.ImageUploader;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
@@ -26,6 +27,7 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
     private final UserChallengeService userChallengeService;
+    private final ImageUploader imageUploader;
 
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "챌린지 참여", description = "챌린지에 참여한다.")
@@ -47,8 +49,9 @@ public class ChallengeController {
         @RequestPart("image") MultipartFile image
     ) {
         ChallengeCommand.Verificate command = request.toCommand(image);
-        ChallengeModel.ChallengeVerificationResult model = userChallengeService.verification(
-            userChallengeId, command);
+        String imageUrl = imageUploader.upload(command.getImage());
+        ChallengeCommand.VerificationCreate afterUpload = command.afterUpload(imageUrl);
+        var model = userChallengeService.verification(userChallengeId, afterUpload);
         var response = ChallengeRes.ChallengeVerificationResponse.from(model);
         return ApiResponse.success(response, "챌린지 인증에 성공하였습니다.");
     }
