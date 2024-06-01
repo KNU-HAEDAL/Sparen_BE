@@ -67,7 +67,8 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
         List<UserChallenge> userChallenges = queryFactory
             .selectFrom(QUserChallenge.userChallenge)
             .where(eqUserId(userId), eqProceeding())
-            .join(QUserChallenge.userChallenge.challenge).fetchJoin() // manyToOne 관계
+            .join(QUserChallenge.userChallenge.challenge).
+            fetchJoin() // manyToOne 관계
             .join(QUserChallenge.userChallenge.challenge.challengeGroup)
             .fetchJoin() // manyToOne의 manyToOne 관계 엔티티를 가져옴
             .leftJoin(QUserChallenge.userChallenge.challengeVerifications)
@@ -96,7 +97,8 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
         List<UserChallenge> userChallenges = queryFactory
             .selectFrom(QUserChallenge.userChallenge)
             .where(eqUserId(userId), neProceeding())
-            .join(QUserChallenge.userChallenge.challenge).fetchJoin() // manyToOne 관계
+            .join(QUserChallenge.userChallenge.challenge).
+            fetchJoin() // manyToOne 관계
             .join(QUserChallenge.userChallenge.challenge.challengeGroup)
             .fetchJoin() // manyToOne의 manyToOne 관계 엔티티를 가져옴
             .leftJoin(QUserChallenge.userChallenge.challengeVerifications)

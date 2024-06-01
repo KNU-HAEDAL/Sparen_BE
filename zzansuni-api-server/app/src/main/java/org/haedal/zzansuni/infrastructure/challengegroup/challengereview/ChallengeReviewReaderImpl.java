@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.infrastructure.challengegroup.challengereview;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,16 +9,21 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.challengegroup.review.QChallengeReview;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
 
+    private final JPAQueryFactory queryFactory;
     private final ChallengeReviewRepository challengeReviewRepository;
 
     @Override
-    public ChallengeReview getByChallengeId(Long challengeId) {
+    public ChallengeReview getByUserChallengeId(Long challengeId) {
         return challengeReviewRepository.findByUserChallengeId(challengeId)
             .orElseThrow(NoSuchElementException::new);
     }
@@ -46,4 +52,58 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
         return reviewWrittenMap;
     }
 
+    /**
+     * 챌린지 그룹 N+1 문제 해결 못함
+     */
+    @Override
+    public Page<ChallengeReview> getChallengeReviewPageByChallengeGroupId(Long challengeGroupId,
+        Pageable pageable) {
+        Long count = queryFactory
+            .select(QChallengeReview.challengeReview.count())
+            .from(QChallengeReview.challengeReview)
+            .where(QChallengeReview.challengeReview.challengeGroupId.eq(challengeGroupId))
+            .fetchOne();
+
+        List<ChallengeReview> challengeReviews = queryFactory
+            .select(QChallengeReview.challengeReview)
+            .from(QChallengeReview.challengeReview)
+            .where(QChallengeReview.challengeReview.challengeGroupId.eq(challengeGroupId))
+            .leftJoin(QChallengeReview.challengeReview.userChallenge)
+            .fetchJoin() // userChallenge 엔티티 fetch join
+            .leftJoin(QChallengeReview.challengeReview.userChallenge.user)
+            .fetchJoin() // user 엔티티 fetch join
+            .leftJoin(QChallengeReview.challengeReview.userChallenge.challenge)
+            .fetchJoin() // challenge 엔티티 fetch join
+            .orderBy(QChallengeReview.challengeReview.createdAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+        return new PageImpl<>(challengeReviews, pageable, count == null ? 0 : count);
+
+    }
+
+    @Override
+    public Page<ChallengeReview> getChallengeReviewPage(Pageable pageable) {
+        Long count = queryFactory
+            .select(QChallengeReview.challengeReview.count())
+            .from(QChallengeReview.challengeReview)
+            .fetchOne();
+
+        List<ChallengeReview> challengeReviews = queryFactory
+            .select(QChallengeReview.challengeReview)
+            .from(QChallengeReview.challengeReview)
+            .leftJoin(QChallengeReview.challengeReview.userChallenge)
+            .fetchJoin() // userChallenge 엔티티 fetch join
+            .leftJoin(QChallengeReview.challengeReview.userChallenge.user)
+            .fetchJoin() // user 엔티티 fetch join
+            .leftJoin(QChallengeReview.challengeReview.userChallenge.challenge)
+            .fetchJoin() // challenge 엔티티 fetch join
+            .orderBy(QChallengeReview.challengeReview.createdAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+        return new PageImpl<>(challengeReviews, pageable, count == null ? 0 : count);
+    }
 }
