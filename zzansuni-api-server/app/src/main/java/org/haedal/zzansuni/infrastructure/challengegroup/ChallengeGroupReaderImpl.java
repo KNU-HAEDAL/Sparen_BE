@@ -7,9 +7,13 @@ import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.*;
+import org.haedal.zzansuni.domain.user.QUser;
+import org.haedal.zzansuni.domain.user.User;
+import org.haedal.zzansuni.domain.user.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
     private final JPAQueryFactory queryFactory;
+    private final JdbcTemplate jdbcTemplate;
     private final ChallengeGroupRepository challengeGroupRepository;
     @Override
     public ChallengeGroup getById(Long challengeGroupId) {
@@ -83,6 +88,59 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
                         .and(QChallengeGroupUserExp.challengeGroupUserExp.user.id.eq(userId)))
                 .fetchOne();
         return Optional.ofNullable(result);
+    }
+
+    @Override
+    public Page<ChallengeGroupUserExp> getByChallengeGroupId(Long challengeGroupId, Pageable pageable) {
+        Long count = queryFactory
+                .select(QChallengeGroupUserExp.challengeGroupUserExp.count())
+                .from(QChallengeGroupUserExp.challengeGroupUserExp)
+                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
+                .fetchOne();
+
+        List<ChallengeGroupUserExp> page = queryFactory
+                .selectFrom(QChallengeGroupUserExp.challengeGroupUserExp)
+                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
+                .orderBy(QChallengeGroupUserExp.challengeGroupUserExp.totalExp.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(page, pageable, count == null ? 0 : count);
+    }
+
+    @Override
+    public ChallengeGroupModel.Ranking getRanking(Long challengeGroupId, Long userId) {
+        User user = queryFactory
+                .selectFrom(QUser.user)
+                .where(QUser.user.id.eq(userId))
+                .fetchOne();
+        if(user == null) {
+            throw new NoSuchElementException();
+        }
+
+        String sql = "SELECT ranked.rank1 FROM (" +
+                "  SELECT user_id, RANK() OVER (ORDER BY total_exp DESC) as rank1 " +
+                "  FROM challenge_group_user_exp " +
+                "  WHERE challenge_group_id = ?" +
+                ") as ranked " +
+                "WHERE ranked.user_id = ?";
+
+        Integer rank = jdbcTemplate.queryForObject(sql, Integer.class, challengeGroupId, userId);
+
+
+        ChallengeGroupUserExp challengeGroupUserExp = queryFactory
+                .select(QChallengeGroupUserExp.challengeGroupUserExp)
+                .from(QChallengeGroupUserExp.challengeGroupUserExp)
+                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId)
+                        .and(QChallengeGroupUserExp.challengeGroupUserExp.user.id.eq(userId)))
+                .fetchOne();
+
+        return ChallengeGroupModel.Ranking.builder()
+                .rank(rank==null ? 0 : rank)
+                .accumulatedPoint(challengeGroupUserExp != null ? challengeGroupUserExp.getTotalExp() : 0)
+                .user(UserModel.from(user))
+                .build();
     }
 
 }
