@@ -1,5 +1,10 @@
 # 짠수니
 
+## 배포 주소
+
+프론트: http://3.37.226.167/
+백: http://api.reditus.site/
+
 ## 데모
 ![GIFMaker_me](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/cd8624f1-1d69-4a5f-baed-efa63b76d05a)
 ![GIFMaker_me (2)](https://github.com/KNU-HAEDAL/ZZANSUNI_BE/assets/104684033/a3dfa89d-77db-452a-a796-3fc28fcf11f4)
@@ -139,8 +144,8 @@
 
 ## 기술 스택
 
-- Frontend: React, styled-components
-- Backend: Spring, JPA, MySQL, S3
+- Frontend: `React`, `styled-components`
+- Backend: `Spring`, `JPA`, `MySQL`, `S3`
 
 ## ERD
 
@@ -149,5 +154,11 @@
 ## CLASS DIAGRAM
 
 ![img_3.png](img_3.png)
+
+## swagger 주소
+
+http://api.reditus.site/swagger-ui/index.html#/
+
+
 
 
