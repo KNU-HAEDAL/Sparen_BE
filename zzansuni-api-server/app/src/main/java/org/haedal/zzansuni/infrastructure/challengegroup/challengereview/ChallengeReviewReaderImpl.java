@@ -23,7 +23,7 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
     private final ChallengeReviewRepository challengeReviewRepository;
 
     @Override
-    public ChallengeReview getByChallengeId(Long challengeId) {
+    public ChallengeReview getByUserChallengeId(Long challengeId) {
         return challengeReviewRepository.findByUserChallengeId(challengeId)
             .orElseThrow(NoSuchElementException::new);
     }
@@ -83,4 +83,27 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
 
     }
 
+    @Override
+    public Page<ChallengeReview> getChallengeReviewPage(Pageable pageable) {
+        Long count = queryFactory
+            .select(QChallengeReview.challengeReview.count())
+            .from(QChallengeReview.challengeReview)
+            .fetchOne();
+
+        List<ChallengeReview> challengeReviews = queryFactory
+            .select(QChallengeReview.challengeReview)
+            .from(QChallengeReview.challengeReview)
+            .leftJoin(QChallengeReview.challengeReview.userChallenge)
+            .fetchJoin() // userChallenge 엔티티 fetch join
+            .leftJoin(QChallengeReview.challengeReview.userChallenge.user)
+            .fetchJoin() // user 엔티티 fetch join
+            .leftJoin(QChallengeReview.challengeReview.userChallenge.challenge)
+            .fetchJoin() // challenge 엔티티 fetch join
+            .orderBy(QChallengeReview.challengeReview.createdAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+        return new PageImpl<>(challengeReviews, pageable, count == null ? 0 : count);
+    }
 }

@@ -8,13 +8,15 @@ import org.springframework.data.domain.Pageable;
 
 public interface ChallengeReviewReader {
 
-    ChallengeReview getByChallengeId(Long challengeId);
+    ChallengeReview getByUserChallengeId(Long userChallengeId);
 
-    Optional<ChallengeReview> findByUserChallengeId(Long challengeId);
+    Optional<ChallengeReview> findByUserChallengeId(Long userChallengeId);
 
     Map<Long, Boolean> getReviewWrittenMapByUserChallengeId(List<Long> userChallengeIds);
 
     Page<ChallengeReview> getChallengeReviewPageByChallengeGroupId(Long challengeGroupId,
         Pageable pageable);
+
+    Page<ChallengeReview> getChallengeReviewPage(Pageable pageable);
 
 }
