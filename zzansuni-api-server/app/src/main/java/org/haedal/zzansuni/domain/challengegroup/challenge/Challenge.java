@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupCommand;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
 
 @Entity
@@ -50,4 +51,16 @@ public class Challenge extends BaseTimeEntity {
     private LocalDate endDate;
 
 
+    public static Challenge create(ChallengeGroupCommand.CreateChallenge command, ChallengeGroup group) {
+        return Challenge.builder()
+                .challengeGroup(group)
+                .requiredCount(command.getRequiredCount())
+                .dayType(command.getDayType())
+                .onceExp(command.getOnceExp())
+                .successExp(command.getSuccessExp())
+                .difficulty(command.getDifficulty())
+                .startDate(command.getStartDate())
+                .endDate(command.getEndDate())
+                .build();
+    }
 }
