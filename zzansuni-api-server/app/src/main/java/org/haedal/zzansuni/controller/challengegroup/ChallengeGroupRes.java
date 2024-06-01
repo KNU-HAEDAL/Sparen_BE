@@ -35,6 +35,7 @@ public class ChallengeGroupRes {
         LocalDate endDate,
         ChallengeCategory category,
         /////
+        String guide,
         Integer maxDifficulty,
         List<String> imageUrls,
         List<ChallengeDto> challenges
