@@ -1,6 +1,5 @@
-package org.haedal.zzansuni.domain.challengegroup.challengeverification;
+package org.haedal.zzansuni.domain.challengegroup.verification;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;

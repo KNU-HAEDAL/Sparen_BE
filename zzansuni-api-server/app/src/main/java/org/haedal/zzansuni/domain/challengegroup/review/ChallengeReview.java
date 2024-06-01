@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup.challengereview;
+package org.haedal.zzansuni.domain.challengegroup.review;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,12 +35,16 @@ public class ChallengeReview extends BaseTimeEntity {
 
     private Integer rating;
 
+    // 쿼리 성능을 위해 비정규화
+    private Long challengeGroupId;
+
     public static ChallengeReview create(UserChallenge userChallenge,
-        ChallengeCommand.ReviewCreate command) {
+        ChallengeCommand.ReviewCreate command, Long challengeGroupId) {
         return ChallengeReview.builder()
             .userChallenge(userChallenge)
             .content(command.getContent())
             .rating(command.getRating())
+            .challengeGroupId(challengeGroupId)
             .build();
     }
 
