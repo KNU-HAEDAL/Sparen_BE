@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.infrastructure.challengegroup.challengereview;
+package org.haedal.zzansuni.infrastructure.challengegroup.review;
 
 import java.util.List;
 import java.util.Optional;

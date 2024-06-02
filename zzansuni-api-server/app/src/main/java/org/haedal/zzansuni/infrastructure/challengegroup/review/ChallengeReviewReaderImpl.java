@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.infrastructure.challengegroup.challengereview;
+package org.haedal.zzansuni.infrastructure.challengegroup.review;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.HashMap;

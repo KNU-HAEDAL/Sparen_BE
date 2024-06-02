@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.infrastructure.challengegroup.challengereview;
+package org.haedal.zzansuni.infrastructure.challengegroup.review;
 
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
