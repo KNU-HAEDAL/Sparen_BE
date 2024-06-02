@@ -49,8 +49,19 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            docker rm -f $(docker ps -qa) # 기존에 실행되고 있는 도커 프로세스들을 제거합니다. mysql 컨테이너는 제거하지 않습니다.
-            docker rmi $(docker images -q) # 기존에 사용되고 있는 도커 이미지들을 제거합니다. mysql 이미지는 제거하지 않습니다.
+            docker rm -f $(docker ps -qa) # 기존에 실행되고 있는 도커 프로세스들을 제거합니다.
+            docker rmi $(docker images -q) # 기존에 사용되고 있는 도커 이미지들을 제거합니다.
             docker image prune -f # 사용하지 않는 도커 이미지들을 제거합니다.
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
-            docker run -d -p 80:8080 -e SPRING_PROFILES_ACTIVE=prod -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} -e NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} -e MYSQL_URL=${{ secrets.MYSQL_URL }} -e MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }} -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} -e S3_BUCKET=${{ secrets.S3_BUCKET }} -e S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }} -e S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+            
+            docker run -d -p 80:8080 -e SPRING_PROFILES_ACTIVE=prod \ 
+            -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \ 
+            -e NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} \ 
+            -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \ 
+            -e MYSQL_URL=${{ secrets.MYSQL_URL }} \ 
+            -e MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }} \ 
+            -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \ 
+            -e S3_BUCKET=${{ secrets.S3_BUCKET }} \ 
+            -e S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }} \ 
+            -e S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }} \ 
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
