@@ -34,7 +34,7 @@ public class ChallengeReviewRes {
     }
 
     @Builder
-    public record ChallengeReviewWithChalengeDto(
+    public record ChallengeReviewWithChallengeDto(
         Long challengeId,
         String challengeTitle,
         Integer challengeDifficulty,
@@ -43,10 +43,10 @@ public class ChallengeReviewRes {
         Integer rating
     ) {
 
-        public static ChallengeReviewWithChalengeDto from(
+        public static ChallengeReviewWithChallengeDto from(
             ChallengeReviewWithChallenge challengeReviewWithChallenge) {
             var user = UserRes.UserDto.from(challengeReviewWithChallenge.user());
-            return ChallengeReviewWithChalengeDto.builder()
+            return ChallengeReviewWithChallengeDto.builder()
                 .challengeId(challengeReviewWithChallenge.challengeId())
                 .challengeTitle(challengeReviewWithChallenge.challengeTitle())
                 .challengeDifficulty(challengeReviewWithChallenge.challengeDifficulty())

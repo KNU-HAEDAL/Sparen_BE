@@ -45,7 +45,7 @@ public class ChallengeReviewController {
 
     @Operation(summary = "챌린지 그룹 리뷰 페이징", description = "챌린지 그룹 하위의 모든 챌린지 리뷰 페이징 조회.")
     @GetMapping("/api/challengeGroups/{challengeGroupId}/reviews")
-    public ApiResponse<PagingResponse<ChallengeReviewRes.ChallengeReviewWithChalengeDto>> getChallengeReviewsPaging(
+    public ApiResponse<PagingResponse<ChallengeReviewRes.ChallengeReviewWithChallengeDto>> getChallengeReviewsPaging(
         @PathVariable Long challengeGroupId,
         @Valid PagingRequest pagingRequest
         //TODO SORTING
@@ -53,8 +53,8 @@ public class ChallengeReviewController {
         Page<ChallengeReviewWithChallenge> page = challengeService.getChallengeReviewsByGroupId(
             challengeGroupId, pagingRequest.toPageable());
 
-        PagingResponse<ChallengeReviewRes.ChallengeReviewWithChalengeDto> response = PagingResponse.from(
-            page, ChallengeReviewRes.ChallengeReviewWithChalengeDto::from
+        PagingResponse<ChallengeReviewRes.ChallengeReviewWithChallengeDto> response = PagingResponse.from(
+            page, ChallengeReviewRes.ChallengeReviewWithChallengeDto::from
         );
 
         return ApiResponse.success(response);

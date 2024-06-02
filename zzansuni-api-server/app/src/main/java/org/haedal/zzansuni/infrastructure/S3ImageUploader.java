@@ -36,7 +36,7 @@ public class S3ImageUploader implements ImageUploader {
                         : "";
 
         // 고유한 파일 이름을 생성합니다.
-        String uniqueFilename = UUID.randomUUID().toString() + extension;
+        String uniqueFilename = UUID.randomUUID() + extension;
 
         // 파일의 InputStream을 가져옵니다. try-with-resources 문을 사용하여 InputStream을 자동으로 닫습니다.
         try (InputStream inputStream = imageFile.getInputStream()) {
