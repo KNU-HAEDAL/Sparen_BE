@@ -6,22 +6,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
-import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupQueryService;
-import org.haedal.zzansuni.domain.challengegroup.DayType;
 import org.haedal.zzansuni.global.jwt.JwtUser;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Tag(name = "challengeGroups", description = "챌린지 그룹 관련 API")
 @RequiredArgsConstructor

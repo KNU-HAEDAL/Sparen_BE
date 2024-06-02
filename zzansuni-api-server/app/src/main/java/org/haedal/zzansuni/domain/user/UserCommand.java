@@ -3,13 +3,10 @@ package org.haedal.zzansuni.domain.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.haedal.zzansuni.core.utils.SelfValidating;
 import org.haedal.zzansuni.domain.auth.OAuth2Provider;
-
-import java.util.function.Function;
 
 public class UserCommand {
     @Getter

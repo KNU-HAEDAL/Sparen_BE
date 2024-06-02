@@ -6,12 +6,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
-import org.haedal.zzansuni.controller.challengegroup.ChallengeGroupRes;
 import org.haedal.zzansuni.controller.challengegroup.challenge.ChallengeReq;
-import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
 import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 import org.haedal.zzansuni.global.jwt.JwtUser;
@@ -19,8 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "challengeReviews", description = "챌린지 리뷰 관련 API")
 @RestController

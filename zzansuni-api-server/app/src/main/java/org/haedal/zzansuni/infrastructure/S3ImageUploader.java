@@ -5,11 +5,9 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.ImageUploader;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +18,7 @@ import java.util.UUID;
 @Primary
 @Profile("prod")
 @RequiredArgsConstructor
-public class FakeUploader implements ImageUploader {
+public class S3ImageUploader implements ImageUploader {
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
