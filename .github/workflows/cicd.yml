@@ -49,7 +49,8 @@ jobs:
           port: 22
           script: |
             docker rm -f $(docker ps -qa --filter "name=zzansuni-spring") # 기존 zzansuni-spring 서버만 잡아서 중지합니다.
-            docker rmi $(docker images -q) # 기존에 사용되고 있는 도커 이미지들을 제거합니다.
+            # 기존에 사용되던 spring 이미지만 제거합니다.
+            docker rmi $(docker images -q --filter "reference=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}")
             docker image prune -f # 사용하지 않는 도커 이미지들을 제거합니다.
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
             
