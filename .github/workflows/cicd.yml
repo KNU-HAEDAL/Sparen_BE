@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'corretto'
+          distribution: 'adopt'
 
       - name: Setup Gradle # Gradle을 설정합니다.
         run: |
@@ -44,16 +44,17 @@ jobs:
         id: deploy
         with:
           host: ${{ secrets.HOST }}
-          username: ec2-user
+          username: ubuntu
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            docker rm -f $(docker ps -qa) # 기존에 실행되고 있는 도커 프로세스들을 제거합니다.
+            docker rm -f $(docker ps -qa --filter "name=zzansuni-spring") # 기존 zzansuni-spring 서버만 잡아서 중지합니다.
             docker rmi $(docker images -q) # 기존에 사용되고 있는 도커 이미지들을 제거합니다.
             docker image prune -f # 사용하지 않는 도커 이미지들을 제거합니다.
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
             
-            docker run -d -p 80:8080 -e SPRING_PROFILES_ACTIVE=prod \
+            docker run -d -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
+            --name zzansuni-spring \
             -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
             -e NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} \
             -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \
