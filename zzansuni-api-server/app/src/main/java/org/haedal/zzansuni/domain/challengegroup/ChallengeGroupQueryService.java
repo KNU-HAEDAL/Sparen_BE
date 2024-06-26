@@ -1,6 +1,9 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImage;
+import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImageReader;
+import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

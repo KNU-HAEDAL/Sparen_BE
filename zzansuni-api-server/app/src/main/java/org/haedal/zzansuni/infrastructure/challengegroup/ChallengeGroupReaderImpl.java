@@ -5,6 +5,8 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.*;
+import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.challengegroup.userexp.QChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.QUser;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserModel;

@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
+import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup;
+package org.haedal.zzansuni.domain.challengegroup.image;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -3,6 +3,7 @@ package org.haedal.zzansuni.domain.challengegroup;
 import lombok.Builder;
 import lombok.Getter;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImage;
 import org.haedal.zzansuni.domain.user.UserModel;
 
 import java.time.LocalDate;
