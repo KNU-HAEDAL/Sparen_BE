@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.domain.challengegroup.userchallenge;
 
+import java.util.ArrayList;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupReader;
@@ -106,6 +107,7 @@ class UserChallengeServiceTest {
             .challenge(challenge)
             .status(ChallengeStatus.PROCEEDING)
             .user(user)
+            .challengeVerifications(new ArrayList<>())
             .build();
 
         challengeGroupUserExp = ChallengeGroupUserExp.builder()
