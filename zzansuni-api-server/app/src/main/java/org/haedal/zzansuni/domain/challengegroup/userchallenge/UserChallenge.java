@@ -39,7 +39,6 @@ public class UserChallenge extends BaseTimeEntity {
     private ChallengeStatus status;
 
     @OneToMany(mappedBy = "userChallenge", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<ChallengeVerification> challengeVerifications = new ArrayList<>();
 
     public static UserChallenge create(Challenge challenge, User user) {
