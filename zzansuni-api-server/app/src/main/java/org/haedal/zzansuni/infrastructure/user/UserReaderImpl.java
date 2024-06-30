@@ -51,6 +51,7 @@ public class UserReaderImpl implements UserReader {
                 .limit(pageable.getPageSize())
                 .orderBy(QUser.user.exp.desc())
                 .fetch();
+
         return new PageImpl<>(users, pageable, totalCount == null ? 0 : totalCount);
     }
 }
