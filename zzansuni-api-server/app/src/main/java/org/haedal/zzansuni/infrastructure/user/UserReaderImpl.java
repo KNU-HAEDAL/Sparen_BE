@@ -51,6 +51,9 @@ public class UserReaderImpl implements UserReader {
                 .limit(pageable.getPageSize())
                 .orderBy(QUser.user.exp.desc())
                 .fetch();
+        if (users.isEmpty() && pageable.getPageNumber() > 0)
+            throw new IllegalStateException("잘못된 페이지를 요청하였습니다.");
+
         return new PageImpl<>(users, pageable, totalCount == null ? 0 : totalCount);
     }
 }
