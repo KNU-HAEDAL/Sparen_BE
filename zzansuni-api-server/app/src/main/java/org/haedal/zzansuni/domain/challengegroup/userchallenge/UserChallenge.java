@@ -43,10 +43,10 @@ public class UserChallenge extends BaseTimeEntity {
 
     public static UserChallenge create(Challenge challenge, User user) {
         return UserChallenge.builder()
-                .challenge(challenge)
-                .user(user)
-                .status(ChallengeStatus.PROCEEDING)
-                .build();
+            .challenge(challenge)
+            .user(user)
+            .status(ChallengeStatus.PROCEEDING)
+            .build();
     }
 
     public void addChallengeVerification(ChallengeCommand.VerificationCreate command) {
@@ -55,7 +55,7 @@ public class UserChallenge extends BaseTimeEntity {
         user.addExp(challenge.getOnceExp());
 
         // 만약 챌린지 인증 참여횟수와 필요참여획수가 같으면 챌린지 완료로 변경
-        if(this.challengeVerifications.size() == this.challenge.getRequiredCount()) {
+        if (this.challengeVerifications.size() == this.challenge.getRequiredCount()) {
             user.addExp(challenge.getSuccessExp());
             complete();
         }
