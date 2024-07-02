@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class ChallengeGroupServiceTest {
     @Autowired private ChallengeGroupService challengeGroupService;
     @Autowired private ChallengeRepository challengeRepository;
@@ -24,7 +25,6 @@ class ChallengeGroupServiceTest {
 
     @DisplayName("챌린지 그룹 생성이 정상적으로 동작한다.")
     @Test
-    @Transactional
     void createChallengeGroup() {
         LocalDate startDate = LocalDate.of(2021, 1, 1);
         // given
@@ -69,7 +69,6 @@ class ChallengeGroupServiceTest {
 
     @DisplayName("챌린지 그룹 삭제가 정상적으로 동작한다.")
     @Test
-    @Transactional
     void deleteChallengeGroup() {
         // given
         ChallengeGroup challengeGroup = ChallengeGroup.builder()

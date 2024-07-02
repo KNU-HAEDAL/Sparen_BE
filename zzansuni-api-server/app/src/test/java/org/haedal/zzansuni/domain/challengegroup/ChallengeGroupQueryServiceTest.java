@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
+import jakarta.persistence.EntityManager;
 import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImage;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupImageRepository;
@@ -12,17 +13,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@Transactional
 class ChallengeGroupQueryServiceTest {
     @Autowired ChallengeGroupQueryService challengeGroupQueryService;
     @Autowired ChallengeGroupRepository challengeGroupRepository;
     @Autowired ChallengeRepository challengeRepository;
     @Autowired ChallengeGroupImageRepository challengeGroupImageRepository;
+    @Autowired EntityManager em;
 
     @DisplayName("챌린지 그룹 목록 페이징이 정상적으로 동작한다.")
     @Test
@@ -41,6 +45,7 @@ class ChallengeGroupQueryServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
         ChallengeCategory category = ChallengeCategory.ECHO;
 
+        em.clear();
 
         // then
         Page<ChallengeGroupModel.Info> challengeGroupsPaging = challengeGroupQueryService.getChallengeGroupsPaging(pageable, category);
@@ -75,7 +80,7 @@ class ChallengeGroupQueryServiceTest {
                 .build();
         challengeGroupImageRepository.save(challengeGroupImage);
 
-
+        em.clear();
         // when
         ChallengeGroupModel.Detail model = challengeGroupQueryService.getChallengeGroupDetail(challengeGroup.getId());
 
