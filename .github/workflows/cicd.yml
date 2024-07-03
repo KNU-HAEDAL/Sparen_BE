@@ -5,6 +5,11 @@ on:
     branches: [ "main" ] # main 브랜치에 push가 발생하면 workflow가 실행됩니다.
 permissions:
   contents: read # 권한을 설정합니다.
+  packages: write # github container registry 관련 권한을 설정합니다.
+env:
+  REGISTRY: ghcr.io # github container registry를 사용합니다.
+  IMAGE_NAME: knu-haedal/zzansuni_be # 이미지 이름을 설정합니다.
+  VERSION: ${{ github.sha }} # 버전을 설정합니다.
 
 jobs:
   ci:
@@ -35,12 +40,19 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew clean build
+      - name: Build docker image # Docker 이미지를 빌드합니다.
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} .
 
-      - name: Build docker image and push to docker hub # Docker 이미지를 빌드하고 Docker Hub에 푸시합니다.
+      - name: Log into container registry # 컨테이너 레지스트리에 로그인합니다.
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }} # 현재 github 사용자 이름
+          password: ${{ secrets.GITHUB_TOKEN }} # 깃허브 액션이 제공하는 토큰
+
+      - name: Push image to container registry # 컨테이너 레지스트리에 이미지를 푸시합니다.
         run: |
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }} .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
 
   cd:
     runs-on: ubuntu-latest # ubuntu 최신 버전에서 script를 실행
@@ -60,9 +72,9 @@ jobs:
           script: |
             docker rm -f $(docker ps -qa --filter "name=zzansuni-spring") # 기존 zzansuni-spring 서버만 잡아서 중지합니다.
             # 기존에 사용되던 spring 이미지만 제거합니다.
-            docker rmi $(docker images -q --filter "reference=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}")
+            docker rmi $(docker images -q --filter "reference=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}") || true # 이미지가 없을 경우 에러가 발생하므로, 에러가 발생해도 계속 진행합니다.
             docker image prune -f # 사용하지 않는 도커 이미지들을 제거합니다.
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} # github container registry로부터 이미지를 pull 받습니다.
             
             docker run -d -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
             --name zzansuni-spring \
@@ -75,4 +87,4 @@ jobs:
             -e S3_BUCKET=${{ secrets.S3_BUCKET }} \
             -e S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }} \
             -e S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }} \
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
