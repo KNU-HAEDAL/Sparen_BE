@@ -16,27 +16,32 @@ import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificat
 @Builder
 public class ChallengeModel {
 
-    private Long id;
-    private Integer requiredCount;
-    private DayType dayType;
-    private Integer onceExp;
-    private Integer successExp;
-    private Integer difficulty;
-    private LocalDate startDate;
-    private LocalDate endDate;
 
-    public static ChallengeModel from(Challenge challenge) {
-        return ChallengeModel.builder()
-            .id(challenge.getId())
-            .requiredCount(challenge.getRequiredCount())
-            .dayType(challenge.getDayType())
-            .onceExp(challenge.getOnceExp())
-            .successExp(challenge.getSuccessExp())
-            .difficulty(challenge.getDifficulty())
-            .startDate(challenge.getStartDate())
-            .endDate(challenge.getEndDate())
-            .build();
+    @Builder
+    public record Main(
+        Long id,
+        Integer requiredCount,
+        DayType dayType,
+        Integer onceExp,
+        Integer successExp,
+        Integer difficulty,
+        LocalDate startDate,
+        LocalDate endDate
+    ) {
+        public static Main from(Challenge challenge) {
+            return Main.builder()
+                .id(challenge.getId())
+                .requiredCount(challenge.getRequiredCount())
+                .dayType(challenge.getDayType())
+                .onceExp(challenge.getOnceExp())
+                .successExp(challenge.getSuccessExp())
+                .difficulty(challenge.getDifficulty())
+                .startDate(challenge.getStartDate())
+                .endDate(challenge.getEndDate())
+                .build();
+        }
     }
+
 
     @Builder
     public record ChallengeVerificationResult(Integer totalCount, Integer successCount,
