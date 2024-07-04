@@ -13,8 +13,11 @@ import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
 import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
 import org.haedal.zzansuni.domain.user.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @AllArgsConstructor
@@ -64,6 +67,17 @@ public class UserChallenge extends BaseTimeEntity {
 
     private void complete() {
         this.status = ChallengeStatus.SUCCESS;
+    }
+
+    /**
+     * 챌린지 성공일자 가져오기
+     * [챌린지 인증]을 통해 성공한 가장 최근 날짜를 가져온다.
+     */
+    public Optional<LocalDate> getSuccessDate() {
+        return this.challengeVerifications.stream()
+            .map(ChallengeVerification::getCreatedAt)
+            .max(LocalDateTime::compareTo)
+            .map(LocalDateTime::toLocalDate);
     }
 
 

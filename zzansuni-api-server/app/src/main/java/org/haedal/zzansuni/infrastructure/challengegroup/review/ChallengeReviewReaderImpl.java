@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import static org.haedal.zzansuni.domain.challengegroup.review.QChallengeReview.challengeReview;
+
 @Component
 @RequiredArgsConstructor
 public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
@@ -59,22 +61,22 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
     public Page<ChallengeReview> getChallengeReviewPageByChallengeGroupId(Long challengeGroupId,
         Pageable pageable) {
         Long count = queryFactory
-            .select(QChallengeReview.challengeReview.count())
-            .from(QChallengeReview.challengeReview)
-            .where(QChallengeReview.challengeReview.challengeGroupId.eq(challengeGroupId))
+            .select(challengeReview.count())
+            .from(challengeReview)
+            .where(challengeReview.challengeGroupId.eq(challengeGroupId))
             .fetchOne();
 
         List<ChallengeReview> challengeReviews = queryFactory
-            .select(QChallengeReview.challengeReview)
-            .from(QChallengeReview.challengeReview)
-            .where(QChallengeReview.challengeReview.challengeGroupId.eq(challengeGroupId))
-            .leftJoin(QChallengeReview.challengeReview.userChallenge)
+            .select(challengeReview)
+            .from(challengeReview)
+            .where(challengeReview.challengeGroupId.eq(challengeGroupId))
+            .leftJoin(challengeReview.userChallenge)
             .fetchJoin() // userChallenge 엔티티 fetch join
-            .leftJoin(QChallengeReview.challengeReview.userChallenge.user)
+            .leftJoin(challengeReview.userChallenge.user)
             .fetchJoin() // user 엔티티 fetch join
-            .leftJoin(QChallengeReview.challengeReview.userChallenge.challenge)
+            .leftJoin(challengeReview.userChallenge.challenge)
             .fetchJoin() // challenge 엔티티 fetch join
-            .orderBy(QChallengeReview.challengeReview.createdAt.desc())
+            .orderBy(challengeReview.createdAt.desc())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
@@ -86,20 +88,20 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
     @Override
     public Page<ChallengeReview> getChallengeReviewPage(Pageable pageable) {
         Long count = queryFactory
-            .select(QChallengeReview.challengeReview.count())
-            .from(QChallengeReview.challengeReview)
+            .select(challengeReview.count())
+            .from(challengeReview)
             .fetchOne();
 
         List<ChallengeReview> challengeReviews = queryFactory
-            .select(QChallengeReview.challengeReview)
-            .from(QChallengeReview.challengeReview)
-            .leftJoin(QChallengeReview.challengeReview.userChallenge)
+            .select(challengeReview)
+            .from(challengeReview)
+            .leftJoin(challengeReview.userChallenge)
             .fetchJoin() // userChallenge 엔티티 fetch join
-            .leftJoin(QChallengeReview.challengeReview.userChallenge.user)
+            .leftJoin(challengeReview.userChallenge.user)
             .fetchJoin() // user 엔티티 fetch join
-            .leftJoin(QChallengeReview.challengeReview.userChallenge.challenge)
+            .leftJoin(challengeReview.userChallenge.challenge)
             .fetchJoin() // challenge 엔티티 fetch join
-            .orderBy(QChallengeReview.challengeReview.createdAt.desc())
+            .orderBy(challengeReview.createdAt.desc())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
@@ -110,9 +112,9 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
     @Override
     public List<ChallengeReview> findByChallengeGroupId(Long challengeGroupId) {
         return queryFactory
-            .select(QChallengeReview.challengeReview)
-            .from(QChallengeReview.challengeReview)
-            .where(QChallengeReview.challengeReview.challengeGroupId.eq(challengeGroupId))
+            .select(challengeReview)
+            .from(challengeReview)
+            .where(challengeReview.challengeGroupId.eq(challengeGroupId))
             .fetch();
     }
 }
