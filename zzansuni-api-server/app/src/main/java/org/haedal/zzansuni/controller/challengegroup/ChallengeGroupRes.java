@@ -29,26 +29,26 @@ public class ChallengeGroupRes {
             ChallengeGroupModel.Detail challengeGroupDetail
         ){
             return Info.builder()
-                    .id(challengeGroupDetail.getId())
-                    .title(challengeGroupDetail.getTitle())
-                    .content(challengeGroupDetail.getContent())
-                    .participantCount(challengeGroupDetail.getCumulativeCount())
+                    .id(challengeGroupDetail.id())
+                    .title(challengeGroupDetail.title())
+                    .content(challengeGroupDetail.content())
+                    .participantCount(challengeGroupDetail.cumulativeCount())
                     .startDate(challengeGroupDetail.getMinStartDate())
                     .endDate(challengeGroupDetail.getMaxEndDate())
-                    .category(challengeGroupDetail.getCategory())
+                    .category(challengeGroupDetail.category())
                     .build();
         }
         public static Info from(
                 ChallengeGroupModel.Info challengeGroupInfo
         ){
             return Info.builder()
-                    .id(challengeGroupInfo.getId())
-                    .title(challengeGroupInfo.getTitle())
-                    .content(challengeGroupInfo.getContent())
-                    .participantCount(challengeGroupInfo.getCumulativeCount())
+                    .id(challengeGroupInfo.id())
+                    .title(challengeGroupInfo.title())
+                    .content(challengeGroupInfo.content())
+                    .participantCount(challengeGroupInfo.cumulativeCount())
                     .startDate(challengeGroupInfo.getMinStartDate())
                     .endDate(challengeGroupInfo.getMaxEndDate())
-                    .category(challengeGroupInfo.getCategory())
+                    .category(challengeGroupInfo.category())
                     .build();
         }
 
@@ -72,26 +72,26 @@ public class ChallengeGroupRes {
         public static Detail from(
                 ChallengeGroupModel.Detail challengeGroupDetail
         ){
-            List<ChallengeModel> challenges = challengeGroupDetail
-                .getChallenges();
+            List<ChallengeModel.Main> challenges = challengeGroupDetail
+                .challenges();
 
             Integer maxDifficulty = challenges.stream()
-                .map(ChallengeModel::getDifficulty)
+                .map(ChallengeModel.Main::difficulty)
                 .max(Integer::compareTo)
                 .orElse(0);
 
 
             return Detail.builder()
-                .id(challengeGroupDetail.getId())
-                .title(challengeGroupDetail.getTitle())
-                .content(challengeGroupDetail.getContent())
-                .participantCount(challengeGroupDetail.getCumulativeCount())
+                .id(challengeGroupDetail.id())
+                .title(challengeGroupDetail.title())
+                .content(challengeGroupDetail.content())
+                .participantCount(challengeGroupDetail.cumulativeCount())
                 .startDate(challengeGroupDetail.getMinStartDate())
                 .endDate(challengeGroupDetail.getMaxEndDate())
-                .category(challengeGroupDetail.getCategory())
-                .guide(challengeGroupDetail.getGuide())
+                .category(challengeGroupDetail.category())
+                .guide(challengeGroupDetail.guide())
                 .maxDifficulty(maxDifficulty)
-                .imageUrls(challengeGroupDetail.getImageUrls())
+                .imageUrls(challengeGroupDetail.imageUrls())
                 .challenges(challenges.stream()
                     .map(Challenge::from)
                     .toList())
@@ -112,16 +112,16 @@ public class ChallengeGroupRes {
         Integer dayCount
     ) {
         public static Challenge from(
-            ChallengeModel challenge
+            ChallengeModel.Main challenge
         ){
             return Challenge.builder()
-                .id(challenge.getId())
-                .participantCount(challenge.getRequiredCount())
-                .difficulty(challenge.getDifficulty())
-                .onceExp(challenge.getOnceExp())
-                .successExp(challenge.getSuccessExp())
-                .dayType(challenge.getDayType())
-                .dayCount(challenge.getRequiredCount())
+                .id(challenge.id())
+                .participantCount(challenge.requiredCount())
+                .difficulty(challenge.difficulty())
+                .onceExp(challenge.onceExp())
+                .successExp(challenge.successExp())
+                .dayType(challenge.dayType())
+                .dayCount(challenge.requiredCount())
                 .build();
         }
 
@@ -163,10 +163,10 @@ public class ChallengeGroupRes {
         public static Ranking from(
                 ChallengeGroupModel.Ranking model
         ){
-            var user = UserRes.User.from(model.getUser());
+            var user = UserRes.User.from(model.user());
             return Ranking.builder()
-                    .ranking(model.getRank())
-                    .acquiredPoint(model.getAccumulatedPoint())
+                    .ranking(model.rank())
+                    .acquiredPoint(model.accumulatedPoint())
                     .user(user)
                     .build();
         }

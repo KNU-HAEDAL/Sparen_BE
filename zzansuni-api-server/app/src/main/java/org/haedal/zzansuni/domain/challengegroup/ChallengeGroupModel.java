@@ -10,54 +10,52 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ChallengeGroupModel {
-    @Builder
-    @Getter
-    public static class Main {
-        private Long id;
-        private ChallengeCategory category;
-        private String title;
-        private String content;
-        private Integer cumulativeCount;
 
+    public record Main(
+            Long id,
+            ChallengeCategory category,
+            String title,
+            String content,
+            Integer cumulativeCount
+    ) {
         public static Main from(ChallengeGroup challengeGroup) {
-            return Main.builder()
-                    .id(challengeGroup.getId())
-                    .category(challengeGroup.getCategory())
-                    .title(challengeGroup.getTitle())
-                    .content(challengeGroup.getContent())
-                    .cumulativeCount(challengeGroup.getCumulativeCount())
-                    .build();
+            return new Main(
+                    challengeGroup.getId(),
+                    challengeGroup.getCategory(),
+                    challengeGroup.getTitle(),
+                    challengeGroup.getContent(),
+                    challengeGroup.getCumulativeCount()
+            );
         }
     }
 
-    @Getter
     @Builder
-    public static class Info {
-        private Long id;
-        private ChallengeCategory category;
-        private String title;
-        private String content;
-        private String guide;
-        private Integer cumulativeCount;
-        private List<ChallengeModel> challenges;
-
+    public record Info(
+            Long id,
+            ChallengeCategory category,
+            String title,
+            String content,
+            String guide,
+            Integer cumulativeCount,
+            List<ChallengeModel.Main> challenges
+    ) {
         public LocalDate getMinStartDate() {
             return challenges.stream()
-                    .map(ChallengeModel::getStartDate)
+                    .map(ChallengeModel.Main::startDate)
                     .min(LocalDate::compareTo)
                     .orElse(LocalDate.now());
         }
 
         public LocalDate getMaxEndDate() {
             return challenges.stream()
-                    .map(ChallengeModel::getEndDate)
+                    .map(ChallengeModel.Main::endDate)
                     .max(LocalDate::compareTo)
                     .orElse(LocalDate.now());
         }
 
         public static Info from(ChallengeGroup challengeGroup) {
             var challenges = challengeGroup.getChallenges().stream()
-                    .map(ChallengeModel::from)
+                    .map(ChallengeModel.Main::from)
                     .toList();
             return Info.builder()
                     .id(challengeGroup.getId())
@@ -71,36 +69,34 @@ public class ChallengeGroupModel {
         }
     }
 
-
-    @Getter
     @Builder
-    public static class Detail {
-        private Long id;
-        private ChallengeCategory category;
-        private String title;
-        private String content;
-        private String guide;
-        private Integer cumulativeCount;
-        private List<String> imageUrls;
-        private List<ChallengeModel> challenges;
-
+    public record Detail(
+            Long id,
+            ChallengeCategory category,
+            String title,
+            String content,
+            String guide,
+            Integer cumulativeCount,
+            List<String> imageUrls,
+            List<ChallengeModel.Main> challenges
+    ) {
         public LocalDate getMinStartDate() {
             return challenges.stream()
-                .map(ChallengeModel::getStartDate)
-                .min(LocalDate::compareTo)
-                .orElse(LocalDate.now());
+                    .map(ChallengeModel.Main::startDate)
+                    .min(LocalDate::compareTo)
+                    .orElse(LocalDate.now());
         }
 
         public LocalDate getMaxEndDate() {
             return challenges.stream()
-                .map(ChallengeModel::getEndDate)
-                .max(LocalDate::compareTo)
-                .orElse(LocalDate.now());
+                    .map(ChallengeModel.Main::endDate)
+                    .max(LocalDate::compareTo)
+                    .orElse(LocalDate.now());
         }
 
         public static Detail from(ChallengeGroup challengeGroup, List<ChallengeGroupImage> challengeGroupImages) {
             var challenges = challengeGroup.getChallenges().stream()
-                    .map(ChallengeModel::from)
+                    .map(ChallengeModel.Main::from)
                     .toList();
             var imageUrls = challengeGroupImages.stream()
                     .map(ChallengeGroupImage::getImageUrl)
@@ -118,12 +114,12 @@ public class ChallengeGroupModel {
         }
     }
 
-    @Getter
     @Builder
-    public static class Ranking {
-        private UserModel user;
-        private Integer rank;
-        private Integer accumulatedPoint;
+    public record Ranking(
+            UserModel user,
+            Integer rank,
+            Integer accumulatedPoint
+    ) {
     }
 
 }
