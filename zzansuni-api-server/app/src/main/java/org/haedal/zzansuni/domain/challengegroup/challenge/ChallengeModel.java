@@ -17,7 +17,6 @@ import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificat
 public class ChallengeModel {
 
     private Long id;
-    private ChallengeGroup challengeGroup;
     private Integer requiredCount;
     private DayType dayType;
     private Integer onceExp;
@@ -29,7 +28,6 @@ public class ChallengeModel {
     public static ChallengeModel from(Challenge challenge) {
         return ChallengeModel.builder()
             .id(challenge.getId())
-            .challengeGroup(challenge.getChallengeGroup())
             .requiredCount(challenge.getRequiredCount())
             .dayType(challenge.getDayType())
             .onceExp(challenge.getOnceExp())
