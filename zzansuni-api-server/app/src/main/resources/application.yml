@@ -13,6 +13,8 @@ spring: # default test profile
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
   sql.init.mode: never
+  flyway:
+    enabled: false
   h2:
     console:
       enabled: true
@@ -45,17 +47,23 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+  sql.init.mode: never
   h2.console.enabled: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true # Flyway가 초기화되지 않은 데이터베이스에 마이그레이션을 적용할 때 초기 버전으로 마이그레이션 파일을 적용할지 여부
+    fail-on-missing-locations: true # 스크립트 파일을 저장하는 위치를 못 찾을때 실패할지 여부
+    baseline-version: 1 # Flyway가 초기화되지 않은 데이터베이스에 마이그레이션을 적용할 때 버전을 설정
 kakao:
   client-id: c959f4526a0df321dff0a8636fec3428
-  client-secret: ${KAKAO_CLIENT_SECRET}
-  redirect-uri: ${KAKAO_REDIRECT_URI}
 naver:
   client-id: Ob2i2TZtIsaNqH8j_q9X
-  client-secret: ${NAVER_CLIENT_SECRET}
 ---
 spring: # dev profile
   config:
@@ -67,9 +75,12 @@ spring: # dev profile
     password: "root"
   jpa:
     hibernate:
-      ddl-auto: create
-    defer-datasource-initialization: true
-  sql.init.mode: always
+      ddl-auto: none
+kakao:
+  client-secret: ${KAKAO_CLIENT_SECRET:placeholder}
+  redirect-uri: ${KAKAO_REDIRECT_URI:placeholder}
+naver:
+  client-secret: ${NAVER_CLIENT_SECRET:placeholder}
 ---
 spring: # prod profile
   config:
@@ -81,9 +92,7 @@ spring: # prod profile
     password: ${MYSQL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
-    defer-datasource-initialization: true
-  sql.init.mode: always
+      ddl-auto: none
 cloud:
   aws:
     s3.bucket: ${S3_BUCKET}
@@ -95,3 +104,8 @@ cloud:
       auto: false
     stack:
       auto: false
+kakao:
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-uri: ${KAKAO_REDIRECT_URI}
+naver:
+  client-secret: ${NAVER_CLIENT_SECRET}
