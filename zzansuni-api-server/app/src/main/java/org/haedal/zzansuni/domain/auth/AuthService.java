@@ -67,7 +67,6 @@ public class AuthService {
         if(userReader.existsByEmail(command.getEmail())){
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         }
-        command.changePassword(passwordEncoder.encode(command.getPassword()));
 
         User user = User.create(command);
         userStore.store(user);
@@ -81,7 +80,6 @@ public class AuthService {
         if(userReader.existsByEmail(command.getEmail())){
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         }
-        command.changePassword(passwordEncoder.encode(command.getPassword()));
 
         User user = User.createManager(command);
         userStore.store(user);

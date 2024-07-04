@@ -10,7 +10,6 @@ import org.haedal.zzansuni.domain.auth.OAuth2Provider;
 
 public class UserCommand {
     @Getter
-    @Builder
     public static class Create extends SelfValidating<UserCommand.Create> {
         @Email(message = "이메일 형식은 유효하여야 합니다.")
         private final String email;
@@ -19,6 +18,7 @@ public class UserCommand {
         @NotBlank(message = "닉네임은 필수입니다.")
         private final String nickname;
 
+        @Builder
         public Create(String email, String password, String nickname) {
             this.email = email;
             this.password = password;
@@ -26,19 +26,20 @@ public class UserCommand {
             this.validateSelf();
         }
 
-        public void changePassword(String encodedPassword){
+        public UserCommand.Create changePassword(String encodedPassword){
             this.password = encodedPassword;
+            return this;
         }
     }
 
     @Getter
-    @Builder
     public static class CreateOAuth2 extends SelfValidating<UserCommand.CreateOAuth2> {
         private final String authToken;
         private final String nickname;
         @NotNull(message = "OAuth2Provider는 필수입니다.")
         private final OAuth2Provider provider;
 
+        @Builder
         public CreateOAuth2(String authToken, String nickname, OAuth2Provider provider) {
             this.authToken = authToken;
             this.nickname = nickname;
@@ -51,11 +52,11 @@ public class UserCommand {
     }
 
     @Getter
-    @Builder
     public static class Update extends SelfValidating<UserCommand.Update> {
         @NotBlank(message = "닉네임은 필수입니다.")
         private final String nickname;
 
+        @Builder
         public Update(String nickname) {
             this.nickname = nickname;
             this.validateSelf();
