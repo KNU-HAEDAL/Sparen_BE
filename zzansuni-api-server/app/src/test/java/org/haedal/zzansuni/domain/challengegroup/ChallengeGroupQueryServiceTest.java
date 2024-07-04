@@ -85,11 +85,11 @@ class ChallengeGroupQueryServiceTest {
         ChallengeGroupModel.Detail model = challengeGroupQueryService.getChallengeGroupDetail(challengeGroup.getId());
 
         // then
-        assertEquals(challengeGroup.getId(), model.getId());
-        assertEquals(model.getChallenges().size(), 1);
-        assertEquals(challenge.getId(), model.getChallenges().get(0).getId());
-        assertEquals(model.getImageUrls().size(), 1);
-        assertEquals(challengeGroupImage.getImageUrl(), model.getImageUrls().get(0));
+        assertEquals(challengeGroup.getId(), model.id());
+        assertEquals(model.challenges().size(), 1);
+        assertEquals(challenge.getId(), model.challenges().get(0).id());
+        assertEquals(model.imageUrls().size(), 1);
+        assertEquals(challengeGroupImage.getImageUrl(), model.imageUrls().get(0));
 
     }
 

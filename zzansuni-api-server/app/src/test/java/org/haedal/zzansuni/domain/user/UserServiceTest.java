@@ -43,8 +43,8 @@ public class UserServiceTest {
 
         //then
         assertNotNull(userModel);
-        assertThat(userModel.getId()).isEqualTo(1L);
-        assertThat(userModel.getNickname()).isEqualTo("테스트유저1");
+        assertThat(userModel.id()).isEqualTo(1L);
+        assertThat(userModel.nickname()).isEqualTo("테스트유저1");
     }
 
 

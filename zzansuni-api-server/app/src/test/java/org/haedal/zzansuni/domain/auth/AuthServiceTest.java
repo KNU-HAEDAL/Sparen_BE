@@ -47,7 +47,7 @@ class AuthServiceTest {
         assertThat(user.getNickname()).isEqualTo("fake-nickname"+code);
         assertThat(user.getAuthToken()).isEqualTo("FAKE"+code);
         assertThat(pair.getFirst().getAccessToken()).isNotNull();
-        assertThat(pair.getSecond().getId()).isEqualTo(user.getId());
+        assertThat(pair.getSecond().id()).isEqualTo(user.getId());
     }
 
     @DisplayName("이미 가입된 유저가 로그인을 시도할경우, 로그인이 정상적으로 동작한다.")
