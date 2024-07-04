@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroup.challengeGroup;
+import static org.haedal.zzansuni.domain.challengegroup.userexp.QChallengeGroupUserExp.challengeGroupUserExp;
+
 @Component
 @RequiredArgsConstructor
 public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
@@ -43,15 +46,15 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
     @Override
     public Page<ChallengeGroup> getChallengeGroupsPagingByCategory(Pageable pageable, ChallengeCategory category) {
         Long count = queryFactory
-                .select(QChallengeGroup.challengeGroup.count())
-                .from(QChallengeGroup.challengeGroup)
-                .where(QChallengeGroup.challengeGroup.category.eq(category))
+                .select(challengeGroup.count())
+                .from(challengeGroup)
+                .where(challengeGroup.category.eq(category))
                 .fetchOne();
 
         List<ChallengeGroup> page = queryFactory
-                .selectFrom(QChallengeGroup.challengeGroup)
-                .where(QChallengeGroup.challengeGroup.category.eq(category))
-                .leftJoin(QChallengeGroup.challengeGroup.challenges).fetchJoin()
+                .selectFrom(challengeGroup)
+                .where(challengeGroup.category.eq(category))
+                .leftJoin(challengeGroup.challenges).fetchJoin()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -66,12 +69,12 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
                 .asc();
 
         Long count = queryFactory
-                .select(QChallengeGroup.challengeGroup.count())
-                .from(QChallengeGroup.challengeGroup)
+                .select(challengeGroup.count())
+                .from(challengeGroup)
                 .fetchOne();
         List<ChallengeGroup> page = queryFactory
-                .selectFrom(QChallengeGroup.challengeGroup)
-                .leftJoin(QChallengeGroup.challengeGroup.challenges).fetchJoin()
+                .selectFrom(challengeGroup)
+                .leftJoin(challengeGroup.challenges).fetchJoin()
                 .orderBy(orderSpecifier)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -83,9 +86,9 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
     @Override
     public Optional<ChallengeGroupUserExp> findByChallengeGroupIdAndUserId(Long challengeGroupId, Long userId) {
         ChallengeGroupUserExp result = queryFactory
-                .selectFrom(QChallengeGroupUserExp.challengeGroupUserExp)
-                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId)
-                        .and(QChallengeGroupUserExp.challengeGroupUserExp.user.id.eq(userId)))
+                .selectFrom(challengeGroupUserExp)
+                .where(challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId)
+                        .and(challengeGroupUserExp.user.id.eq(userId)))
                 .fetchOne();
         return Optional.ofNullable(result);
     }
@@ -93,15 +96,15 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
     @Override
     public Page<ChallengeGroupUserExp> getByChallengeGroupId(Long challengeGroupId, Pageable pageable) {
         Long count = queryFactory
-                .select(QChallengeGroupUserExp.challengeGroupUserExp.count())
-                .from(QChallengeGroupUserExp.challengeGroupUserExp)
-                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
+                .select(challengeGroupUserExp.count())
+                .from(challengeGroupUserExp)
+                .where(challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
                 .fetchOne();
 
         List<ChallengeGroupUserExp> page = queryFactory
-                .selectFrom(QChallengeGroupUserExp.challengeGroupUserExp)
-                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
-                .orderBy(QChallengeGroupUserExp.challengeGroupUserExp.totalExp.desc())
+                .selectFrom(challengeGroupUserExp)
+                .where(challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
+                .orderBy(challengeGroupUserExp.totalExp.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

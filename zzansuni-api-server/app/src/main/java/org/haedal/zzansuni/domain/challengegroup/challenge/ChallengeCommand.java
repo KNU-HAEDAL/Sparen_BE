@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ChallengeCommand {
 
     @Getter
-    @Builder
     public static class Verificate extends SelfValidating<Verificate> {
 
         @NotBlank(message = "내용은 필수입니다.")
@@ -21,6 +20,7 @@ public class ChallengeCommand {
         @NotNull(message = "이미지는 필수입니다.")
         private final MultipartFile image;
 
+        @Builder
         public Verificate(String content, MultipartFile image) {
             this.content = content;
             this.image = image;
@@ -36,13 +36,13 @@ public class ChallengeCommand {
     }
 
     @Getter
-    @Builder
     public static class VerificationCreate extends SelfValidating<Verificate> {
 
         @NotBlank(message = "내용은 필수입니다.")
         private final String content;
         private final String imageUrl;
 
+        @Builder
         public VerificationCreate(String content, String imageUrl) {
             this.content = content;
             this.imageUrl = imageUrl;
@@ -51,7 +51,6 @@ public class ChallengeCommand {
     }
 
     @Getter
-    @Builder
     public static class ReviewCreate extends SelfValidating<ReviewCreate> {
 
         @NotBlank(message = "내용은 필수입니다.")
@@ -62,6 +61,7 @@ public class ChallengeCommand {
         @Max(5)
         private final Integer rating;
 
+        @Builder
         public ReviewCreate(String content, Integer rating) {
             this.content = content;
             this.rating = rating;

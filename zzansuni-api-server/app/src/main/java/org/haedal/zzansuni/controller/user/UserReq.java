@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.haedal.zzansuni.domain.user.UserCommand;
 
 public class UserReq {
-    public record UserUpdateRequest(
+    public record Update(
             @NotBlank(message = "nickname은 필수입니다.") String nickname
     ) {
         public UserCommand.Update toCommand() {

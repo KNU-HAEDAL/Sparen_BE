@@ -9,6 +9,7 @@ import org.haedal.zzansuni.domain.auth.AuthService;
 import org.haedal.zzansuni.domain.user.UserModel;
 import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.springframework.data.util.Pair;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
     private final AuthService authService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Operation(summary = "oauth2 로그인", description = "oauth2 code를 이용하여 로그인한다.")
     @PostMapping("/api/auth/oauth2")
@@ -31,7 +33,10 @@ public class AuthController {
     @Operation(summary = "이메일 회원가입", description = "이메일 회원가입을 한다.")
     @PostMapping("/api/auth/signup")
     public ApiResponse<AuthRes.LoginResponse> signup(@RequestBody @Valid AuthReq.EmailSignupRequest request) {
-        Pair<JwtToken, UserModel> pair = authService.signup(request.toCommand());
+        Pair<JwtToken, UserModel> pair = authService.signup(
+                request.toCommand()
+                        .changePassword(passwordEncoder.encode(request.password()))
+        );
         var response = AuthRes.LoginResponse.from(pair.getFirst(), pair.getSecond());
         return ApiResponse.success(response);
     }

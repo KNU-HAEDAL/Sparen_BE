@@ -9,6 +9,7 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.auth.AuthService;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "admin", description = "관리자 API")
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     private final AuthService authService;
     private final ChallengeGroupService challengeGroupService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary= "매니저 등록", description = "매니저를 등록한다.")
     @PostMapping("/api/admin/auth/manager")
     public ApiResponse<Void> createManager(@RequestBody @Valid AuthReq.EmailSignupRequest request) {
-        authService.createManager(request.toCommand());
+        authService.createManager(request.toCommand()
+                .changePassword(passwordEncoder.encode(request.password())));
         return ApiResponse.success(null, "매니저 등록 성공");
     }
 

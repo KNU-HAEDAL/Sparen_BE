@@ -9,16 +9,16 @@ import java.util.List;
 
 public class UserRes {
     @Builder
-    public record UserInfoDto(
+    public record UserInfo(
             Long id,
             String nickname,
             String profileImageUrl,
             String email,
-            TierInfoDto tierInfo
+            TierInfo tierInfo
     ) {
-        public static UserInfoDto from(UserModel userModel) {
-            var tierInfo = TierInfoDto.from(userModel.getExp());
-            return UserInfoDto.builder()
+        public static UserInfo from(UserModel userModel) {
+            var tierInfo = TierInfo.from(userModel.getExp());
+            return UserInfo.builder()
                     .id(userModel.getId())
                     .nickname(userModel.getNickname())
                     .profileImageUrl(userModel.getProfileImageUrl())
@@ -29,15 +29,15 @@ public class UserRes {
     }
 
     @Builder
-    public record UserDto(
+    public record User(
             Long id,
             String nickname,
             String profileImageUrl,
-            TierInfoDto tierInfo
+            TierInfo tierInfo
     ) {
-        public static UserDto from(UserModel userModel) {
-            var tierInfo = TierInfoDto.from(userModel.getExp());
-            return UserDto.builder()
+        public static User from(UserModel userModel) {
+            var tierInfo = TierInfo.from(userModel.getExp());
+            return User.builder()
                     .id(userModel.getId())
                     .nickname(userModel.getNickname())
                     .profileImageUrl(userModel.getProfileImageUrl())
@@ -47,15 +47,15 @@ public class UserRes {
     }
 
     @Builder
-    public record TierInfoDto(
+    public record TierInfo(
             String tier,
             Integer totalExp,
             Integer currentExp
     ) {
-        public static TierInfoDto from(Integer exp) {
+        public static TierInfo from(Integer exp) {
             var tier = TierSystem.getTier(exp);
 
-            return TierInfoDto.builder()
+            return TierInfo.builder()
                     .tier(tier.getKorean())
                     .totalExp(tier.getEndExp() - tier.getStartExp()) // 티어 시작 경험치부터 끝 경험치까지
                     .currentExp(exp - tier.getStartExp()) // 현재 경험치 - 티어 시작 경험치
@@ -64,9 +64,8 @@ public class UserRes {
     }
 
     @Builder
-    public record StrickDto(
-            LocalDate date,
-            List<DayCountDto> dayCounts
+    public record Strick(
+            List<UserRes.DayCount> dayCounts
     ) {
     }
 
@@ -75,7 +74,7 @@ public class UserRes {
      * 0인 것도 보낸다.
      */
     @Builder
-    public record DayCountDto(
+    public record DayCount(
             LocalDate date,
             Integer count
     ) {

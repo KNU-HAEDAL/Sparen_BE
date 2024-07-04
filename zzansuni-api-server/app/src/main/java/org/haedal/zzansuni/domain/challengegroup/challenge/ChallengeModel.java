@@ -17,7 +17,6 @@ import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificat
 public class ChallengeModel {
 
     private Long id;
-    private ChallengeGroup challengeGroup;
     private Integer requiredCount;
     private DayType dayType;
     private Integer onceExp;
@@ -29,7 +28,6 @@ public class ChallengeModel {
     public static ChallengeModel from(Challenge challenge) {
         return ChallengeModel.builder()
             .id(challenge.getId())
-            .challengeGroup(challenge.getChallengeGroup())
             .requiredCount(challenge.getRequiredCount())
             .dayType(challenge.getDayType())
             .onceExp(challenge.getOnceExp())
@@ -125,15 +123,12 @@ public class ChallengeModel {
         public static ChallengeComplete from(UserChallenge userChallenge, Boolean reviewWritten
         ) {
             Challenge challenge = userChallenge.getChallenge();
+
             return ChallengeComplete.builder()
                 .challengeId(challenge.getId())
                 .title(challenge.getChallengeGroup().getTitle())
                 // 성공한 날짜는 가장 최근에 인증한 날짜로 설정
-                .successDate(userChallenge.getChallengeVerifications().stream()
-                    .map(ChallengeVerification::getCreatedAt)
-                    .max(LocalDateTime::compareTo)
-                    .map(LocalDateTime::toLocalDate)
-                    .orElse(null))
+                .successDate(userChallenge.getSuccessDate().orElse(null))
                 .category(challenge.getChallengeGroup().getCategory())
                 .reviewWritten(reviewWritten)
                 .build();

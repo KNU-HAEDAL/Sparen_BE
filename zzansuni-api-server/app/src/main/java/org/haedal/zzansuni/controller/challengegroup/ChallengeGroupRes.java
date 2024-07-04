@@ -15,7 +15,7 @@ public class ChallengeGroupRes {
 
 
     @Builder
-    public record ChallengeGroupDto(
+    public record Info(
         Long id,
         String title,
         String content,
@@ -25,10 +25,10 @@ public class ChallengeGroupRes {
         ChallengeCategory category
 
     ) {
-        public static ChallengeGroupDto from(
+        public static Info from(
             ChallengeGroupModel.Detail challengeGroupDetail
         ){
-            return ChallengeGroupDto.builder()
+            return Info.builder()
                     .id(challengeGroupDetail.getId())
                     .title(challengeGroupDetail.getTitle())
                     .content(challengeGroupDetail.getContent())
@@ -38,10 +38,10 @@ public class ChallengeGroupRes {
                     .category(challengeGroupDetail.getCategory())
                     .build();
         }
-        public static ChallengeGroupDto from(
+        public static Info from(
                 ChallengeGroupModel.Info challengeGroupInfo
         ){
-            return ChallengeGroupDto.builder()
+            return Info.builder()
                     .id(challengeGroupInfo.getId())
                     .title(challengeGroupInfo.getTitle())
                     .content(challengeGroupInfo.getContent())
@@ -55,7 +55,7 @@ public class ChallengeGroupRes {
     }
 
     @Builder
-    public record ChallengeGroupDetailDto(
+    public record Detail(
         Long id,
         String title,
         String content,
@@ -67,9 +67,9 @@ public class ChallengeGroupRes {
         String guide,
         Integer maxDifficulty,
         List<String> imageUrls,
-        List<ChallengeDto> challenges
+        List<Challenge> challenges
     ) {
-        public static ChallengeGroupDetailDto from(
+        public static Detail from(
                 ChallengeGroupModel.Detail challengeGroupDetail
         ){
             List<ChallengeModel> challenges = challengeGroupDetail
@@ -81,7 +81,7 @@ public class ChallengeGroupRes {
                 .orElse(0);
 
 
-            return ChallengeGroupDetailDto.builder()
+            return Detail.builder()
                 .id(challengeGroupDetail.getId())
                 .title(challengeGroupDetail.getTitle())
                 .content(challengeGroupDetail.getContent())
@@ -93,7 +93,7 @@ public class ChallengeGroupRes {
                 .maxDifficulty(maxDifficulty)
                 .imageUrls(challengeGroupDetail.getImageUrls())
                 .challenges(challenges.stream()
-                    .map(ChallengeDto::from)
+                    .map(Challenge::from)
                     .toList())
                 .build();
         }
@@ -101,7 +101,7 @@ public class ChallengeGroupRes {
     }
 
     @Builder
-    public record ChallengeDto(
+    public record Challenge(
         Long id,
         Integer participantCount,
 
@@ -111,10 +111,10 @@ public class ChallengeGroupRes {
         DayType dayType,
         Integer dayCount
     ) {
-        public static ChallengeDto from(
+        public static Challenge from(
             ChallengeModel challenge
         ){
-            return ChallengeDto.builder()
+            return Challenge.builder()
                 .id(challenge.getId())
                 .participantCount(challenge.getRequiredCount())
                 .difficulty(challenge.getDifficulty())
@@ -131,22 +131,22 @@ public class ChallengeGroupRes {
 
 
     @Builder
-    public record ChallengeGroupRankingPagingResponse(
-        List<ChallengeGroupRankingDto> data,
-        Integer totalPage,
-        ChallengeGroupRankingDto myRanking //null이면 랭킹이 없는 것
+    public record RankingPagingResponse(
+            List<ChallengeGroupRes.Ranking> data,
+            Integer totalPage,
+            ChallengeGroupRes.Ranking myRanking //null이면 랭킹이 없는 것
     ) {
-        public static ChallengeGroupRankingPagingResponse from(
+        public static RankingPagingResponse from(
                 Page<ChallengeGroupModel.Ranking> rankingPage,
                 ChallengeGroupModel.Ranking myRanking
         ){
             var data = rankingPage.getContent().stream()
-                .map(ChallengeGroupRankingDto::from)
+                .map(ChallengeGroupRes.Ranking::from)
                 .toList();
-            return ChallengeGroupRankingPagingResponse.builder()
+            return RankingPagingResponse.builder()
                     .data(data)
                     .totalPage(rankingPage.getTotalPages())
-                    .myRanking(ChallengeGroupRankingDto.from(myRanking))
+                    .myRanking(ChallengeGroupRes.Ranking.from(myRanking))
                     .build();
         }
 
@@ -154,17 +154,17 @@ public class ChallengeGroupRes {
 
 
     @Builder
-    public record ChallengeGroupRankingDto(
+    public record Ranking(
         Integer ranking,
         //획득 포인트
         Integer acquiredPoint,
-        UserRes.UserDto user
+        UserRes.User user
     ) {
-        public static ChallengeGroupRankingDto from(
+        public static Ranking from(
                 ChallengeGroupModel.Ranking model
         ){
-            var user = UserRes.UserDto.from(model.getUser());
-            return ChallengeGroupRankingDto.builder()
+            var user = UserRes.User.from(model.getUser());
+            return Ranking.builder()
                     .ranking(model.getRank())
                     .acquiredPoint(model.getAccumulatedPoint())
                     .user(user)
