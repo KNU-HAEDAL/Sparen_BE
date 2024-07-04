@@ -11,18 +11,18 @@ public class ChallengeReviewRes {
 
 
     @Builder
-    public record ChallengeReviewDto(
+    public record Info(
         Long challengeId,
         String challengeTitle,
-        UserRes.UserDto user,
+        UserRes.User user,
         String content,
         Integer rating
     ) {
 
-        public static ChallengeReviewDto from(
+        public static Info from(
             ChallengeReviewWithUserInfo challengeReviewWithUserInfo) {
-            var user = UserRes.UserDto.from(challengeReviewWithUserInfo.user());
-            return ChallengeReviewDto.builder()
+            var user = UserRes.User.from(challengeReviewWithUserInfo.user());
+            return Info.builder()
                 .challengeId(challengeReviewWithUserInfo.challengeId())
                 .challengeTitle(challengeReviewWithUserInfo.challengeTitle())
                 .user(user)
@@ -34,19 +34,19 @@ public class ChallengeReviewRes {
     }
 
     @Builder
-    public record ChallengeReviewWithChallengeDto(
+    public record InfoWithChallenge(
         Long challengeId,
         String challengeTitle,
         Integer challengeDifficulty,
-        UserRes.UserDto user,
+        UserRes.User user,
         String content,
         Integer rating
     ) {
 
-        public static ChallengeReviewWithChallengeDto from(
+        public static InfoWithChallenge from(
             ChallengeReviewWithChallenge challengeReviewWithChallenge) {
-            var user = UserRes.UserDto.from(challengeReviewWithChallenge.user());
-            return ChallengeReviewWithChallengeDto.builder()
+            var user = UserRes.User.from(challengeReviewWithChallenge.user());
+            return InfoWithChallenge.builder()
                 .challengeId(challengeReviewWithChallenge.challengeId())
                 .challengeTitle(challengeReviewWithChallenge.challengeTitle())
                 .challengeDifficulty(challengeReviewWithChallenge.challengeDifficulty())
@@ -58,7 +58,7 @@ public class ChallengeReviewRes {
     }
 
     @Builder
-    public record ChallengeReviewScoreResponse(
+    public record ScoreResponse(
         Float averageRating,
         /**
          * key: rating, value: count
@@ -66,9 +66,9 @@ public class ChallengeReviewRes {
         Map<Integer, Integer> ratingCount
     ) {
 
-        public static ChallengeReviewScoreResponse from(
+        public static ScoreResponse from(
             ChallengeReviewModel.ChallengeReviewScore challengeReviewScore) {
-            return ChallengeReviewScoreResponse.builder()
+            return ScoreResponse.builder()
                 .averageRating(challengeReviewScore.averageRating())
                 .ratingCount(challengeReviewScore.ratingCount())
                 .build();

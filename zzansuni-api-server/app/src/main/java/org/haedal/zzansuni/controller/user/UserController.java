@@ -24,17 +24,17 @@ public class UserController {
 
     @Operation(summary = "내 정보 조회", description = "내 정보를 조회한다.")
     @GetMapping("/api/user")
-    public ApiResponse<UserRes.UserInfoDto> getUserInfo(
+    public ApiResponse<UserRes.UserInfo> getUserInfo(
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
         var userModel = userService.getUserModel(jwtUser.getId());
-        return ApiResponse.success(UserRes.UserInfoDto.from(userModel));
+        return ApiResponse.success(UserRes.UserInfo.from(userModel));
     }
 
     @Operation(summary = "내 정보 수정", description = "내 정보를 수정한다.")
     @PutMapping("/api/user")
     public ApiResponse<Void> updateUser(
-            @Valid @RequestBody UserReq.UserUpdateRequest request,
+            @Valid @RequestBody UserReq.Update request,
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
         var command = request.toCommand();
@@ -44,25 +44,25 @@ public class UserController {
 
     @Operation(summary = "스트릭 조회", description = "스트릭을 조회한다.")
     @GetMapping("/api/user/strick")
-    public ApiResponse<List<UserRes.StrickDto>> getStrick(
+    public ApiResponse<List<UserRes.Strick>> getStrick(
             @AuthenticationPrincipal JwtUser jwtUser,
             @RequestParam(required = false) LocalDate startDate, // false면 오늘
             @RequestParam(required = false) LocalDate endDate // false면 365일전
     ) {
         return ApiResponse.success(List.of(
-                new UserRes.StrickDto(LocalDate.now(), List.of(
-                        new UserRes.DayCountDto(LocalDate.now(), 1)
+                new UserRes.Strick(List.of(
+                        new UserRes.DayCount(LocalDate.now(), 1)
                 ))
         ));
     }
 
     @Operation(summary = "유저 랭킹 페이징", description = "전체 유저 랭킹을 조회 페이징")
     @GetMapping("/api/users/ranking")
-    public ApiResponse<PagingResponse<UserRes.UserInfoDto>> getUsersRanking(
+    public ApiResponse<PagingResponse<UserRes.UserInfo>> getUsersRanking(
             @Valid PagingRequest request
     ) {
         var userModelPage = userService.getUserPagingByRanking(request.toPageable());
-        var response = PagingResponse.from(userModelPage, UserRes.UserInfoDto::from);
+        var response = PagingResponse.from(userModelPage, UserRes.UserInfo::from);
         return ApiResponse.success(response);
     }
 

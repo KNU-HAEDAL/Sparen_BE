@@ -49,7 +49,7 @@ public class ChallengeController {
     public ApiResponse<ChallengeRes.ChallengeVerificationResponse> challengeVerification(
         @AuthenticationPrincipal JwtUser jwtUser,
         @PathVariable Long challengeId,
-        @RequestPart("body") ChallengeReq.ChallengeVerificationRequest request,
+        @RequestPart("body") ChallengeReq.Verification request,
         @RequestPart("image") MultipartFile image
     ) {
         ChallengeCommand.Verificate command = request.toCommand(image);

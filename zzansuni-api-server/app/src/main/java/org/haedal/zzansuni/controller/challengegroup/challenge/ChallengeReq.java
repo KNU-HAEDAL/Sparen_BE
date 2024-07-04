@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ChallengeReq {
 
-    public record ChallengeVerificationRequest(
+    public record Verification(
         String content
     ) {
 
@@ -18,7 +18,7 @@ public class ChallengeReq {
 
     }
 
-    public record ChallengeReviewCreateRequest(
+    public record ReviewCreate(
         String content,
         Integer rating
     ) {

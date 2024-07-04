@@ -25,22 +25,22 @@ public class ChallengeGroupController {
 
     @Operation(summary = "챌린지 그룹 목록 페이징", description = "챌린지 그룹 페이징 조회.")
     @GetMapping("/api/challengeGroups")
-    public ApiResponse<PagingResponse<ChallengeGroupRes.ChallengeGroupDto>> getChallengesPaging(
+    public ApiResponse<PagingResponse<ChallengeGroupRes.Info>> getChallengesPaging(
             @Valid PagingRequest pagingRequest,
             @RequestParam ChallengeCategory category
     ) {
         var page = challengeGroupQueryService.getChallengeGroupsPaging(pagingRequest.toPageable(), category);
-        var response = PagingResponse.from(page, ChallengeGroupRes.ChallengeGroupDto::from);
+        var response = PagingResponse.from(page, ChallengeGroupRes.Info::from);
         return ApiResponse.success(response);
     }
 
     @Operation(summary = "챌린지 그룹 상세 조회", description = "챌린지 상세 조회한다.")
     @GetMapping("/api/challengeGroups/{challengeGroupId}")
-    public ApiResponse<ChallengeGroupRes.ChallengeGroupDetailDto> getChallengeDetail(
+    public ApiResponse<ChallengeGroupRes.Detail> getChallengeDetail(
             @PathVariable Long challengeGroupId
     ) {
         ChallengeGroupModel.Detail challengeGroupDetail = challengeGroupQueryService.getChallengeGroupDetail(challengeGroupId);
-        var response = ChallengeGroupRes.ChallengeGroupDetailDto.from(challengeGroupDetail);
+        var response = ChallengeGroupRes.Detail.from(challengeGroupDetail);
         return ApiResponse.success(response);
     }
 
@@ -48,14 +48,14 @@ public class ChallengeGroupController {
 
     @Operation(summary = "챌린지 그룹 랭킹 조회", description = "챌린지 랭킹 조회한다.")
     @GetMapping("/api/challengeGroups/{challengeGroupId}/rankings")
-    public ApiResponse<ChallengeGroupRes.ChallengeGroupRankingPagingResponse> getChallengeRankings(
+    public ApiResponse<ChallengeGroupRes.RankingPagingResponse> getChallengeRankings(
             @AuthenticationPrincipal JwtUser jwtUser,
             @PathVariable Long challengeGroupId,
             @Valid PagingRequest pagingRequest
     ) {
         var rankingPage = challengeGroupQueryService.getChallengeGroupRankingsPaging(challengeGroupId, pagingRequest.toPageable());
         var rankingModel = challengeGroupQueryService.getChallengeGroupRanking(challengeGroupId, jwtUser.getId());
-        var response = ChallengeGroupRes.ChallengeGroupRankingPagingResponse
+        var response = ChallengeGroupRes.RankingPagingResponse
                 .from(rankingPage, rankingModel);
         return ApiResponse.success(response);
     }
@@ -63,12 +63,12 @@ public class ChallengeGroupController {
     //숏폼 조회
     @Operation(summary = "챌린지 그룹 숏폼 페이징", description = "챌린지 숏폼 페이징 조회한다.")
     @GetMapping("/api/challengeGroups/shorts")
-    public ApiResponse<PagingResponse<ChallengeGroupRes.ChallengeGroupDto>> getChallengeShortsPaging(
+    public ApiResponse<PagingResponse<ChallengeGroupRes.Info>> getChallengeShortsPaging(
             @Valid PagingRequest pagingRequest,
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
         var page = challengeGroupQueryService.getChallengeGroupsShortsPaging(pagingRequest.toPageable(), jwtUser.getId());
-        var response = PagingResponse.from(page, ChallengeGroupRes.ChallengeGroupDto::from);
+        var response = PagingResponse.from(page, ChallengeGroupRes.Info::from);
 
         return ApiResponse.success(response);
 

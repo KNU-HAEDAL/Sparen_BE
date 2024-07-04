@@ -27,15 +27,15 @@ public class ChallengeReviewController {
 
     @Operation(summary = "챌린지 그룹 최근 리뷰 페이징", description = "챌린지 최근 리뷰 페이징 조회.")
     @GetMapping("/api/challengeGroups/reviews")
-    public ApiResponse<PagingResponse<ChallengeReviewRes.ChallengeReviewDto>> getChallengeReviews(
+    public ApiResponse<PagingResponse<ChallengeReviewRes.Info>> getChallengeReviews(
         @Valid PagingRequest pagingRequest
         //TODO SORTING
     ) {
         Page<ChallengeReviewWithUserInfo> page = challengeService.getChallengeReviews(
             pagingRequest.toPageable());
 
-        PagingResponse<ChallengeReviewRes.ChallengeReviewDto> response = PagingResponse.from(
-            page, ChallengeReviewRes.ChallengeReviewDto::from
+        PagingResponse<ChallengeReviewRes.Info> response = PagingResponse.from(
+            page, ChallengeReviewRes.Info::from
         );
 
         return ApiResponse.success(response);
@@ -45,7 +45,7 @@ public class ChallengeReviewController {
 
     @Operation(summary = "챌린지 그룹 리뷰 페이징", description = "챌린지 그룹 하위의 모든 챌린지 리뷰 페이징 조회.")
     @GetMapping("/api/challengeGroups/{challengeGroupId}/reviews")
-    public ApiResponse<PagingResponse<ChallengeReviewRes.ChallengeReviewWithChallengeDto>> getChallengeReviewsPaging(
+    public ApiResponse<PagingResponse<ChallengeReviewRes.InfoWithChallenge>> getChallengeReviewsPaging(
         @PathVariable Long challengeGroupId,
         @Valid PagingRequest pagingRequest
         //TODO SORTING
@@ -53,8 +53,8 @@ public class ChallengeReviewController {
         Page<ChallengeReviewWithChallenge> page = challengeService.getChallengeReviewsByGroupId(
             challengeGroupId, pagingRequest.toPageable());
 
-        PagingResponse<ChallengeReviewRes.ChallengeReviewWithChallengeDto> response = PagingResponse.from(
-            page, ChallengeReviewRes.ChallengeReviewWithChallengeDto::from
+        PagingResponse<ChallengeReviewRes.InfoWithChallenge> response = PagingResponse.from(
+            page, ChallengeReviewRes.InfoWithChallenge::from
         );
 
         return ApiResponse.success(response);
@@ -67,7 +67,7 @@ public class ChallengeReviewController {
     public ApiResponse<Long> challengeReviewCreate(
         @PathVariable Long challengeId,
         @AuthenticationPrincipal JwtUser jwtUser,
-        @RequestBody ChallengeReq.ChallengeReviewCreateRequest request
+        @RequestBody ChallengeReq.ReviewCreate request
     ) {
         Long response = challengeService.createReview(request.toCommand(), challengeId,
             jwtUser.getId());
@@ -77,10 +77,10 @@ public class ChallengeReviewController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "챌린지 그룹별 리뷰 평점 조회", description = "챌린지 그룹별 리뷰 평점 조회")
     @GetMapping("/api/challengeGroups/{challengeGroupId}/reviews/score")
-    public ApiResponse<ChallengeReviewRes.ChallengeReviewScoreResponse> getChallengeGroupReviewScore(
+    public ApiResponse<ChallengeReviewRes.ScoreResponse> getChallengeGroupReviewScore(
         @PathVariable Long challengeGroupId
     ) {
-        var response = ChallengeReviewRes.ChallengeReviewScoreResponse.from(
+        var response = ChallengeReviewRes.ScoreResponse.from(
             challengeService.getChallengeGroupReviewScore(challengeGroupId));
         return ApiResponse.success(response, "챌린지 그룹별 리뷰 평점 조회에 성공하였습니다.");
     }
