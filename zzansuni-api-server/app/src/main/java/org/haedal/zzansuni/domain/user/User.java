@@ -13,6 +13,7 @@ import org.haedal.zzansuni.global.security.Role;
 @AllArgsConstructor
 @Table(name = "users")
 public class User extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,48 +41,54 @@ public class User extends BaseTimeEntity {
 
     public static User create(UserCommand.CreateOAuth2 command) {
         return User.builder()
-                .nickname(command.getNickname())
-                .email(null)
-                .password(null)
-                .role(Role.USER)
-                .provider(command.getProvider())
-                .authToken(command.getAuthToken())
-                .exp(0)
-                .profileImageUrl(null)
-                .build();
+            .nickname(command.getNickname())
+            .email(null)
+            .password(null)
+            .role(Role.USER)
+            .provider(command.getProvider())
+            .authToken(command.getAuthToken())
+            .exp(0)
+            .profileImageUrl(null)
+            .build();
     }
 
-    public static User create(UserCommand.Create command){
+    public static User create(UserCommand.Create command) {
+        if (!command.isValid()) {
+            throw new IllegalStateException("인코딩에 실패하였습니다.");
+        }
         return User.builder()
-                .nickname(command.getNickname())
-                .email(command.getEmail())
-                .password(command.getPassword())
-                .role(Role.USER)
-                .provider(null)
-                .authToken(null)
-                .exp(0)
-                .profileImageUrl(null)
-                .build();
+            .nickname(command.getNickname())
+            .email(command.getEmail())
+            .password(command.getPassword())
+            .role(Role.USER)
+            .provider(null)
+            .authToken(null)
+            .exp(0)
+            .profileImageUrl(null)
+            .build();
     }
 
-    public static User createManager(UserCommand.Create command){
+    public static User createManager(UserCommand.Create command) {
+        if (!command.isValid()) {
+            throw new IllegalStateException("인코딩에 실패하였습니다.");
+        }
         return User.builder()
-                .nickname(command.getNickname())
-                .email(command.getEmail())
-                .password(command.getPassword())
-                .role(Role.MANAGER)
-                .provider(null)
-                .authToken(null)
-                .exp(0)
-                .profileImageUrl(null)
-                .build();
+            .nickname(command.getNickname())
+            .email(command.getEmail())
+            .password(command.getPassword())
+            .role(Role.MANAGER)
+            .provider(null)
+            .authToken(null)
+            .exp(0)
+            .profileImageUrl(null)
+            .build();
     }
 
     public void update(UserCommand.Update userUpdate) {
         this.nickname = userUpdate.getNickname();
     }
 
-    public void addExp(Integer exp){
+    public void addExp(Integer exp) {
         this.exp += exp;
     }
 }
