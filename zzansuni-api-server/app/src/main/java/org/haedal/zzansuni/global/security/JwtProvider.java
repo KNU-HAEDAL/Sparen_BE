@@ -37,11 +37,8 @@ public class JwtProvider implements AuthenticationProvider {
         JwtUser jwtUser = jwtUtils.getJwtUser(JwtToken.ValidToken.of(token));
         Set<SimpleGrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(jwtUser.getRole().name()));
 
-        // 검증 후 SecurityContextHolder에 인증정보를 저장
-        Authentication jwtUserToken = new UsernamePasswordAuthenticationToken(jwtUser, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(jwtUserToken);
-
-        return jwtUserToken;
+        // 검증 후 인증정보 Authentication 객체를 반환
+        return new UsernamePasswordAuthenticationToken(jwtUser, null, authorities);
     }
 
     /**
