@@ -5,6 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.io.IOException;
@@ -31,9 +33,17 @@ public class AuthorizationJwtHeaderFilter extends BasicAuthenticationFilter {
 
         String rawToken = header.split(" ")[1];
 
-        var auth = new JwtAuthenticationToken(rawToken);
-        super.getAuthenticationManager().authenticate(auth);
+        var authReq = new JwtAuthenticationToken(rawToken);
+        Authentication authRes = super.getAuthenticationManager().authenticate(authReq);
+
+        SecurityContextHolder.getContext().setAuthentication(authRes);
 
         chain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        // /api/auth로 시작하는 요청은 필터를 거치지 않는다.
+        return request.getServletPath().startsWith("/api/auth");
     }
 }

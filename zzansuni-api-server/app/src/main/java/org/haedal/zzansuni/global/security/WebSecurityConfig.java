@@ -71,7 +71,7 @@ public class WebSecurityConfig {
                                 "/api/auth/**",
                                 "/swagger-ui/**"
                         ).permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
         );
 
         /**
@@ -81,8 +81,12 @@ public class WebSecurityConfig {
          * 2. 인가 예외 처리 (권한이 없는 사용자) 403
          */
         http.exceptionHandling((exception) -> exception
-                .authenticationEntryPoint((request, response, authException) -> responseError(response, "UNAUTHORIZED", "인증이 필요합니다."))
-                .accessDeniedHandler((request, response, accessDeniedException) -> responseError(response, "ACCESS_DENIED", "권한이 없습니다."))
+                .authenticationEntryPoint((request, response, authException) ->
+                        responseError(response, "UNAUTHORIZED", "인증이 필요합니다.",401)
+                )
+                .accessDeniedHandler((request, response, accessDeniedException) ->
+                        responseError(response, "ACCESS_DENIED", "권한이 없습니다.",403)
+                )
         );
 
         /**
@@ -93,15 +97,6 @@ public class WebSecurityConfig {
          */
         http.addFilterBefore(jwtAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class);
 
-        //jwtAuthenticationFilter에서 예외가 발생했을때, 예외를 받는 필터를 추가한다.
-        http.addFilterBefore((servletRequest, servletResponse, filterChain) -> {
-            try {
-                filterChain.doFilter(servletRequest, servletResponse);
-            } catch (UnauthorizedException e) {
-                HttpServletResponse response = (HttpServletResponse) servletResponse;
-                responseError(response, "UNAUTHORIZED", "인증이 필요합니다.");
-            }
-        }, AuthorizationJwtHeaderFilter.class);
 
         return http.build();
     }
@@ -109,10 +104,15 @@ public class WebSecurityConfig {
     /**
      * 인증 예외 처리 응답을 생성하는 메서드
      */
-    private void responseError(HttpServletResponse response, String code, String message) throws IOException {
+    private void responseError(
+            HttpServletResponse response,
+            String code,
+            String message,
+            int status
+    ) throws IOException {
         var errorResponse = ApiResponse.fail(code, message);
         var json = objectMapper.writeValueAsString(errorResponse);
-        response.setStatus(401);
+        response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
