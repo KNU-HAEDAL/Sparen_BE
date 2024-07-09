@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,24 +33,8 @@ public interface UserChallengeRepository extends JpaRepository<UserChallenge, Lo
             @Param("challengeId") Long challengeId,
             @Param("userId") Long userId
     );
-//    /** mysql */
-//    @Profile({"dev"})
-//    @Query("SELECT DATE(cv.createdAt), count(*) FROM UserChallenge uc " +
-//            "LEFT JOIN uc.challengeVerifications cv " +
-//            "WHERE uc.user.id = :userId " +
-//            "AND DATE(uc.createdAt) >= :startDate " +
-//            "AND DATE(cv.createdAt) <= :endDate " +
-//            "AND cv.status = 'APPROVED' " +
-//            "GROUP BY DATE(cv.createdAt) " +
-//            "ORDER BY DATE(cv.createdAt)")
-//    List<Pair<LocalDate,Integer>> findAllByUserIdAndCreatedAt(
-//            @Param("userId") Long userId,
-//            @Param("startDate")LocalDate startDate,
-//            @Param("endDate")LocalDate endDate
-//    );
-
     /**
-     * h2 database
+     * mysql
      * 유저의 스트릭을 조회하는 쿼리
      * userId로 챌린지 찾고, userChallenge의 생성시점과 startDate를 비교하고
      * challengeVerification을 left join하여 가져옴
@@ -59,15 +42,14 @@ public interface UserChallengeRepository extends JpaRepository<UserChallenge, Lo
      *
      * 이 쿼리가 userChallenge에 있는게 맞는지, challengeVerification에 있는게 맞는지
      */
-    @Profile({"default"})
-    @Query("SELECT FORMATDATETIME(cv.createdAt, 'yyyy-MM-dd'), count(*) FROM UserChallenge uc " +
+    @Query("SELECT DATE(cv.createdAt), count(*) FROM UserChallenge uc " +
             "LEFT JOIN uc.challengeVerifications cv " +
             "WHERE uc.user.id = :userId " +
-            "AND FORMATDATETIME(cv.createdAt, 'yyyy-MM-dd') >= :startDate " +
-            "AND FORMATDATETIME(uc.createdAt, 'yyyy-MM-dd') <= :endDate " +
+            "AND DATE(uc.createdAt) >= :startDate " +
+            "AND DATE(cv.createdAt) <= :endDate " +
             "AND cv.status = 'APPROVED' " +
-            "GROUP BY FORMATDATETIME(cv.createdAt, 'yyyy-MM-dd') " +
-            "ORDER BY FORMATDATETIME(cv.createdAt, 'yyyy-MM-dd')")
+            "GROUP BY DATE(cv.createdAt) " +
+            "ORDER BY DATE(cv.createdAt)")
     List<Pair<LocalDate,Integer>> findAllByUserIdAndCreatedAt(
             @Param("userId") Long userId,
             @Param("startDate")LocalDate startDate,

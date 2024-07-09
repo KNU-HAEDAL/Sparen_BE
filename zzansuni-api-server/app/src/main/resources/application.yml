@@ -1,6 +1,6 @@
 spring: # default test profile
   datasource:
-    url: "jdbc:h2:mem:zzansuni;"
+    url: "jdbc:h2:mem:zzansuni;MODE=MySQL"
     username: "sa"
     password: ""
     driver-class-name: org.h2.Driver
