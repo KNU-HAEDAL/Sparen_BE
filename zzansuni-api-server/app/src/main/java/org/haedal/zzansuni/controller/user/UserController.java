@@ -14,7 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Tag(name = "user", description = "유저 API")
 @RequiredArgsConstructor
@@ -44,16 +43,13 @@ public class UserController {
 
     @Operation(summary = "스트릭 조회", description = "스트릭을 조회한다.")
     @GetMapping("/api/user/strick")
-    public ApiResponse<List<UserRes.Strick>> getStrick(
+    public ApiResponse<UserRes.Strick> getStrick(
             @AuthenticationPrincipal JwtUser jwtUser,
             @RequestParam(required = false) LocalDate startDate, // false면 오늘
             @RequestParam(required = false) LocalDate endDate // false면 365일전
     ) {
-        return ApiResponse.success(List.of(
-                new UserRes.Strick(List.of(
-                        new UserRes.DayCount(LocalDate.now(), 1)
-                ))
-        ));
+        var userModelStrick = userService.getUserStrick(jwtUser.getId(), startDate, endDate);
+        return ApiResponse.success(UserRes.Strick.from(userModelStrick));
     }
 
     @Operation(summary = "유저 랭킹 페이징", description = "전체 유저 랭킹을 조회 페이징")

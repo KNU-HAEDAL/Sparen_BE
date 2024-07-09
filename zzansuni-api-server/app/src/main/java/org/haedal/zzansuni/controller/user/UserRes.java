@@ -16,7 +16,7 @@ public class UserRes {
             String email,
             TierInfo tierInfo
     ) {
-        public static UserInfo from(UserModel userModel) {
+        public static UserInfo from(UserModel.Info userModel) {
             var tierInfo = TierInfo.from(userModel.exp());
             return UserInfo.builder()
                     .id(userModel.id())
@@ -35,7 +35,7 @@ public class UserRes {
             String profileImageUrl,
             TierInfo tierInfo
     ) {
-        public static User from(UserModel userModel) {
+        public static User from(UserModel.Info userModel) {
             var tierInfo = TierInfo.from(userModel.exp());
             return User.builder()
                     .id(userModel.id())
@@ -65,8 +65,14 @@ public class UserRes {
 
     @Builder
     public record Strick(
-            List<UserRes.DayCount> dayCounts
+            /** 여기서 Model의 DayCount를 사용해도 되는지 */
+            List<UserModel.DayCount> dayCounts
     ) {
+        public static Strick from(UserModel.Strick strick){
+            return Strick.builder()
+                    .dayCounts(strick.dayCounts())
+                    .build();
+        }
     }
 
     /**

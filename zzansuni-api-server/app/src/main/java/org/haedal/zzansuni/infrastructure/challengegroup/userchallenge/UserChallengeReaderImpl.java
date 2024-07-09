@@ -2,11 +2,14 @@ package org.haedal.zzansuni.infrastructure.challengegroup.userchallenge;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.QUserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
@@ -128,5 +131,10 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
 
     private BooleanExpression neProceeding() {
         return QUserChallenge.userChallenge.status.ne(ChallengeStatus.PROCEEDING);
+    }
+
+    @Override
+    public List<Pair<LocalDate,Integer>> findAllByUserIdAndCreatedAt(Long userId, LocalDate startDate, LocalDate endDate){
+        return userChallengeRepository.findAllByUserIdAndCreatedAt(userId, startDate, endDate);
     }
 }
