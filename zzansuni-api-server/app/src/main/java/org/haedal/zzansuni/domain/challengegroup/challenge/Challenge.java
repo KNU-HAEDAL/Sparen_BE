@@ -63,4 +63,12 @@ public class Challenge extends BaseTimeEntity {
                 .endDate(command.getEndDate())
                 .build();
     }
+
+    /**
+     * 챌린지 그룹 아이디 반환
+     * FK는 LAZY 여도 이미 영속성 컨텍스트에 존재하므로 추가 조회 없이 바로 접근 가능
+     */
+    public Long getChallengeGroupId() {
+        return challengeGroup.getId();
+    }
 }
