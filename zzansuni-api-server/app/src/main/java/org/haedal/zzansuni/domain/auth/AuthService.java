@@ -28,7 +28,7 @@ public class AuthService {
      * OAuth2 로그인 또는 회원가입 <br> [state]는 nullable한 입력 값이다.<br> 1. OAuth2Client를 이용해 해당 provider로부터
      * 유저정보를 가져옴 2. authToken으로 유저를 찾거나 없으면 회원가입 3. 토큰 발급, 유저정보 반환
      */
-    public Pair<JwtToken, UserModel> oAuth2LoginOrSignup(OAuth2Provider provider,
+    public Pair<JwtToken, UserModel.Info> oAuth2LoginOrSignup(OAuth2Provider provider,
         @NonNull String code, @Nullable String state) {
         OAuth2Client oAuth2Client = oAuth2Clients.stream()
             .filter(client -> client.canHandle(provider))
@@ -45,7 +45,7 @@ public class AuthService {
 
         // 토큰 발급, 유저정보 반환
         JwtToken jwtToken = createToken(user);
-        UserModel userModel = UserModel.from(user);
+        UserModel.Info userModel = UserModel.Info.from(user);
         return Pair.of(jwtToken, userModel);
     }
 
@@ -62,7 +62,7 @@ public class AuthService {
     }
 
     @Transactional
-    public Pair<JwtToken, UserModel> signup(UserCommand.Create command) {
+    public Pair<JwtToken, UserModel.Info> signup(UserCommand.Create command) {
         if (userReader.existsByEmail(command.getEmail())) {
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         }
@@ -70,7 +70,7 @@ public class AuthService {
         User user = User.create(command);
         userStore.store(user);
         JwtToken jwtToken = createToken(user);
-        UserModel userModel = UserModel.from(user);
+        UserModel.Info userModel = UserModel.Info.from(user);
         return Pair.of(jwtToken, userModel);
     }
 
@@ -85,7 +85,7 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public Pair<JwtToken, UserModel> login(String email, String password) {
+    public Pair<JwtToken, UserModel.Info> login(String email, String password) {
         User user = userReader.findByEmail(email)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
 
@@ -94,7 +94,7 @@ public class AuthService {
         }
 
         JwtToken jwtToken = createToken(user);
-        UserModel userModel = UserModel.from(user);
+        UserModel.Info userModel = UserModel.Info.from(user);
         return Pair.of(jwtToken, userModel);
     }
 

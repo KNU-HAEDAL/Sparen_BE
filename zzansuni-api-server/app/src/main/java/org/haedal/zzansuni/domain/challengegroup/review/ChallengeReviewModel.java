@@ -12,13 +12,13 @@ public class ChallengeReviewModel {
     public record ChallengeReviewWithUserInfo(
         Long challengeId,
         String challengeTitle,
-        UserModel user,
+        UserModel.Info user,
         String content,
         Integer rating
     ) {
 
         public static ChallengeReviewWithUserInfo from(ChallengeReview challengeReview) {
-            var userModel = UserModel.from(challengeReview.getUserChallenge().getUser());
+            var userModel = UserModel.Info.from(challengeReview.getUserChallenge().getUser());
             return ChallengeReviewWithUserInfo.builder()
                 .challengeId(challengeReview.getUserChallenge().getChallenge().getId())
                 .challengeTitle(
@@ -36,13 +36,13 @@ public class ChallengeReviewModel {
         Long challengeId,
         String challengeTitle,
         Integer challengeDifficulty,
-        UserModel user,
+        UserModel.Info user,
         String content,
         Integer rating
     ) {
 
         public static ChallengeReviewWithChallenge from(ChallengeReview challengeReview) {
-            var userModel = UserModel.from(challengeReview.getUserChallenge().getUser());
+            var userModel = UserModel.Info.from(challengeReview.getUserChallenge().getUser());
             return ChallengeReviewWithChallenge.builder()
                 .challengeId(challengeReview.getUserChallenge().getChallenge().getId())
                 .challengeTitle(

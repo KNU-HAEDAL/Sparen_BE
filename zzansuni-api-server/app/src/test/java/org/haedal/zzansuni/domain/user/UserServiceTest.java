@@ -39,7 +39,7 @@ public class UserServiceTest {
         when(userReader.getById(1L)).thenReturn(createUser(1L,"테스트유저1"));
 
         //when
-        UserModel userModel = userService.getUserModel(1L);
+        UserModel.Info userModel = userService.getUserModel(1L);
 
         //then
         assertNotNull(userModel);
@@ -84,7 +84,7 @@ public class UserServiceTest {
         when(userReader.getUserPagingByRanking(pageable)).thenReturn(new PageImpl<>(userList, pageable, userList.size()));
 
         //when
-        Page<UserModel> userPage = userService.getUserPagingByRanking(pageable);
+        Page<UserModel.Info> userPage = userService.getUserPagingByRanking(pageable);
 
 
         //then

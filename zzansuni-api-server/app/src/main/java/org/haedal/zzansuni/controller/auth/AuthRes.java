@@ -12,7 +12,7 @@ public class AuthRes {
             String refreshToken,
             UserRes.UserInfo userInfo
     ) {
-        public static LoginResponse from(JwtToken jwtToken, UserModel userModel) {
+        public static LoginResponse from(JwtToken jwtToken, UserModel.Info userModel) {
             var userInfo = UserRes.UserInfo.from(userModel);
             return LoginResponse.builder()
                     .accessToken(jwtToken.getAccessToken())
