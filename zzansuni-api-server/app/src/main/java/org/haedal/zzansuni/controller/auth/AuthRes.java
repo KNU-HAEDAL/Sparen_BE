@@ -12,8 +12,8 @@ public class AuthRes {
             String refreshToken,
             UserRes.UserInfo userInfo
     ) {
-        public static LoginResponse from(JwtToken jwtToken, UserModel.Model userModel) {
-            var userInfo = UserRes.UserInfo.from(userModel);
+        public static LoginResponse from(JwtToken jwtToken, UserModel.Main userMain) {
+            var userInfo = UserRes.UserInfo.from(userMain);
             return LoginResponse.builder()
                     .accessToken(jwtToken.getAccessToken())
                     .refreshToken(jwtToken.getRefreshToken())

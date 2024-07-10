@@ -16,13 +16,13 @@ public class UserRes {
             String email,
             TierInfo tierInfo
     ) {
-        public static UserInfo from(UserModel.Model userModel) {
-            var tierInfo = TierInfo.from(userModel.exp());
+        public static UserInfo from(UserModel.Main userMain) {
+            var tierInfo = TierInfo.from(userMain.exp());
             return UserInfo.builder()
-                    .id(userModel.id())
-                    .nickname(userModel.nickname())
-                    .profileImageUrl(userModel.profileImageUrl())
-                    .email(userModel.email())
+                    .id(userMain.id())
+                    .nickname(userMain.nickname())
+                    .profileImageUrl(userMain.profileImageUrl())
+                    .email(userMain.email())
                     .tierInfo(tierInfo)
                     .build();
         }
@@ -35,12 +35,12 @@ public class UserRes {
             String profileImageUrl,
             TierInfo tierInfo
     ) {
-        public static User from(UserModel.Model userModel) {
-            var tierInfo = TierInfo.from(userModel.exp());
+        public static User from(UserModel.Main userMain) {
+            var tierInfo = TierInfo.from(userMain.exp());
             return User.builder()
-                    .id(userModel.id())
-                    .nickname(userModel.nickname())
-                    .profileImageUrl(userModel.profileImageUrl())
+                    .id(userMain.id())
+                    .nickname(userMain.nickname())
+                    .profileImageUrl(userMain.profileImageUrl())
                     .tierInfo(tierInfo)
                     .build();
         }

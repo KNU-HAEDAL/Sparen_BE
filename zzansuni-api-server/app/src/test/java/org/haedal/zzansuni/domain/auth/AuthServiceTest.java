@@ -39,7 +39,7 @@ class AuthServiceTest {
         String code = "fake-random-code";
 
         // when
-        Pair<JwtToken, UserModel> pair = authService.oAuth2LoginOrSignup(OAuth2Provider.KAKAO, code, null);
+        Pair<JwtToken, UserModel.Main> pair = authService.oAuth2LoginOrSignup(OAuth2Provider.KAKAO, code, null);
 
         // then
         User user = userRepository.findAll().get(0);

@@ -115,7 +115,7 @@ public class ChallengeGroupModel {
 
     @Builder
     public record Ranking(
-            UserModel.Model user,
+            UserModel.Main user,
             Integer rank,
             Integer accumulatedPoint
     ) {

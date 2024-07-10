@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @InjectMocks
@@ -36,12 +38,12 @@ public class UserServiceTest {
         when(userReader.getById(1L)).thenReturn(createUser(1L,"테스트유저1"));
 
         //when
-        UserModel.Model userModel = userService.getUserModel(1L);
+        UserModel.Main userMain = userService.getUserModel(1L);
 
         //then
-        assertNotNull(userModel);
-        assertThat(userModel.id()).isEqualTo(1L);
-        assertThat(userModel.nickname()).isEqualTo("테스트유저1");
+        assertNotNull(userMain);
+        assertThat(userMain.id()).isEqualTo(1L);
+        assertThat(userMain.nickname()).isEqualTo("테스트유저1");
     }
 
 
@@ -81,7 +83,7 @@ public class UserServiceTest {
         when(userReader.getUserPagingByRanking(pageable)).thenReturn(new PageImpl<>(userList, pageable, userList.size()));
 
         //when
-        Page<UserModel.Model> userPage = userService.getUserPagingByRanking(pageable);
+        Page<UserModel.Main> userPage = userService.getUserPagingByRanking(pageable);
 
 
         //then

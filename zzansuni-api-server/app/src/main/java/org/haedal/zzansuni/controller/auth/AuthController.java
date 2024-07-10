@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/api/auth/oauth2")
     public ApiResponse<AuthRes.LoginResponse> oauth2(
         @RequestBody @Valid AuthReq.OAuth2LoginRequest request) {
-        Pair<JwtToken, UserModel.Model> pair = authService.oAuth2LoginOrSignup(request.provider(),
+        Pair<JwtToken, UserModel.Main> pair = authService.oAuth2LoginOrSignup(request.provider(),
             request.code(), request.state());
         var response = AuthRes.LoginResponse.from(pair.getFirst(), pair.getSecond());
         return ApiResponse.success(response);
@@ -37,7 +37,7 @@ public class AuthController {
     @PostMapping("/api/auth/signup")
     public ApiResponse<AuthRes.LoginResponse> signup(
         @RequestBody @Valid AuthReq.EmailSignupRequest request) {
-        Pair<JwtToken, UserModel.Model> pair = authService.signup(request.toCommand());
+        Pair<JwtToken, UserModel.Main> pair = authService.signup(request.toCommand());
         var response = AuthRes.LoginResponse.from(pair.getFirst(), pair.getSecond());
         return ApiResponse.success(response);
     }
@@ -46,7 +46,7 @@ public class AuthController {
     @PostMapping("/api/auth/login")
     public ApiResponse<AuthRes.LoginResponse> login(
         @RequestBody @Valid AuthReq.EmailLoginRequest request) {
-        Pair<JwtToken, UserModel.Model> pair = authService.login(request.email(), request.password());
+        Pair<JwtToken, UserModel.Main> pair = authService.login(request.email(), request.password());
         var response = AuthRes.LoginResponse.from(pair.getFirst(), pair.getSecond());
         return ApiResponse.success(response);
     }

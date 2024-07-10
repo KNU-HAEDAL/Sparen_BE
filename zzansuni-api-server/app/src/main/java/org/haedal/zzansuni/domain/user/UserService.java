@@ -3,7 +3,6 @@ package org.haedal.zzansuni.domain.user;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
-import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificationReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,9 +20,9 @@ public class UserService {
     private final UserChallengeReader userChallengeReader;
 
     @Transactional(readOnly = true)
-    public UserModel.Model getUserModel(Long id) {
+    public UserModel.Main getUserModel(Long id) {
         User user = userReader.getById(id);
-        return UserModel.Model.from(user);
+        return UserModel.Main.from(user);
     }
 
     /**
@@ -37,9 +36,9 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public Page<UserModel.Model> getUserPagingByRanking(Pageable pageable) {
+    public Page<UserModel.Main> getUserPagingByRanking(Pageable pageable) {
         Page<User> users =  userReader.getUserPagingByRanking(pageable);
-        return users.map(UserModel.Model::from);
+        return users.map(UserModel.Main::from);
     }
 
     @Transactional(readOnly = true)

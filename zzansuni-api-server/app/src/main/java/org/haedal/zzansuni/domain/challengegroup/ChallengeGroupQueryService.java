@@ -52,7 +52,7 @@ public class ChallengeGroupQueryService {
             Integer rank = challengeGroupUserExps.getNumber() * challengeGroupUserExps.getSize() + 1 + i;
             ChallengeGroupUserExp challengeGroupUserExp = challengeGroupUserExps.getContent().get(i);
             var rankingModel = ChallengeGroupModel.Ranking.builder()
-                    .user(UserModel.Model.from(challengeGroupUserExp.getUser()))
+                    .user(UserModel.Main.from(challengeGroupUserExp.getUser()))
                     .accumulatedPoint(challengeGroupUserExp.getTotalExp())
                     .rank(rank)
                     .build();
