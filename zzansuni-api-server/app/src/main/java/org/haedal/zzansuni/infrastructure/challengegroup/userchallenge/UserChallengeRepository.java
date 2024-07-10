@@ -50,7 +50,7 @@ public interface UserChallengeRepository extends JpaRepository<UserChallenge, Lo
             "AND cv.status = 'APPROVED' " +
             "GROUP BY DATE(cv.createdAt) " +
             "ORDER BY DATE(cv.createdAt)")
-    List<Pair<LocalDate,Integer>> findAllByUserIdAndCreatedAt(
+    List<Pair<LocalDate,Integer>> countAllByUserIdAndDate(
             @Param("userId") Long userId,
             @Param("startDate")LocalDate startDate,
             @Param("endDate")LocalDate endDate

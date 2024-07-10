@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserReader userReader;
     private final UserChallengeReader userChallengeReader;
-    private final ChallengeVerificationReader challengeVerificationReader;
 
     @Transactional(readOnly = true)
     public UserModel.Model getUserModel(Long id) {
@@ -45,7 +44,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserModel.Strick getUserStrick(Long id, LocalDate startDate, LocalDate endDate){
-        List<Pair<LocalDate,Integer>> userStricks = userChallengeReader.findAllByUserIdAndCreatedAt(id, startDate, endDate);
+        List<Pair<LocalDate,Integer>> userStricks = userChallengeReader.countAllByUserIdAndDate(id, startDate, endDate);
         Map<LocalDate, Integer> map = userStricks.stream()
                 .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
         return UserModel.Strick.from(map, startDate, endDate);

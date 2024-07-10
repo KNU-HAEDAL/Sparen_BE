@@ -26,5 +26,5 @@ public interface UserChallengeReader {
 
     Page<UserChallenge> getCompletedChallengePageByUserId(Long userId, Pageable pageable);
 
-    List<Pair<LocalDate,Integer>> findAllByUserIdAndCreatedAt(Long userId, LocalDate startDate, LocalDate endDate);
+    List<Pair<LocalDate,Integer>> countAllByUserIdAndDate(Long userId, LocalDate startDate, LocalDate endDate);
 }

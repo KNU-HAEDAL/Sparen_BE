@@ -28,8 +28,6 @@ public class UserServiceTest {
     @Mock
     private UserReader userReader;
 
-//    @Mock
-//    private UserRepository userRepository;
 
     @DisplayName("사용자 정보를 조회한다.")
     @Test
@@ -105,10 +103,17 @@ public class UserServiceTest {
     }
 
 
-    // 레포지토리 테스트에 있어야 함ㅎ.
+
     @DisplayName("전체 사용자 랭킹이 내림차순으로 나타난다.")
     @Test
     public void getUserPagingByRankingOrder(){
+
+    }
+
+
+    @DisplayName("유저의 스트릭을 조회한다.")
+    @Test
+    public void getUserStrick(){
 
     }
 

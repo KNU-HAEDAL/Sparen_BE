@@ -134,7 +134,7 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
     }
 
     @Override
-    public List<Pair<LocalDate,Integer>> findAllByUserIdAndCreatedAt(Long userId, LocalDate startDate, LocalDate endDate){
-        return userChallengeRepository.findAllByUserIdAndCreatedAt(userId, startDate, endDate);
+    public List<Pair<LocalDate,Integer>> countAllByUserIdAndDate(Long userId, LocalDate startDate, LocalDate endDate){
+        return userChallengeRepository.countAllByUserIdAndDate(userId, startDate, endDate);
     }
 }
