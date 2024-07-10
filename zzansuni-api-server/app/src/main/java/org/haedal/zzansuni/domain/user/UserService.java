@@ -22,9 +22,9 @@ public class UserService {
     private final ChallengeVerificationReader challengeVerificationReader;
 
     @Transactional(readOnly = true)
-    public UserModel.Info getUserModel(Long id) {
+    public UserModel.Model getUserModel(Long id) {
         User user = userReader.getById(id);
-        return UserModel.Info.from(user);
+        return UserModel.Model.from(user);
     }
 
     /**
@@ -38,9 +38,9 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public Page<UserModel.Info> getUserPagingByRanking(Pageable pageable) {
+    public Page<UserModel.Model> getUserPagingByRanking(Pageable pageable) {
         Page<User> users =  userReader.getUserPagingByRanking(pageable);
-        return users.map(UserModel.Info::from);
+        return users.map(UserModel.Model::from);
     }
 
     @Transactional(readOnly = true)

@@ -1,7 +1,6 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
 import lombok.Builder;
-import lombok.Getter;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImage;
 import org.haedal.zzansuni.domain.user.UserModel;
@@ -116,7 +115,7 @@ public class ChallengeGroupModel {
 
     @Builder
     public record Ranking(
-            UserModel.Info user,
+            UserModel.Model user,
             Integer rank,
             Integer accumulatedPoint
     ) {

@@ -1,7 +1,6 @@
 package org.haedal.zzansuni.domain.user;
 
 import org.haedal.zzansuni.global.security.Role;
-import org.haedal.zzansuni.infrastructure.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +38,7 @@ public class UserServiceTest {
         when(userReader.getById(1L)).thenReturn(createUser(1L,"테스트유저1"));
 
         //when
-        UserModel.Info userModel = userService.getUserModel(1L);
+        UserModel.Model userModel = userService.getUserModel(1L);
 
         //then
         assertNotNull(userModel);
@@ -84,7 +83,7 @@ public class UserServiceTest {
         when(userReader.getUserPagingByRanking(pageable)).thenReturn(new PageImpl<>(userList, pageable, userList.size()));
 
         //when
-        Page<UserModel.Info> userPage = userService.getUserPagingByRanking(pageable);
+        Page<UserModel.Model> userPage = userService.getUserPagingByRanking(pageable);
 
 
         //then

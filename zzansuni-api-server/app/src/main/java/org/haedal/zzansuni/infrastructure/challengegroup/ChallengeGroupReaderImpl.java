@@ -142,7 +142,7 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
         return ChallengeGroupModel.Ranking.builder()
                 .rank(rank==null ? 0 : rank)
                 .accumulatedPoint(challengeGroupUserExp != null ? challengeGroupUserExp.getTotalExp() : 0)
-                .user(UserModel.Info.from(user))
+                .user(UserModel.Model.from(user))
                 .build();
     }
 

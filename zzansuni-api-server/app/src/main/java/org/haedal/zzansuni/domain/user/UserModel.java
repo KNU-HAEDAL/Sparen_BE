@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 
 public class UserModel{
     @Builder
-    public record Info(
+    public record Model(
             Long id,
             String email,
             String nickname,
             String profileImageUrl,
             Integer exp
     ) {
-        public static Info from(User user) {
-            return Info.builder()
+        public static Model from(User user) {
+            return Model.builder()
                     .id(user.getId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())

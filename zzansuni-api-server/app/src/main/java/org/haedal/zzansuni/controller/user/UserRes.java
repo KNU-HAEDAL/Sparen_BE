@@ -16,7 +16,7 @@ public class UserRes {
             String email,
             TierInfo tierInfo
     ) {
-        public static UserInfo from(UserModel.Info userModel) {
+        public static UserInfo from(UserModel.Model userModel) {
             var tierInfo = TierInfo.from(userModel.exp());
             return UserInfo.builder()
                     .id(userModel.id())
@@ -35,7 +35,7 @@ public class UserRes {
             String profileImageUrl,
             TierInfo tierInfo
     ) {
-        public static User from(UserModel.Info userModel) {
+        public static User from(UserModel.Model userModel) {
             var tierInfo = TierInfo.from(userModel.exp());
             return User.builder()
                     .id(userModel.id())
