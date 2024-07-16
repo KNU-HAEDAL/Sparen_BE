@@ -9,7 +9,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.tuple.Pair;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.QUserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
@@ -134,7 +133,7 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
     }
 
     @Override
-    public List<Pair<LocalDate,Integer>> countAllByUserIdAndDate(Long userId, LocalDate startDate, LocalDate endDate){
+    public List<DayCountType> countAllByUserIdAndDate(Long userId, LocalDate startDate, LocalDate endDate){
         return userChallengeRepository.countAllByUserIdAndDate(userId, startDate, endDate);
     }
 }
