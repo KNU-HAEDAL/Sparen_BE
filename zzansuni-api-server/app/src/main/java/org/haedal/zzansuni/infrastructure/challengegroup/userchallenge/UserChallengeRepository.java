@@ -5,14 +5,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UserChallengeRepository extends JpaRepository<UserChallenge, Long> {
-
     Optional<UserChallenge> findByUserIdAndChallengeId(Long userId, Long challengeId);
 
     /**
@@ -42,15 +40,16 @@ public interface UserChallengeRepository extends JpaRepository<UserChallenge, Lo
      *
      * 이 쿼리가 userChallenge에 있는게 맞는지, challengeVerification에 있는게 맞는지
      */
-    @Query("SELECT DATE(cv.createdAt), count(*) FROM UserChallenge uc " +
-            "LEFT JOIN uc.challengeVerifications cv " +
+    @Query("SELECT DATE(cv.createdAt) as date, count(*) as count FROM UserChallenge uc " +
+            "JOIN uc.challengeVerifications cv " +
             "WHERE uc.user.id = :userId " +
+            "AND uc.id = cv.userChallenge.id " +
             "AND DATE(uc.createdAt) >= :startDate " +
             "AND DATE(cv.createdAt) <= :endDate " +
             "AND cv.status = 'APPROVED' " +
             "GROUP BY DATE(cv.createdAt) " +
             "ORDER BY DATE(cv.createdAt)")
-    List<Pair<LocalDate,Integer>> countAllByUserIdAndDate(
+    List<DayCountType> countAllByUserIdAndDate(
             @Param("userId") Long userId,
             @Param("startDate")LocalDate startDate,
             @Param("endDate")LocalDate endDate

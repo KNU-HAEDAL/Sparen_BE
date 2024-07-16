@@ -1,8 +1,8 @@
 package org.haedal.zzansuni.domain.user;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.tuple.Pair;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
+import org.haedal.zzansuni.infrastructure.challengegroup.userchallenge.DayCountType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,9 +43,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserModel.Strick getUserStrick(Long id, LocalDate startDate, LocalDate endDate){
-        List<Pair<LocalDate,Integer>> userStricks = userChallengeReader.countAllByUserIdAndDate(id, startDate, endDate);
+        List<DayCountType> userStricks = userChallengeReader.countAllByUserIdAndDate(id, startDate, endDate);
         Map<LocalDate, Integer> map = userStricks.stream()
-                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
+                .collect(Collectors.toMap(DayCountType::getDate, DayCountType::getCount));
         return UserModel.Strick.from(map, startDate, endDate);
     }
 }
