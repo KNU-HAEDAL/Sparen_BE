@@ -40,12 +40,35 @@ public class UserModel{
                     .collect(Collectors.toList());
             return new Strick(resultList);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            if (dayCounts == null) {
+                sb.append("null");
+            } else {
+                for (int i = 0; i < dayCounts.size(); i++) {
+                    sb.append(dayCounts.get(i).toString());
+                    if (i < dayCounts.size() - 1)
+                        sb.append("\n");
+                }
+            }
+            return sb.toString();
+        }
+
     }
     @Builder
     public record DayCount(
             LocalDate date,
             Integer count
     ) {
+
+        @Override
+        public String toString() {
+            return "DayCount{" +
+                    "date=" + date +
+                    ", count=" + count + '}';
+        }
     }
 
 
