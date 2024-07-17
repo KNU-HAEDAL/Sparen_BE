@@ -10,6 +10,14 @@ import org.haedal.zzansuni.domain.user.User;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "challenge_group_user_exp_unique",
+                        columnNames = {"challenge_group_id", "user_id"}
+                )
+        }
+)
 public class ChallengeGroupUserExp {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

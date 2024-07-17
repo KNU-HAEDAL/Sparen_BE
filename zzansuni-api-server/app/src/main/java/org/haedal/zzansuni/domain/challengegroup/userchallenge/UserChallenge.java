@@ -24,6 +24,14 @@ import java.util.Optional;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
+@Table(
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "user_challenge_unique",
+            columnNames = {"challenge_id", "user_id"}
+        )
+    }
+)
 public class UserChallenge extends BaseTimeEntity {
 
     @Id

@@ -62,6 +62,7 @@ CREATE TABLE challenge_group_user_exp
     challenge_group_id BIGINT NOT NULL,
     user_id            BIGINT NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT UK_challenge_group_user_exp_challenge_group_user UNIQUE (challenge_group_id, user_id),
     CONSTRAINT FK_challenge_group_user_exp_challenge_group FOREIGN KEY (challenge_group_id) REFERENCES challenge_group (id),
     CONSTRAINT FK_challenge_group_user_exp_users FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
@@ -75,6 +76,7 @@ CREATE TABLE user_challenge
     user_id          BIGINT NOT NULL,
     status           ENUM('FAIL', 'PROCEEDING', 'SUCCESS') NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT UK_user_challenge_challenge_user UNIQUE (challenge_id, user_id),
     CONSTRAINT FK_user_challenge_challenge FOREIGN KEY (challenge_id) REFERENCES challenge (id),
     CONSTRAINT FK_user_challenge_users FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
