@@ -1,14 +1,7 @@
 package org.haedal.zzansuni.domain.challengegroup.challenge;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -31,23 +24,30 @@ public class Challenge extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "challenge_group_id")
     private ChallengeGroup challengeGroup;
 
+    @Column(nullable = false)
     private Integer requiredCount;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private DayType dayType;
 
+    @Column(nullable = false)
     private Integer onceExp;
 
+    @Column(nullable = false)
     private Integer successExp;
 
+    @Column(nullable = false)
     private Integer difficulty;
 
+    @Column(nullable = false)
     private LocalDate startDate;
 
+    @Column(nullable = false)
     private LocalDate endDate;
 
 
