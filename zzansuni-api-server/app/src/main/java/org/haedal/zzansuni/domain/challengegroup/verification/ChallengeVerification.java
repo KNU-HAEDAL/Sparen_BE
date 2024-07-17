@@ -18,15 +18,17 @@ public class ChallengeVerification extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_challenge_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_challenge_id", nullable = false)
     private UserChallenge userChallenge;
 
     private String imageUrl;
 
+    @Column(nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ChallengeVerificationStatus status;
 
     public static ChallengeVerification create(ChallengeCommand.VerificationCreate command, UserChallenge userChallenge) {

@@ -1,7 +1,5 @@
 package org.haedal.zzansuni.global.api;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -10,12 +8,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@OpenAPIDefinition(
-        servers = {
-                @Server(url = "https://api.reditus.site",description = "Prod Server"),
-                @Server(url = "http://localhost:8080", description = "localhost"),
-        }
-)
 @Configuration
 public class SwaggerConfig {
     private static final String BEARER_KEY = "bearer-key";

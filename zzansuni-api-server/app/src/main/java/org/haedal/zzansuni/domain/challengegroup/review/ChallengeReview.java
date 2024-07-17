@@ -1,12 +1,6 @@
 package org.haedal.zzansuni.domain.challengegroup.review;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,15 +21,18 @@ public class ChallengeReview extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_challenge_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_challenge_id", nullable = false)
     private UserChallenge userChallenge;
 
+    @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private Integer rating;
 
     // 쿼리 성능을 위해 비정규화
+    @Column(nullable = false)
     private Long challengeGroupId;
 
     public static ChallengeReview create(UserChallenge userChallenge,
