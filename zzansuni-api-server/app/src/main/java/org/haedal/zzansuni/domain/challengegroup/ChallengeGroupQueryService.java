@@ -39,27 +39,20 @@ public class ChallengeGroupQueryService {
         return challengeGroups.map(ChallengeGroupModel.Info::from);
     }
 
+    @Transactional(readOnly = true)
     public Page<ChallengeGroupModel.Ranking> getChallengeGroupRankingsPaging(Long challengeGroupId, Pageable pageable) {
         Page<ChallengeGroupUserExp> challengeGroupUserExps
-                = challengeGroupReader.getByChallengeGroupId(challengeGroupId, pageable);
+                = challengeGroupReader.getUserExpPagingWithUserByChallengeGroupId(challengeGroupId, pageable);
 
-        return getRankingPage(pageable, challengeGroupUserExps);
+        // Page<ChallengeGroupUserExp>를 Page<ChallengeGroupModel.Ranking>으로 변환
+        // [rank]는 [Pageable]의 위치에 따라 계산된다.
+        return challengeGroupUserExps.map(e->{
+            int rank = challengeGroupUserExps.getNumber() * challengeGroupUserExps.getSize() + 1
+                    + challengeGroupUserExps.getContent().indexOf(e);
+            return ChallengeGroupModel.Ranking.from(e, rank);
+        });
     }
 
-    private static PageImpl<ChallengeGroupModel.Ranking> getRankingPage(Pageable pageable, Page<ChallengeGroupUserExp> challengeGroupUserExps) {
-        List<ChallengeGroupModel.Ranking> rankings = new ArrayList<>();
-        for(int i = 0; i < challengeGroupUserExps.getContent().size(); i++) {
-            Integer rank = challengeGroupUserExps.getNumber() * challengeGroupUserExps.getSize() + 1 + i;
-            ChallengeGroupUserExp challengeGroupUserExp = challengeGroupUserExps.getContent().get(i);
-            var rankingModel = ChallengeGroupModel.Ranking.builder()
-                    .user(UserModel.from(challengeGroupUserExp.getUser()))
-                    .accumulatedPoint(challengeGroupUserExp.getTotalExp())
-                    .rank(rank)
-                    .build();
-            rankings.add(rankingModel);
-        }
-        return new PageImpl<>(rankings, pageable, challengeGroupUserExps.getTotalElements());
-    }
 
     public ChallengeGroupModel.Ranking getChallengeGroupRanking(Long challengeGroupId, Long id) {
         return challengeGroupReader.getRanking(challengeGroupId, id);

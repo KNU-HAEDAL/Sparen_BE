@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImage;
+import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.UserModel;
 
 import java.time.LocalDate;
@@ -120,6 +121,13 @@ public class ChallengeGroupModel {
             Integer rank,
             Integer accumulatedPoint
     ) {
+        public static Ranking from(ChallengeGroupUserExp challengeGroupUserExp, int rank) {
+            return Ranking.builder()
+                    .user(UserModel.from(challengeGroupUserExp.getUser()))
+                    .rank(rank)
+                    .accumulatedPoint(challengeGroupUserExp.getTotalExp())
+                    .build();
+        }
     }
 
 }

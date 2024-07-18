@@ -17,7 +17,7 @@ public interface ChallengeGroupReader {
 
     Optional<ChallengeGroupUserExp> findByChallengeGroupIdAndUserId(Long challengeGroupId, Long userId);
 
-    Page<ChallengeGroupUserExp> getByChallengeGroupId(Long challengeGroupId, Pageable pageable);
+    Page<ChallengeGroupUserExp> getUserExpPagingWithUserByChallengeGroupId(Long challengeGroupId, Pageable pageable);
 
     ChallengeGroupModel.Ranking getRanking(Long challengeGroupId, Long userId);
 }
