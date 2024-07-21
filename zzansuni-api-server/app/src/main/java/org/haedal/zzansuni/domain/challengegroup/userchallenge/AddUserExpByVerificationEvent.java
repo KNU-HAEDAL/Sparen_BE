@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(staticName = "of")
-public class AddExpToChallengeGroupEvent {
+public class AddUserExpByVerificationEvent {
     private Long userId;
     private Integer acquiredExp;
     private Long challengeGroupId;
