@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
+import org.haedal.zzansuni.domain.challengegroup.userchallenge.DayCountType;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.QUserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;

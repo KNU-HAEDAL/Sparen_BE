@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.haedal.zzansuni.infrastructure.challengegroup.userchallenge.DayCountType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
