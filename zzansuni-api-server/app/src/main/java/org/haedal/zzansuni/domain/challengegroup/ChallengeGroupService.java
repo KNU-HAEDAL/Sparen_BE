@@ -1,6 +1,8 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
+import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupStore;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

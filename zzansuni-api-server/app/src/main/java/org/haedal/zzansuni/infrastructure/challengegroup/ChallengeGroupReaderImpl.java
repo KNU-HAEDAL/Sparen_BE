@@ -5,11 +5,13 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.*;
-import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExp;
-import org.haedal.zzansuni.domain.challengegroup.userexp.QChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
+import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
+import org.haedal.zzansuni.domain.userchallenge.userexp.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.QUser;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserModel;
+import org.haedal.zzansuni.domain.userchallenge.userexp.QChallengeGroupUserExp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +23,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroup.challengeGroup;
-import static org.haedal.zzansuni.domain.challengegroup.userexp.QChallengeGroupUserExp.challengeGroupUserExp;
+import static org.haedal.zzansuni.domain.userchallenge.userexp.QChallengeGroupUserExp.challengeGroupUserExp;
 
 @Component
 @RequiredArgsConstructor

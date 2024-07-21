@@ -9,8 +9,8 @@ import lombok.Getter;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
-import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
-import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
+import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
+import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerification;
 
 @Getter
 @Builder

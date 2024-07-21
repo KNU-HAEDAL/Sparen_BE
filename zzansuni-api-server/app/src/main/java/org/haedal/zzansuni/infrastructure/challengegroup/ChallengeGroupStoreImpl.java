@@ -2,7 +2,7 @@ package org.haedal.zzansuni.infrastructure.challengegroup;
 
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupStore;
+import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupStore;
 import org.springframework.stereotype.Component;
 
 @Component

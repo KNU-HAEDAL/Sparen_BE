@@ -5,17 +5,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReview;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewReader;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewStore;
-import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerification;
-import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificationModel;
-import org.haedal.zzansuni.domain.challengegroup.verification.ChallengeVerificationReader;
-import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
-import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
+import org.haedal.zzansuni.domain.challengegroup.challenge.port.ChallengeReader;
+import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReview;
+import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReviewModel;
+import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
+import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
+import org.haedal.zzansuni.domain.userchallenge.review.port.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.userchallenge.review.port.ChallengeReviewStore;
+import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerification;
+import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerificationModel;
+import org.haedal.zzansuni.domain.userchallenge.verification.port.ChallengeVerificationReader;
+import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
+import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class ChallengeService {
      */
 
     @Transactional(readOnly = true)
-    public ChallengeRecord getChallengeRecord(Long userId, Long challengeId) {
+    public ChallengeModel.ChallengeRecord getChallengeRecord(Long userId, Long challengeId) {
         Challenge challenge = challengeReader.getById(challengeId);
         ChallengeGroup challengeGroup = challenge.getChallengeGroup();
         UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,

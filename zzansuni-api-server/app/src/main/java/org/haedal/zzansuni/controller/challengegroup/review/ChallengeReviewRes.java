@@ -3,9 +3,9 @@ package org.haedal.zzansuni.controller.challengegroup.review;
 import java.util.Map;
 import lombok.Builder;
 import org.haedal.zzansuni.controller.user.UserRes;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
-import org.haedal.zzansuni.domain.challengegroup.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
+import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReviewModel;
+import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReviewModel.ChallengeReviewWithChallenge;
+import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 
 public class ChallengeReviewRes {
 

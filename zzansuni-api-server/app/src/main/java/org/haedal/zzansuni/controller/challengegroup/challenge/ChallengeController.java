@@ -14,7 +14,7 @@ import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeComplete;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeCurrent;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeService;
-import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeService;
+import org.haedal.zzansuni.domain.userchallenge.UserChallengeService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
