@@ -7,6 +7,7 @@ import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
 import org.haedal.zzansuni.domain.challengegroup.challenge.*;
 import org.haedal.zzansuni.domain.challengegroup.challenge.port.ChallengeReader;
+import org.haedal.zzansuni.domain.userchallenge.AddUserExpByVerificationUseCase;
 import org.haedal.zzansuni.domain.userchallenge.review.port.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
@@ -59,6 +60,9 @@ class UserChallengeServiceTest {
 
     @Mock
     private ChallengeGroupUserExpStore challengeGroupUserExpStore;
+
+    @Mock
+    private AddUserExpByVerificationUseCase addUserExpByVerificationUseCase;
 
     @InjectMocks
     private UserChallengeService userChallengeService;
@@ -167,9 +171,6 @@ class UserChallengeServiceTest {
 
         when(userChallengeReader.getByChallengeIdWithVerificationAndChallenge(challengeId,
             userId)).thenReturn(userChallenge);
-        when(challengeGroupReader.findByChallengeGroupIdAndUserId(challengeGroup.getId(),
-            userId)).thenReturn(Optional.of(challengeGroupUserExp));
-
         ChallengeModel.ChallengeVerificationResult result = userChallengeService.verification(
             challengeId, userId, command);
 
@@ -179,8 +180,6 @@ class UserChallengeServiceTest {
         assertEquals(challenge.getOnceExp(), result.obtainExp());
 
         verify(userChallengeReader).getByChallengeIdWithVerificationAndChallenge(challengeId,
-            userId);
-        verify(challengeGroupReader).findByChallengeGroupIdAndUserId(challengeGroup.getId(),
             userId);
     }
 
