@@ -1,21 +1,28 @@
 package org.haedal.zzansuni.domain.user;
 
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
+import org.haedal.zzansuni.domain.challengegroup.userchallenge.DayCountType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserReader userReader;
-    private final UserStore userStore;
+    private final UserChallengeReader userChallengeReader;
 
     @Transactional(readOnly = true)
-    public UserModel getUserModel(Long id) {
+    public UserModel.Main getUserModel(Long id) {
         User user = userReader.getById(id);
-        return UserModel.from(user);
+        return UserModel.Main.from(user);
     }
 
     /**
@@ -29,8 +36,16 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public Page<UserModel> getUserPagingByRanking(Pageable pageable) {
+    public Page<UserModel.Main> getUserPagingByRanking(Pageable pageable) {
         Page<User> users =  userReader.getUserPagingByRanking(pageable);
-        return users.map(UserModel::from);
+        return users.map(UserModel.Main::from);
+    }
+
+    @Transactional(readOnly = true)
+    public UserModel.Strick getUserStrick(Long id, LocalDate startDate, LocalDate endDate){
+        List<DayCountType> userStricks = userChallengeReader.countAllByUserIdAndDate(id, startDate, endDate);
+        Map<LocalDate, Integer> map = userStricks.stream()
+                .collect(Collectors.toMap(DayCountType::getDate, DayCountType::getCount));
+        return UserModel.Strick.from(map, startDate, endDate);
     }
 }

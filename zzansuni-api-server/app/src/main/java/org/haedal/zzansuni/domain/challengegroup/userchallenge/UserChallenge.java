@@ -61,20 +61,32 @@ public class UserChallenge extends BaseTimeEntity {
             .build();
     }
 
-    public void addChallengeVerification(ChallengeCommand.VerificationCreate command) {
+    /**
+     * 챌린지 인증 추가
+     * 1. 챌린지 인증을 추가
+     * 2. 챌린지 인증을 추가하면서 챌린지 인증에 따른 경험치를 추가
+     * 3. 챌린지를 완료한 경우 챌린지 완료로 변경, 경험치 추가
+     * 4. 챌린지그룹-경험치 추가 이벤트를 반환
+     */
+    public AddUserExpByVerificationEvent addChallengeVerification(ChallengeCommand.VerificationCreate command) {
         ChallengeVerification challengeVerification = ChallengeVerification.create(command, this);
         this.challengeVerifications.add(challengeVerification);
+
+        int acquiredExp = this.challenge.getOnceExp();
         user.addExp(challenge.getOnceExp());
 
         // 만약 챌린지 인증 참여횟수와 필요참여획수가 같으면 챌린지 완료로 변경
         if (this.challengeVerifications.size() == this.challenge.getRequiredCount()) {
             user.addExp(challenge.getSuccessExp());
-            complete();
+            acquiredExp += challenge.getSuccessExp();
+            this.completeChallengeStatus();
         }
+        return AddUserExpByVerificationEvent
+                .of(user.getId(), acquiredExp, challenge.getChallengeGroupId());
     }
 
 
-    private void complete() {
+    private void completeChallengeStatus() {
         this.status = ChallengeStatus.SUCCESS;
     }
 

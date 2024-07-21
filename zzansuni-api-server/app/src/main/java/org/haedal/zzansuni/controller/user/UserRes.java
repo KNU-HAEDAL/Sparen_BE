@@ -16,13 +16,13 @@ public class UserRes {
             String email,
             TierInfo tierInfo
     ) {
-        public static UserInfo from(UserModel userModel) {
-            var tierInfo = TierInfo.from(userModel.exp());
+        public static UserInfo from(UserModel.Main userMain) {
+            var tierInfo = TierInfo.from(userMain.exp());
             return UserInfo.builder()
-                    .id(userModel.id())
-                    .nickname(userModel.nickname())
-                    .profileImageUrl(userModel.profileImageUrl())
-                    .email(userModel.email())
+                    .id(userMain.id())
+                    .nickname(userMain.nickname())
+                    .profileImageUrl(userMain.profileImageUrl())
+                    .email(userMain.email())
                     .tierInfo(tierInfo)
                     .build();
         }
@@ -35,12 +35,12 @@ public class UserRes {
             String profileImageUrl,
             TierInfo tierInfo
     ) {
-        public static User from(UserModel userModel) {
-            var tierInfo = TierInfo.from(userModel.exp());
+        public static User from(UserModel.Main userMain) {
+            var tierInfo = TierInfo.from(userMain.exp());
             return User.builder()
-                    .id(userModel.id())
-                    .nickname(userModel.nickname())
-                    .profileImageUrl(userModel.profileImageUrl())
+                    .id(userMain.id())
+                    .nickname(userMain.nickname())
+                    .profileImageUrl(userMain.profileImageUrl())
                     .tierInfo(tierInfo)
                     .build();
         }
@@ -65,8 +65,14 @@ public class UserRes {
 
     @Builder
     public record Strick(
-            List<UserRes.DayCount> dayCounts
+            /** 여기서 Model의 DayCount를 사용해도 되는지 */
+            List<UserModel.DayCount> dayCounts
     ) {
+        public static Strick from(UserModel.Strick strick){
+            return Strick.builder()
+                    .dayCounts(strick.dayCounts())
+                    .build();
+        }
     }
 
     /**
