@@ -122,7 +122,7 @@ public class ChallengeGroupModel {
     ) {
         public static Ranking from(ChallengeGroupUserExp challengeGroupUserExp, int rank) {
             return Ranking.builder()
-                    .user(UserModel.from(challengeGroupUserExp.getUser()))
+                    .user(UserModel.Main.from(challengeGroupUserExp.getUser()))
                     .rank(rank)
                     .accumulatedPoint(challengeGroupUserExp.getTotalExp())
                     .build();
