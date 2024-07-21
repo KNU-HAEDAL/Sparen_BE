@@ -2,7 +2,6 @@ package org.haedal.zzansuni.domain.challengegroup;
 
 import jakarta.persistence.EntityManager;
 import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
-import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImage;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupImageRepository;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
 import org.haedal.zzansuni.infrastructure.challengegroup.challenge.ChallengeRepository;

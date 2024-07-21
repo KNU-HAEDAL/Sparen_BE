@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeReader;
+import org.haedal.zzansuni.domain.challengegroup.challenge.port.ChallengeReader;
 import org.springframework.stereotype.Component;
 
 @Component

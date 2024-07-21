@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import org.haedal.zzansuni.core.utils.SelfValidating;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
+import org.haedal.zzansuni.domain.challengegroup.DayType;
 
 import java.time.LocalDate;
 import java.util.List;

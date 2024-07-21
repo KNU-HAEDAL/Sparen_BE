@@ -1,9 +1,11 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
 import lombok.Builder;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupImage;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
-import org.haedal.zzansuni.domain.challengegroup.image.ChallengeGroupImage;
-import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.userchallenge.userexp.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.UserModel;
 
 import java.time.LocalDate;
