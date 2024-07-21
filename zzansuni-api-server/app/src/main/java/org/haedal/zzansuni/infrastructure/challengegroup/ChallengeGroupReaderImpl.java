@@ -94,7 +94,7 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
     }
 
     @Override
-    public Page<ChallengeGroupUserExp> getByChallengeGroupId(Long challengeGroupId, Pageable pageable) {
+    public Page<ChallengeGroupUserExp> getUserExpPagingWithUserByChallengeGroupId(Long challengeGroupId, Pageable pageable) {
         Long count = queryFactory
                 .select(challengeGroupUserExp.count())
                 .from(challengeGroupUserExp)
@@ -104,6 +104,7 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
         List<ChallengeGroupUserExp> page = queryFactory
                 .selectFrom(challengeGroupUserExp)
                 .where(challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
+                .innerJoin(challengeGroupUserExp.user).fetchJoin()
                 .orderBy(challengeGroupUserExp.totalExp.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
