@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupReader;
 import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.challengegroup.userexp.ChallengeGroupUserExpStore;
 import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
@@ -29,8 +28,8 @@ public class UserChallengeService {
     private final ChallengeReviewReader challengeReviewReader;
     private final UserReader userReader;
     private final ChallengeReader challengeReader;
-    private final ChallengeGroupReader challengeGroupReader;
     private final ChallengeGroupUserExpStore challengeGroupUserExpStore;
+    private final AddUserExpByVerificationUseCase addUserExpByVerificationUseCase;
     /**
      * 챌린지 참여하기 <br>
      * 1. 유저와 챌린지 정보를 받아서 UserChallenge 테이블에 데이터 추가
@@ -77,14 +76,10 @@ public class UserChallengeService {
             throw new IllegalArgumentException("해당 챌린지에 참여한 유저가 아닙니다.");
         }
 
-
-        AddExpToChallengeGroupEvent addExpToChallengeGroupEvent = userChallenge.addChallengeVerification(command);
+        AddUserExpByVerificationEvent event = userChallenge.addChallengeVerification(command);
 
         // 챌린지 경험치 획득 로직
-        Long challengeGroupId = userChallenge.getChallenge().getChallengeGroupId();
-        ChallengeGroupUserExp challengeGroupUserExp = challengeGroupReader
-            .findByChallengeGroupIdAndUserId(challengeGroupId, userId).orElseThrow();
-        challengeGroupUserExp.addExp(addExpToChallengeGroupEvent.getAcquiredExp());
+        addUserExpByVerificationUseCase.invoke(event);
 
         // 챌린지 RequiredCount 가져오기 위해 챌린지 정보 가져온다
         Challenge challenge = userChallenge.getChallenge();
