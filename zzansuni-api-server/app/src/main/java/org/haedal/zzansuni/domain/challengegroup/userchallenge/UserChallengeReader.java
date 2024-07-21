@@ -1,6 +1,9 @@
 package org.haedal.zzansuni.domain.challengegroup.userchallenge;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,4 +24,6 @@ public interface UserChallengeReader {
     Page<UserChallenge> getCurrentChallengePageByUserId(Long userId, Pageable pageable);
 
     Page<UserChallenge> getCompletedChallengePageByUserId(Long userId, Pageable pageable);
+
+    List<DayCountType> countAllByUserIdAndDate(Long userId, LocalDate startDate, LocalDate endDate);
 }

@@ -2,12 +2,15 @@ package org.haedal.zzansuni.infrastructure.challengegroup.userchallenge;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
+import org.haedal.zzansuni.domain.challengegroup.userchallenge.DayCountType;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.QUserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.challengegroup.userchallenge.UserChallengeReader;
@@ -128,5 +131,10 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
 
     private BooleanExpression neProceeding() {
         return QUserChallenge.userChallenge.status.ne(ChallengeStatus.PROCEEDING);
+    }
+
+    @Override
+    public List<DayCountType> countAllByUserIdAndDate(Long userId, LocalDate startDate, LocalDate endDate){
+        return userChallengeRepository.countAllByUserIdAndDate(userId, startDate, endDate);
     }
 }

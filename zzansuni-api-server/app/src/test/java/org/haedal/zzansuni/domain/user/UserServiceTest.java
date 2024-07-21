@@ -1,13 +1,13 @@
 package org.haedal.zzansuni.domain.user;
 
 import org.haedal.zzansuni.global.security.Role;
-import org.haedal.zzansuni.infrastructure.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @InjectMocks
@@ -29,8 +30,6 @@ public class UserServiceTest {
     @Mock
     private UserReader userReader;
 
-//    @Mock
-//    private UserRepository userRepository;
 
     @DisplayName("사용자 정보를 조회한다.")
     @Test
@@ -39,12 +38,12 @@ public class UserServiceTest {
         when(userReader.getById(1L)).thenReturn(createUser(1L,"테스트유저1"));
 
         //when
-        UserModel userModel = userService.getUserModel(1L);
+        UserModel.Main userMain = userService.getUserModel(1L);
 
         //then
-        assertNotNull(userModel);
-        assertThat(userModel.id()).isEqualTo(1L);
-        assertThat(userModel.nickname()).isEqualTo("테스트유저1");
+        assertNotNull(userMain);
+        assertThat(userMain.id()).isEqualTo(1L);
+        assertThat(userMain.nickname()).isEqualTo("테스트유저1");
     }
 
 
@@ -84,7 +83,7 @@ public class UserServiceTest {
         when(userReader.getUserPagingByRanking(pageable)).thenReturn(new PageImpl<>(userList, pageable, userList.size()));
 
         //when
-        Page<UserModel> userPage = userService.getUserPagingByRanking(pageable);
+        Page<UserModel.Main> userPage = userService.getUserPagingByRanking(pageable);
 
 
         //then
@@ -106,10 +105,17 @@ public class UserServiceTest {
     }
 
 
-    // 레포지토리 테스트에 있어야 함ㅎ.
+
     @DisplayName("전체 사용자 랭킹이 내림차순으로 나타난다.")
     @Test
     public void getUserPagingByRankingOrder(){
+
+    }
+
+
+    @DisplayName("유저의 스트릭을 조회한다.")
+    @Test
+    public void getUserStrick(){
 
     }
 
