@@ -79,18 +79,18 @@ public class UserIntegratedTest {
     @Test
     @Transactional
     public void getUserStrick(){
-        User user = createUser(1L, "테스트유저");
+        User user = createUser("테스트유저");
         userRepository.save(user);
 
         ChallengeGroup challengeGroup = createChallengeGroup();
         challengeGroupRepository.save(challengeGroup);
 
-        Challenge challenge1 = createChallenge(1L,challengeGroup);
-        Challenge challenge2 = createChallenge(2L,challengeGroup);
+        Challenge challenge1 = createChallenge(challengeGroup);
+        Challenge challenge2 = createChallenge(challengeGroup);
         challengeRepository.saveAll(List.of(challenge1, challenge2));
 
-        UserChallenge userChallenge1 = createUserChallenge(1L, user, challenge1);
-        UserChallenge userChallenge2 = createUserChallenge(2L, user, challenge2);
+        UserChallenge userChallenge1 = createUserChallenge(user, challenge1);
+        UserChallenge userChallenge2 = createUserChallenge(user, challenge2);
         userChallengeRepository.saveAll(List.of(userChallenge1, userChallenge2));
         LocalDateTime time1 = LocalDateTime.now().minusDays(5);
         LocalDateTime time2 = LocalDateTime.now().minusDays(4);
@@ -100,8 +100,8 @@ public class UserIntegratedTest {
         userChallengeRepository.saveAll(List.of(userChallenge1, userChallenge2));
 
 
-        ChallengeVerification challengeVerification1 = createChallengeVerification(1L,userChallenge1);
-        ChallengeVerification challengeVerification2 = createChallengeVerification(2L,userChallenge2);
+        ChallengeVerification challengeVerification1 = createChallengeVerification(userChallenge1);
+        ChallengeVerification challengeVerification2 = createChallengeVerification(userChallenge2);
         challengeVerificationRepository.saveAll(List.of(challengeVerification1, challengeVerification2));
         // challengeVerification 생성일자 수정
         challengeVerification1.setCreatedAt(time1);
@@ -126,9 +126,8 @@ public class UserIntegratedTest {
     }
 
 
-    User createUser(Long id, String nickname, Integer exp){
+    User createUser(String nickname, Integer exp){
         return User.builder()
-                .id(id)
                 .nickname(nickname)
                 .email(null)
                 .password(null)
@@ -142,12 +141,11 @@ public class UserIntegratedTest {
 
     List<User> createUsers(int size){
         return  LongStream.range(1, size+1)
-                .mapToObj(i -> createUser(i, "user" + i, (int) (i * 100)))
+                .mapToObj(i -> createUser("user" + i, (int) (i * 100)))
                 .collect(Collectors.toList());
     }
-    User createUser(Long id, String nickname){
+    User createUser(String nickname){
         return User.builder()
-                .id(id)
                 .nickname(nickname)
                 .email(null)
                 .password(null)
@@ -161,7 +159,6 @@ public class UserIntegratedTest {
 
     ChallengeGroup createChallengeGroup(){
         return ChallengeGroup.builder()
-                .id(1L)
                 .title("Test Challenge Group")
                 .category(ChallengeCategory.ETC)
                 .content("Test Challenge Group Content")
@@ -170,9 +167,8 @@ public class UserIntegratedTest {
                 .build();
     }
 
-    Challenge createChallenge(Long id, ChallengeGroup challengeGroup){
+    Challenge createChallenge(ChallengeGroup challengeGroup){
         return Challenge.builder()
-                .id(id)
                 .challengeGroup(challengeGroup)
                 .requiredCount(10)
                 .dayType(DayType.DAY)
@@ -184,9 +180,8 @@ public class UserIntegratedTest {
                 .build();
     }
 
-    ChallengeVerification createChallengeVerification(Long id, UserChallenge userChallenge){
+    ChallengeVerification createChallengeVerification(UserChallenge userChallenge){
         return ChallengeVerification.builder()
-                .id(id)
                 .userChallenge(userChallenge)
                 .imageUrl("http://example.com/image.jpg")
                 .content("Test Verification")
@@ -194,9 +189,8 @@ public class UserIntegratedTest {
                 .build();
     }
 
-    UserChallenge createUserChallenge(Long id, User user, Challenge challenge){
+    UserChallenge createUserChallenge(User user, Challenge challenge){
         return UserChallenge.builder()
-                .id(id)
                 .challenge(challenge)
                 .status(ChallengeStatus.PROCEEDING)
                 .user(user)
