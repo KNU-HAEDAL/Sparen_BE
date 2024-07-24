@@ -2,6 +2,8 @@ package org.haedal.zzansuni.domain.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.user.*;
+import org.haedal.zzansuni.domain.user.port.UserReader;
+import org.haedal.zzansuni.domain.user.port.UserStore;
 import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.haedal.zzansuni.global.jwt.JwtUtils;

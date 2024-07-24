@@ -2,7 +2,7 @@ package org.haedal.zzansuni.infrastructure.user;
 
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.user.User;
-import org.haedal.zzansuni.domain.user.UserStore;
+import org.haedal.zzansuni.domain.user.port.UserStore;
 import org.springframework.stereotype.Component;
 
 @Component

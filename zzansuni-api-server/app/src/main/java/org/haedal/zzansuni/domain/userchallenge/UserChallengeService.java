@@ -14,7 +14,7 @@ import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.challenge.port.ChallengeReader;
 import org.haedal.zzansuni.domain.userchallenge.review.port.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.user.User;
-import org.haedal.zzansuni.domain.user.UserReader;
+import org.haedal.zzansuni.domain.user.port.UserReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

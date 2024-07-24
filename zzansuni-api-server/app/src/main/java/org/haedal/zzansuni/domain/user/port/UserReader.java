@@ -1,5 +1,6 @@
-package org.haedal.zzansuni.domain.user;
+package org.haedal.zzansuni.domain.user.port;
 
+import org.haedal.zzansuni.domain.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

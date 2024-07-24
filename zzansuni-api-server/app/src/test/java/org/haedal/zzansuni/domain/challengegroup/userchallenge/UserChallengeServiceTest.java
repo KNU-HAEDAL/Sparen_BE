@@ -16,7 +16,7 @@ import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeStore;
 import org.haedal.zzansuni.domain.userchallenge.userexp.port.ChallengeGroupUserExpStore;
 import org.haedal.zzansuni.domain.userchallenge.userexp.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.User;
-import org.haedal.zzansuni.domain.user.UserReader;
+import org.haedal.zzansuni.domain.user.port.UserReader;
 import org.haedal.zzansuni.global.security.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.user.QUser;
 import org.haedal.zzansuni.domain.user.User;
-import org.haedal.zzansuni.domain.user.UserReader;
+import org.haedal.zzansuni.domain.user.port.UserReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
