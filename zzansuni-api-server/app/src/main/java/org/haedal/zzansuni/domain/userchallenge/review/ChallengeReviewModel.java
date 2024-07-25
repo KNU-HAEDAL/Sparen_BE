@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
+import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 import org.haedal.zzansuni.domain.user.UserModel;
+import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
 
 public class ChallengeReviewModel {
 
@@ -19,11 +22,12 @@ public class ChallengeReviewModel {
 
         public static ChallengeReviewWithUserInfo from(ChallengeReview challengeReview) {
             var userModel = UserModel.Main.from(challengeReview.getUserChallenge().getUser());
+            Challenge challenge = challengeReview.getUserChallenge().getChallenge();
+            ChallengeGroup challengeGroup = challenge.getChallengeGroup();
+
             return ChallengeReviewWithUserInfo.builder()
-                .challengeId(challengeReview.getUserChallenge().getChallenge().getId())
-                .challengeTitle(
-                    challengeReview.getUserChallenge().getChallenge().getChallengeGroup()
-                        .getTitle())
+                .challengeId(challenge.getId())
+                .challengeTitle(challengeGroup.getTitle())
                 .user(userModel)
                 .content(challengeReview.getContent())
                 .rating(challengeReview.getRating())
@@ -43,13 +47,14 @@ public class ChallengeReviewModel {
 
         public static ChallengeReviewWithChallenge from(ChallengeReview challengeReview) {
             var userModel = UserModel.Main.from(challengeReview.getUserChallenge().getUser());
+            UserChallenge userChallenge = challengeReview.getUserChallenge();
+            Challenge challenge = userChallenge.getChallenge();
+            ChallengeGroup challengeGroup = challenge.getChallengeGroup();
+
             return ChallengeReviewWithChallenge.builder()
-                .challengeId(challengeReview.getUserChallenge().getChallenge().getId())
-                .challengeTitle(
-                    challengeReview.getUserChallenge().getChallenge().getChallengeGroup()
-                        .getTitle())
-                .challengeDifficulty(
-                    challengeReview.getUserChallenge().getChallenge().getDifficulty())
+                .challengeId(userChallenge.getChallengeId())
+                .challengeTitle(challengeGroup.getTitle())
+                .challengeDifficulty(challenge.getDifficulty())
                 .user(userModel)
                 .content(challengeReview.getContent())
                 .rating(challengeReview.getRating())
