@@ -35,8 +35,8 @@ public class ChallengeReview extends BaseTimeEntity {
     @Column(nullable = false)
     private Long challengeGroupId;
 
-    public static ChallengeReview create(UserChallenge userChallenge,
-        ChallengeCommand.ReviewCreate command, Long challengeGroupId) {
+    public static ChallengeReview create(UserChallenge userChallenge, ChallengeCommand.ReviewCreate command) {
+        Long challengeGroupId = userChallenge.getChallenge().getChallengeGroupId();
         return ChallengeReview.builder()
             .userChallenge(userChallenge)
             .content(command.getContent())

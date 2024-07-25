@@ -68,11 +68,20 @@ public class ChallengeModel {
 
 
     @Builder
-    public record ChallengeRecord(String title, Integer totalCount, Integer successCount,
-                                  LocalDate startDate, LocalDate endDate, List<Long> recordIds) {
+    public record ChallengeRecord(
+            String title,
+            Integer totalCount,
+            Integer successCount,
+            LocalDate startDate,
+            LocalDate endDate,
+            List<Long> recordIds
+    ) {
 
-        public static ChallengeRecord from(Challenge challenge, ChallengeGroup challengeGroup,
-            List<ChallengeVerification> challengeVerificationList) {
+        public static ChallengeRecord from(
+            Challenge challenge,
+            List<ChallengeVerification> challengeVerificationList
+        ) {
+            ChallengeGroup challengeGroup = challenge.getChallengeGroup();
             return ChallengeRecord.builder()
                 .title(challengeGroup.getTitle())
                 .totalCount(challenge.getRequiredCount())

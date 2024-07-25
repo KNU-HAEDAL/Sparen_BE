@@ -59,12 +59,12 @@ public class ChallengeReviewModel {
     }
 
     @Builder
-    public record ChallengeReviewScore(
+    public record Score(
         Float averageRating,
         Map<Integer, Integer> ratingCount
     ) {
 
-        public static ChallengeReviewScore of(List<ChallengeReview> challengeReviews) {
+        public static Score of(List<ChallengeReview> challengeReviews) {
             // key: rating, value: count
             // rating은 1,2,3,4,5 이며 value는 각각의 rating이 몇개인지 count
             Map<Integer, Integer> ratingCount = new HashMap<>();
@@ -80,7 +80,7 @@ public class ChallengeReviewModel {
                 .mapToInt(ChallengeReview::getRating)
                 .average()
                 .orElse(0);
-            return ChallengeReviewScore.builder()
+            return Score.builder()
                 .averageRating((float) averageRating)
                 .ratingCount(ratingCount)
                 .build();
