@@ -11,7 +11,8 @@ import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.QUser;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserModel;
-import org.haedal.zzansuni.domain.userchallenge.userexp.QChallengeGroupUserExp;
+
+import org.haedal.zzansuni.domain.userchallenge.QChallengeGroupUserExp;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,7 +25,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroup.challengeGroup;
-import static org.haedal.zzansuni.domain.userchallenge.userexp.QChallengeGroupUserExp.challengeGroupUserExp;
+import static org.haedal.zzansuni.domain.userchallenge.QChallengeGroupUserExp.challengeGroupUserExp;
+
 
 @Component
 @RequiredArgsConstructor

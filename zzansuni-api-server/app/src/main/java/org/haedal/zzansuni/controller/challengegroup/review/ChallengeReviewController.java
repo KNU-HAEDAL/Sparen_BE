@@ -11,6 +11,7 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeService;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewModel.ChallengeReviewWithChallenge;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewModel.ChallengeReviewWithUserInfo;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ChallengeReviewController {
 
-    private final ChallengeService challengeService;
+    private final ChallengeReviewService challengeReviewService;
 
 
     @Operation(summary = "챌린지 그룹 최근 리뷰 페이징", description = "챌린지 최근 리뷰 페이징 조회.")
@@ -31,7 +32,7 @@ public class ChallengeReviewController {
         @Valid PagingRequest pagingRequest
         //TODO SORTING
     ) {
-        Page<ChallengeReviewWithUserInfo> page = challengeService.getChallengeReviews(
+        Page<ChallengeReviewWithUserInfo> page = challengeReviewService.getChallengeReviews(
             pagingRequest.toPageable());
 
         PagingResponse<ChallengeReviewRes.Info> response = PagingResponse.from(
@@ -50,7 +51,7 @@ public class ChallengeReviewController {
         @Valid PagingRequest pagingRequest
         //TODO SORTING
     ) {
-        Page<ChallengeReviewWithChallenge> page = challengeService.getChallengeReviewsByGroupId(
+        Page<ChallengeReviewWithChallenge> page = challengeReviewService.getChallengeReviewsByGroupId(
             challengeGroupId, pagingRequest.toPageable());
 
         PagingResponse<ChallengeReviewRes.InfoWithChallenge> response = PagingResponse.from(
@@ -69,7 +70,7 @@ public class ChallengeReviewController {
         @AuthenticationPrincipal JwtUser jwtUser,
         @RequestBody ChallengeReq.ReviewCreate request
     ) {
-        Long response = challengeService.createReview(request.toCommand(), challengeId,
+        Long response = challengeReviewService.createReview(request.toCommand(), challengeId,
             jwtUser.getId());
         return ApiResponse.success(response, "챌린지 리뷰 작성에 성공하였습니다.");
     }
@@ -81,7 +82,7 @@ public class ChallengeReviewController {
         @PathVariable Long challengeGroupId
     ) {
         var response = ChallengeReviewRes.ScoreResponse.from(
-            challengeService.getChallengeGroupReviewScore(challengeGroupId));
+                challengeReviewService.getChallengeGroupReviewScore(challengeGroupId));
         return ApiResponse.success(response, "챌린지 그룹별 리뷰 평점 조회에 성공하였습니다.");
     }
 }

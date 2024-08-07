@@ -8,6 +8,7 @@ import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.Chal
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeReview;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewModel;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewService;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewStore;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
@@ -55,6 +56,9 @@ class ChallengeServiceTest {
 
     @InjectMocks
     private ChallengeService challengeService;
+
+    @InjectMocks
+    private ChallengeReviewService challengeReviewService;
 
     private Challenge challenge;
     private ChallengeGroup challengeGroup;
@@ -176,7 +180,7 @@ class ChallengeServiceTest {
         });
 
         //TODO: ChallengeReview가 정적메서드라 테스트하기 어려움
-        Long reviewId = challengeService.createReview(command, challengeId, userId);
+        Long reviewId = challengeReviewService.createReview(command, challengeId, userId);
 
         //assertNotNull(reviewId);  // 리뷰 ID가 null이 아닌지 확인
         //assertEquals(1L, reviewId);  // 리뷰 ID가 1L인지 확인
@@ -194,7 +198,7 @@ class ChallengeServiceTest {
         when(challengeReviewReader.getChallengeReviewPageByChallengeGroupId(challengeGroupId,
             pageable)).thenReturn(challengeReviewPage);
 
-        Page<ChallengeReviewModel.ChallengeReviewWithChallenge> result = challengeService.getChallengeReviewsByGroupId(
+        Page<ChallengeReviewModel.ChallengeReviewWithChallenge> result = challengeReviewService.getChallengeReviewsByGroupId(
             challengeGroupId, pageable);
 
         assertNotNull(result);
@@ -209,7 +213,7 @@ class ChallengeServiceTest {
         when(challengeReviewReader.getChallengeReviewPage(pageable)).thenReturn(
             challengeReviewPage);
 
-        Page<ChallengeReviewModel.ChallengeReviewWithUserInfo> result = challengeService.getChallengeReviews(
+        Page<ChallengeReviewModel.ChallengeReviewWithUserInfo> result = challengeReviewService.getChallengeReviews(
             pageable);
 
         assertNotNull(result);
@@ -223,7 +227,7 @@ class ChallengeServiceTest {
         when(challengeReviewReader.findByChallengeGroupId(challengeGroupId)).thenReturn(
             challengeReviews);
 
-        ChallengeReviewModel.Score result = challengeService.getChallengeGroupReviewScore(
+        ChallengeReviewModel.Score result = challengeReviewService.getChallengeGroupReviewScore(
             challengeGroupId);
 
         assertNotNull(result);
