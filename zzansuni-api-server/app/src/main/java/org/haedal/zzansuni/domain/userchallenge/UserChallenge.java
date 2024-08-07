@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
 import org.haedal.zzansuni.domain.challengegroup.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeStatus;
 import org.haedal.zzansuni.domain.user.User;
 
 import java.time.LocalDate;

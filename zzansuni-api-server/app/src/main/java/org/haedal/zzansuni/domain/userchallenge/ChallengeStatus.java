@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup;
+package org.haedal.zzansuni.domain.userchallenge;
 
 import lombok.RequiredArgsConstructor;
 

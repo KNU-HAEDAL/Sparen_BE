@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.*;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
-import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.QUser;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserModel;
 
-import org.haedal.zzansuni.domain.userchallenge.QChallengeGroupUserExp;
+
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroup.challengeGroup;
-import static org.haedal.zzansuni.domain.userchallenge.QChallengeGroupUserExp.challengeGroupUserExp;
+import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroupUserExp.challengeGroupUserExp;
 
 
 @Component

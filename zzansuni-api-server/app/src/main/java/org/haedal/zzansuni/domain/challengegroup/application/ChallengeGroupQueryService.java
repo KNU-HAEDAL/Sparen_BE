@@ -6,7 +6,7 @@ import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupImage;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupImageReader;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
-import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupUserExp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

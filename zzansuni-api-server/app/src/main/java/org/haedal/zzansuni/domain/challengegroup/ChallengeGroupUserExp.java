@@ -1,8 +1,7 @@
-package org.haedal.zzansuni.domain.userchallenge;
+package org.haedal.zzansuni.domain.challengegroup;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.user.User;
 
 @Getter
