@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.controller.challengegroup.challenge;
+package org.haedal.zzansuni.controller.challenge;
 
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
 import org.springframework.web.multipart.MultipartFile;

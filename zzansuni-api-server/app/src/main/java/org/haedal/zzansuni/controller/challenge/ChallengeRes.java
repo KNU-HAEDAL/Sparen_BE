@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.controller.challengegroup.challenge;
+package org.haedal.zzansuni.controller.challenge;
 
 import lombok.Builder;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;

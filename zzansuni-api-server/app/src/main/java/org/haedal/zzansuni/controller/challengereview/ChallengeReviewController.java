@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.controller.challengegroup.review;
+package org.haedal.zzansuni.controller.challengereview;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -6,9 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
-import org.haedal.zzansuni.controller.challengegroup.challenge.ChallengeReq;
+import org.haedal.zzansuni.controller.challenge.ChallengeReq;
 import org.haedal.zzansuni.core.api.ApiResponse;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeService;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewModel.ChallengeReviewWithChallenge;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewService;

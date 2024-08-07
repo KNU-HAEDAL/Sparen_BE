@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.controller.challengegroup.challenge;
+package org.haedal.zzansuni.controller.challenge;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -7,13 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.controller.PagingRequest;
 import org.haedal.zzansuni.controller.PagingResponse;
-import org.haedal.zzansuni.controller.challengegroup.challenge.ChallengeRes.ChallengeCompleteResponse;
+import org.haedal.zzansuni.controller.challenge.ChallengeRes.ChallengeCompleteResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.ImageUploader;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeComplete;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeCurrent;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeService;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeRecordService;
 import org.haedal.zzansuni.domain.userchallenge.application.UserChallengeService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ChallengeController {
 
-    private final ChallengeService challengeService;
+    private final ChallengeRecordService challengeRecordService;
     private final UserChallengeService userChallengeService;
     private final ImageUploader imageUploader;
 
@@ -70,7 +70,7 @@ public class ChallengeController {
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
         ChallengeRes.ChallengeRecordResponse response = ChallengeRes.ChallengeRecordResponse.from(
-            challengeService.getChallengeRecord(jwtUser.getId(), challengeId)
+            challengeRecordService.getChallengeRecord(jwtUser.getId(), challengeId)
         );
         return ApiResponse.success(response, "챌린지 기록 조회에 성공하였습니다.");
     }
@@ -83,7 +83,7 @@ public class ChallengeController {
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
         ChallengeRes.ChallengeRecordDetailDto response = ChallengeRes.ChallengeRecordDetailDto.from(
-            challengeService.getChallengeRecordDetail(recordId)
+            challengeRecordService.getChallengeRecordDetail(recordId)
         );
         log.info("response: {}", response);
         return ApiResponse.success(response, "챌린지 기록 상세 조회에 성공하였습니다.");

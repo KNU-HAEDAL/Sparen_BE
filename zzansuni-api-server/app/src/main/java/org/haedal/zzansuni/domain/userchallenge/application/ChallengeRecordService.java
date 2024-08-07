@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.domain.challengegroup.application;
+package org.haedal.zzansuni.domain.userchallenge.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,6 @@ import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.Chal
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeVerification;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
-import org.haedal.zzansuni.domain.userchallenge.application.ChallengeVerificationModel;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeVerificationReader;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
 import org.springframework.stereotype.Service;
@@ -18,15 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class ChallengeService {
-
+public class ChallengeRecordService {
     private final ChallengeReader challengeReader;
-
     private final UserChallengeReader userChallengeReader;
-
     private final ChallengeVerificationReader challengeVerificationReader;
-
-
 
 
     /**

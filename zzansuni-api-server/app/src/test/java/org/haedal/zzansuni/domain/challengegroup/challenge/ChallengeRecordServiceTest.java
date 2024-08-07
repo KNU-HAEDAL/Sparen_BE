@@ -3,7 +3,7 @@ package org.haedal.zzansuni.domain.challengegroup.challenge;
 import java.time.LocalDate;
 
 import org.haedal.zzansuni.domain.challengegroup.*;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeService;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeRecordService;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeRecord;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeReview;
@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ChallengeServiceTest {
+class ChallengeRecordServiceTest {
 
     @Mock
     private ChallengeReader challengeReader;
@@ -55,7 +55,7 @@ class ChallengeServiceTest {
     private ChallengeReviewReader challengeReviewReader;
 
     @InjectMocks
-    private ChallengeService challengeService;
+    private ChallengeRecordService challengeRecordService;
 
     @InjectMocks
     private ChallengeReviewService challengeReviewService;
@@ -135,7 +135,7 @@ class ChallengeServiceTest {
         when(challengeVerificationReader.findByUserChallengeId(userChallenge.getId())).thenReturn(
             Collections.singletonList(challengeVerification));
 
-        ChallengeRecord result = challengeService.getChallengeRecord(userId, challengeId);
+        ChallengeRecord result = challengeRecordService.getChallengeRecord(userId, challengeId);
 
         assertNotNull(result);
         verify(challengeReader).getById(challengeId);
@@ -148,7 +148,7 @@ class ChallengeServiceTest {
         Long recordId = 1L;
         when(challengeVerificationReader.getById(recordId)).thenReturn(challengeVerification);
 
-        ChallengeVerificationModel result = challengeService.getChallengeRecordDetail(recordId);
+        ChallengeVerificationModel result = challengeRecordService.getChallengeRecordDetail(recordId);
 
         assertNotNull(result);
         verify(challengeVerificationReader).getById(recordId);

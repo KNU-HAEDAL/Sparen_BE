@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.controller.challengegroup.review;
+package org.haedal.zzansuni.controller.challengereview;
 
 import java.util.Map;
 import lombok.Builder;
