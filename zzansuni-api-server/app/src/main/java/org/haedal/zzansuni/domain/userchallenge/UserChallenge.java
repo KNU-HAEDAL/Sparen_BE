@@ -61,6 +61,10 @@ public class UserChallenge extends BaseTimeEntity {
             .build();
     }
 
+    public Long getChallengeId() {
+        return this.challenge.getId();
+    }
+
     /**
      * 챌린지 인증 추가
      * 1. 챌린지 인증을 추가

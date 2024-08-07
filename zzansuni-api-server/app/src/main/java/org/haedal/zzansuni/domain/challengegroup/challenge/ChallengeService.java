@@ -3,7 +3,6 @@ package org.haedal.zzansuni.domain.challengegroup.challenge;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
 import org.haedal.zzansuni.domain.challengegroup.challenge.port.ChallengeReader;
 import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReview;
@@ -40,23 +39,20 @@ public class ChallengeService {
     /**
      * 챌린지 기록 가져오기
      */
-
     @Transactional(readOnly = true)
     public ChallengeModel.ChallengeRecord getChallengeRecord(Long userId, Long challengeId) {
         Challenge challenge = challengeReader.getById(challengeId);
-        ChallengeGroup challengeGroup = challenge.getChallengeGroup();
-        UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,
-            challengeId);
-        List<ChallengeVerification> challengeVerifications = challengeVerificationReader.findByUserChallengeId(
-            userChallenge.getId());
-        return ChallengeRecord.from(challenge, challengeGroup, challengeVerifications);
+        UserChallenge userChallenge
+                = userChallengeReader.getByUserIdAndChallengeId(userId, challengeId);
+        List<ChallengeVerification> challengeVerifications
+                = challengeVerificationReader.findByUserChallengeId(userChallenge.getId());
+        return ChallengeRecord.from(challenge, challengeVerifications);
 
     }
 
     /**
      * 챌린지 기록 상세 가져오기
      */
-
     @Transactional(readOnly = true)
     public ChallengeVerificationModel getChallengeRecordDetail(Long recordId) {
         ChallengeVerification challengeVerification = challengeVerificationReader.getById(recordId);
@@ -70,18 +66,13 @@ public class ChallengeService {
     public Long createReview(ChallengeCommand.ReviewCreate command, Long challengeId, Long userId) {
         UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,
             challengeId);
-        Long challengeGroupId = userChallenge
-            .getChallenge()
-            .getChallengeGroup()
-            .getId();
 
         //이미 리뷰를 작성했는지 확인
         challengeReviewReader.findByUserChallengeId(userChallenge.getId())
             .ifPresent(review -> {
                 throw new IllegalArgumentException("이미 리뷰를 작성했습니다.");
             });
-        ChallengeReview challengeReview = ChallengeReview.create(userChallenge, command,
-            challengeGroupId);
+        ChallengeReview challengeReview = ChallengeReview.create(userChallenge, command);
         challengeReviewStore.store(challengeReview);
         return challengeReview.getId();
     }
@@ -113,10 +104,11 @@ public class ChallengeService {
      * 챌린지 그룹 리뷰 평점 가져오기
      */
     @Transactional(readOnly = true)
-    public ChallengeReviewModel.ChallengeReviewScore getChallengeGroupReviewScore(
+    public ChallengeReviewModel.Score getChallengeGroupReviewScore(
         Long challengeGroupId) {
         List<ChallengeReview> challengeReviews = challengeReviewReader.findByChallengeGroupId(
             challengeGroupId);
-        return ChallengeReviewModel.ChallengeReviewScore.of(challengeReviews);
+        //TODO 모든 리뷰를 가져와서 계산 -> 성능 이슈 발생 가능
+        return ChallengeReviewModel.Score.of(challengeReviews);
     }
 }

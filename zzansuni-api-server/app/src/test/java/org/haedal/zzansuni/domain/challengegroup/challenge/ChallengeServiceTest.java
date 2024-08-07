@@ -223,7 +223,7 @@ class ChallengeServiceTest {
         when(challengeReviewReader.findByChallengeGroupId(challengeGroupId)).thenReturn(
             challengeReviews);
 
-        ChallengeReviewModel.ChallengeReviewScore result = challengeService.getChallengeGroupReviewScore(
+        ChallengeReviewModel.Score result = challengeService.getChallengeGroupReviewScore(
             challengeGroupId);
 
         assertNotNull(result);

@@ -67,10 +67,10 @@ public class ChallengeReviewRes {
     ) {
 
         public static ScoreResponse from(
-            ChallengeReviewModel.ChallengeReviewScore challengeReviewScore) {
+            ChallengeReviewModel.Score score) {
             return ScoreResponse.builder()
-                .averageRating(challengeReviewScore.averageRating())
-                .ratingCount(challengeReviewScore.ratingCount())
+                .averageRating(score.averageRating())
+                .ratingCount(score.ratingCount())
                 .build();
         }
     }
