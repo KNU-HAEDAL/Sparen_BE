@@ -3,9 +3,9 @@ package org.haedal.zzansuni.controller.challengegroup;
 import lombok.Builder;
 import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;

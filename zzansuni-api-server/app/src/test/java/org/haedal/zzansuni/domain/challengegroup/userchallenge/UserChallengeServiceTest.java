@@ -1,20 +1,19 @@
 package org.haedal.zzansuni.domain.challengegroup.userchallenge;
 
 import java.util.ArrayList;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
+
+import org.haedal.zzansuni.domain.challengegroup.*;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
-import org.haedal.zzansuni.domain.challengegroup.DayType;
-import org.haedal.zzansuni.domain.challengegroup.challenge.*;
-import org.haedal.zzansuni.domain.challengegroup.challenge.port.ChallengeReader;
-import org.haedal.zzansuni.domain.userchallenge.AddUserExpByVerificationUseCase;
-import org.haedal.zzansuni.domain.userchallenge.review.port.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
+import org.haedal.zzansuni.domain.userchallenge.application.AddUserExpByVerificationUseCase;
+import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
-import org.haedal.zzansuni.domain.userchallenge.UserChallengeService;
+import org.haedal.zzansuni.domain.userchallenge.application.UserChallengeService;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeStore;
-import org.haedal.zzansuni.domain.userchallenge.userexp.port.ChallengeGroupUserExpStore;
-import org.haedal.zzansuni.domain.userchallenge.userexp.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.userchallenge.port.ChallengeGroupUserExpStore;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserReader;
 import org.haedal.zzansuni.global.security.Role;

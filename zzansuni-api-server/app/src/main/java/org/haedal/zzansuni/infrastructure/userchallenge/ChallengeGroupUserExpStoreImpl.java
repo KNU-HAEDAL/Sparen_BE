@@ -1,8 +1,8 @@
 package org.haedal.zzansuni.infrastructure.userchallenge;
 
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.userchallenge.userexp.ChallengeGroupUserExp;
-import org.haedal.zzansuni.domain.userchallenge.userexp.port.ChallengeGroupUserExpStore;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.userchallenge.port.ChallengeGroupUserExpStore;
 import org.springframework.stereotype.Component;
 
 @Component

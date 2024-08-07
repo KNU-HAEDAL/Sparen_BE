@@ -1,22 +1,22 @@
 package org.haedal.zzansuni.domain.challengegroup.challenge;
 
 import java.time.LocalDate;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.DayType;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
-import org.haedal.zzansuni.domain.challengegroup.challenge.port.ChallengeReader;
-import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReview;
-import org.haedal.zzansuni.domain.userchallenge.review.ChallengeReviewModel;
-import org.haedal.zzansuni.domain.userchallenge.review.port.ChallengeReviewReader;
-import org.haedal.zzansuni.domain.userchallenge.review.port.ChallengeReviewStore;
+
+import org.haedal.zzansuni.domain.challengegroup.*;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeService;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeRecord;
+import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeReview;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewModel;
+import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewReader;
+import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewStore;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
-import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerification;
-import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerificationModel;
-import org.haedal.zzansuni.domain.userchallenge.verification.port.ChallengeVerificationReader;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeVerification;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeVerificationModel;
+import org.haedal.zzansuni.domain.userchallenge.port.ChallengeVerificationReader;
 import org.haedal.zzansuni.domain.user.User;
-import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerificationStatus;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeVerificationStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

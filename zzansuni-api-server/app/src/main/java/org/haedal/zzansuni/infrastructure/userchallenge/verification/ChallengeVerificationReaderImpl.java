@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerification;
-import org.haedal.zzansuni.domain.userchallenge.verification.port.ChallengeVerificationReader;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeVerification;
+import org.haedal.zzansuni.domain.userchallenge.port.ChallengeVerificationReader;
 import org.springframework.stereotype.Component;
 
 @Component

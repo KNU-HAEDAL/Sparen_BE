@@ -1,8 +1,8 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
-import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupService;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
-import org.haedal.zzansuni.infrastructure.challengegroup.challenge.ChallengeRepository;
+import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

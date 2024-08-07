@@ -1,7 +1,7 @@
 package org.haedal.zzansuni.infrastructure.userchallenge.verification;
 
 import java.util.List;
-import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerification;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeVerification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChallengeVerificationRepository extends

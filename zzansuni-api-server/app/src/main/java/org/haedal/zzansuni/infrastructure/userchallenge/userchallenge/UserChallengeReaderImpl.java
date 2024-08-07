@@ -3,7 +3,7 @@ package org.haedal.zzansuni.infrastructure.userchallenge.userchallenge;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeStatus;
 import org.haedal.zzansuni.domain.userchallenge.DayCountType;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;

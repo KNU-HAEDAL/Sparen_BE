@@ -2,8 +2,8 @@ package org.haedal.zzansuni.domain.challengegroup.port;
 
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
-import org.haedal.zzansuni.domain.userchallenge.userexp.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

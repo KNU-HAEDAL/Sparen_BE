@@ -6,11 +6,11 @@ import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeComplete;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeCurrent;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel.ChallengeRecord;
-import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerificationModel;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeComplete;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeCurrent;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeRecord;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeVerificationModel;
 
 public class ChallengeRes {
 

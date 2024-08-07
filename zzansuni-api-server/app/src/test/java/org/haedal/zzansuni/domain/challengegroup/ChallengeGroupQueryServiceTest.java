@@ -1,10 +1,11 @@
 package org.haedal.zzansuni.domain.challengegroup;
 
 import jakarta.persistence.EntityManager;
-import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupQueryService;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupImageRepository;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
-import org.haedal.zzansuni.infrastructure.challengegroup.challenge.ChallengeRepository;
+import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @Transactional
 class ChallengeGroupQueryServiceTest {
-    @Autowired ChallengeGroupQueryService challengeGroupQueryService;
+    @Autowired
+    ChallengeGroupQueryService challengeGroupQueryService;
     @Autowired ChallengeGroupRepository challengeGroupRepository;
     @Autowired ChallengeRepository challengeRepository;
     @Autowired ChallengeGroupImageRepository challengeGroupImageRepository;
