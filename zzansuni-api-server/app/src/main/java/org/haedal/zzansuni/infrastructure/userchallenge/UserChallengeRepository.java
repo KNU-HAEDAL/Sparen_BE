@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.infrastructure.userchallenge.userchallenge;
+package org.haedal.zzansuni.infrastructure.userchallenge;
 
 import java.time.LocalDate;
 

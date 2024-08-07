@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.infrastructure.userchallenge.verification;
+package org.haedal.zzansuni.infrastructure.userchallenge.adapter;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -6,6 +6,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeVerification;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeVerificationReader;
+import org.haedal.zzansuni.infrastructure.userchallenge.ChallengeVerificationRepository;
 import org.springframework.stereotype.Component;
 
 @Component

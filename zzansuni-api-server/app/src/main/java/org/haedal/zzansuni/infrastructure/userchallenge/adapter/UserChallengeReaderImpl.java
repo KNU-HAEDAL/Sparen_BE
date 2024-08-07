@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.infrastructure.userchallenge.userchallenge;
+package org.haedal.zzansuni.infrastructure.userchallenge.adapter;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -7,6 +7,7 @@ import org.haedal.zzansuni.domain.userchallenge.ChallengeStatus;
 import org.haedal.zzansuni.domain.userchallenge.DayCountType;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
+import org.haedal.zzansuni.infrastructure.userchallenge.UserChallengeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

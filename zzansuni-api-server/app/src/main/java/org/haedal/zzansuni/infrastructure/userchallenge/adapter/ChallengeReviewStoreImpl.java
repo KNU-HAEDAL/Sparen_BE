@@ -1,8 +1,9 @@
-package org.haedal.zzansuni.infrastructure.userchallenge.review;
+package org.haedal.zzansuni.infrastructure.userchallenge.adapter;
 
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeReview;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewStore;
+import org.haedal.zzansuni.infrastructure.userchallenge.ChallengeReviewRepository;
 import org.springframework.stereotype.Component;
 
 @Component
