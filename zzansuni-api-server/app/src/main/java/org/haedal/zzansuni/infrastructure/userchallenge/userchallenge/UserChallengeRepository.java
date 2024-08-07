@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UserChallengeRepository extends JpaRepository<UserChallenge, Long> {
-    Optional<UserChallenge> findByUserIdAndChallengeId(Long userId, Long challengeId);
+    Optional<UserChallenge> findByUserIdAndChallenge_Id(Long userId, Long challengeId);
 
     /**
      * [challengeVerifications]와 [challenge]를 [fetchJoin]으로 OneToMany를 가져온다.
