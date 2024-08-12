@@ -60,13 +60,18 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
                 .where(categoryEq)
                 .fetchOne();
 
+        List<Long> challengeGroupIds = queryFactory
+                .select(challengeGroup.id)
+                .from(challengeGroup)
+                .where(categoryEq)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
         List<ChallengeGroup> page = queryFactory
                 .selectFrom(challengeGroup)
-                .where(categoryEq)
                 .leftJoin(challengeGroup.challenges).fetchJoin()
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .where(challengeGroup.id.in(challengeGroupIds))
                 .fetch();
 
         return new PageImpl<>(page, pageable, count == null ? 0 : count);
