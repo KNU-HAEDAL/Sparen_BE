@@ -11,9 +11,8 @@ import org.haedal.zzansuni.controller.challenge.ChallengeRes.ChallengeCompleteRe
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.ImageUploader;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeComplete;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeCurrent;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeRecordService;
+import org.haedal.zzansuni.domain.userchallenge.application.UserChallengeModel;
 import org.haedal.zzansuni.domain.userchallenge.application.UserChallengeService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.data.domain.Page;
@@ -95,7 +94,7 @@ public class ChallengeController {
         @Valid PagingRequest pagingRequest,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        Page<ChallengeCurrent> page = userChallengeService.getCurrentChallenges(
+        Page<UserChallengeModel.Current> page = userChallengeService.getCurrentChallenges(
             jwtUser.getId(), pagingRequest.toPageable());
 
         PagingResponse<ChallengeRes.ChallengeCurrentResponse> response = PagingResponse.from(
@@ -110,7 +109,7 @@ public class ChallengeController {
         @Valid PagingRequest pagingRequest,
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
-        Page<ChallengeComplete> page = userChallengeService.getCompleteChallenges(
+        Page<UserChallengeModel.Complete> page = userChallengeService.getCompleteChallenges(
             jwtUser.getId(), pagingRequest.toPageable());
 
         PagingResponse<ChallengeCompleteResponse> response = PagingResponse.from(

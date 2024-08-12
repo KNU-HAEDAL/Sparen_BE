@@ -97,8 +97,8 @@ public class UserChallengeService {
      * 진행중인 챌린지 페이징 조회
      */
     @Transactional(readOnly = true)
-    public Page<ChallengeModel.ChallengeCurrent> getCurrentChallenges(Long userId,
-        Pageable pageable) {
+    public Page<UserChallengeModel.Current> getCurrentChallenges(Long userId,
+                                                                 Pageable pageable) {
         Page<UserChallenge> userChallengePage = userChallengeReader
             .getCurrentChallengePageByUserId(userId, pageable);
 
@@ -107,15 +107,15 @@ public class UserChallengeService {
             .getReviewWrittenMapByUserChallengeId(userChallengeIds);
 
         return userChallengePage.map(
-            m -> ChallengeModel.ChallengeCurrent.from(m, reviewWrittenMap.get(m.getId())));
+            m -> UserChallengeModel.Current.from(m, reviewWrittenMap.get(m.getId())));
     }
 
     /**
      * 완료한 챌린지 페이징 조회
      */
     @Transactional(readOnly = true)
-    public Page<ChallengeModel.ChallengeComplete> getCompleteChallenges(Long userId,
-        Pageable pageable) {
+    public Page<UserChallengeModel.Complete> getCompleteChallenges(Long userId,
+                                                                   Pageable pageable) {
         Page<UserChallenge> userChallengePage = userChallengeReader
             .getCompletedChallengePageByUserId(userId, pageable);
 
@@ -124,6 +124,6 @@ public class UserChallengeService {
             .getReviewWrittenMapByUserChallengeId(userChallengeIds);
 
         return userChallengePage.map(
-            m -> ChallengeModel.ChallengeComplete.from(m, reviewWrittenMap.get(m.getId())));
+            m -> UserChallengeModel.Complete.from(m, reviewWrittenMap.get(m.getId())));
     }
 }

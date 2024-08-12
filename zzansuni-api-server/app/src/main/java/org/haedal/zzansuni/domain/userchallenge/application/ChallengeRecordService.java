@@ -3,7 +3,6 @@ package org.haedal.zzansuni.domain.userchallenge.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.domain.challengegroup.Challenge;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeRecord;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeVerification;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
@@ -27,13 +26,13 @@ public class ChallengeRecordService {
      * 챌린지 기록 가져오기
      */
     @Transactional(readOnly = true)
-    public ChallengeRecord getChallengeRecord(Long userId, Long challengeId) {
+    public UserChallengeModel.Record getChallengeRecord(Long userId, Long challengeId) {
         Challenge challenge = challengeReader.getById(challengeId);
         UserChallenge userChallenge
                 = userChallengeReader.getByUserIdAndChallengeId(userId, challengeId);
         List<ChallengeVerification> challengeVerifications
                 = challengeVerificationReader.findByUserChallengeId(userChallenge.getId());
-        return ChallengeRecord.from(challenge, challengeVerifications);
+        return UserChallengeModel.Record.from(challenge, challengeVerifications);
 
     }
 

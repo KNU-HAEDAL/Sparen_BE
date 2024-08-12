@@ -4,15 +4,11 @@ import java.time.LocalDate;
 
 import org.haedal.zzansuni.domain.challengegroup.*;
 import org.haedal.zzansuni.domain.userchallenge.*;
-import org.haedal.zzansuni.domain.userchallenge.application.ChallengeRecordService;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeRecord;
+import org.haedal.zzansuni.domain.userchallenge.application.*;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
-import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewModel;
-import org.haedal.zzansuni.domain.userchallenge.application.ChallengeReviewService;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewStore;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
-import org.haedal.zzansuni.domain.userchallenge.application.ChallengeVerificationModel;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeVerificationReader;
 import org.haedal.zzansuni.domain.user.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ChallengeRecordServiceTest {
+class RecordServiceTest {
 
     @Mock
     private ChallengeReader challengeReader;
@@ -132,7 +128,7 @@ class ChallengeRecordServiceTest {
         when(challengeVerificationReader.findByUserChallengeId(userChallenge.getId())).thenReturn(
             Collections.singletonList(challengeVerification));
 
-        ChallengeRecord result = challengeRecordService.getChallengeRecord(userId, challengeId);
+        UserChallengeModel.Record result = challengeRecordService.getChallengeRecord(userId, challengeId);
 
         assertNotNull(result);
         verify(challengeReader).getById(challengeId);

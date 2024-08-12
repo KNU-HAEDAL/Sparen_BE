@@ -1,9 +1,8 @@
 package org.haedal.zzansuni.domain.userchallenge.application;
 
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeGroupUserExpReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,7 @@ public class ChallengeRankingService {
     private final ChallengeGroupUserExpReader challengeGroupUserExpReader;
 
     @Transactional(readOnly = true)
-    public Page<ChallengeGroupModel.Ranking> getChallengeGroupRankingsPaging(Long challengeGroupId, Pageable pageable) {
+    public Page<ChallengeGroupRankingModel.Main> getChallengeGroupRankingsPaging(Long challengeGroupId, Pageable pageable) {
         Page<ChallengeGroupUserExp> challengeGroupUserExps
                 = challengeGroupUserExpReader.getUserExpPagingWithUserByChallengeGroupId(challengeGroupId, pageable);
 
@@ -26,12 +25,12 @@ public class ChallengeRankingService {
         return challengeGroupUserExps.map(e->{
             int rank = challengeGroupUserExps.getNumber() * challengeGroupUserExps.getSize() + 1
                     + challengeGroupUserExps.getContent().indexOf(e);
-            return ChallengeGroupModel.Ranking.from(e, rank);
+            return ChallengeGroupRankingModel.Main.from(e, rank);
         });
     }
 
 
-    public ChallengeGroupModel.Ranking getChallengeGroupRanking(Long challengeGroupId, Long id) {
+    public ChallengeGroupRankingModel.Main getChallengeGroupRanking(Long challengeGroupId, Long id) {
         return challengeGroupReader.getRanking(challengeGroupId, id);
     }
 }

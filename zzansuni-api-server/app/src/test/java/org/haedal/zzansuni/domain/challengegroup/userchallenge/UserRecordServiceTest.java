@@ -8,6 +8,7 @@ import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeReader;
 import org.haedal.zzansuni.domain.userchallenge.application.AddUserExpByVerificationUseCase;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeStatus;
+import org.haedal.zzansuni.domain.userchallenge.application.UserChallengeModel;
 import org.haedal.zzansuni.domain.userchallenge.port.ChallengeReviewReader;
 import org.haedal.zzansuni.domain.userchallenge.UserChallenge;
 import org.haedal.zzansuni.domain.userchallenge.port.UserChallengeReader;
@@ -38,7 +39,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserChallengeRecordServiceTest {
+class UserRecordServiceTest {
 
     @Mock
     private UserChallengeStore userChallengeStore;
@@ -195,7 +196,7 @@ class UserChallengeRecordServiceTest {
             Collections.singletonList(userChallenge.getId())))
             .thenReturn(Collections.singletonMap(userChallenge.getId(), true));
 
-        Page<ChallengeModel.ChallengeCurrent> resultPage = userChallengeService.getCurrentChallenges(
+        Page<UserChallengeModel.Current> resultPage = userChallengeService.getCurrentChallenges(
             user.getId(), pageable);
 
         assertNotNull(resultPage);
@@ -219,7 +220,7 @@ class UserChallengeRecordServiceTest {
             Collections.singletonList(userChallenge.getId())))
             .thenReturn(Collections.singletonMap(userChallenge.getId(), true));
 
-        Page<ChallengeModel.ChallengeComplete> resultPage = userChallengeService.getCompleteChallenges(
+        Page<UserChallengeModel.Complete> resultPage = userChallengeService.getCompleteChallenges(
             user.getId(), pageable);
 
         assertNotNull(resultPage);

@@ -2,15 +2,13 @@ package org.haedal.zzansuni.controller.challenge;
 
 import lombok.Builder;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeVerificationModel;
+import org.haedal.zzansuni.domain.userchallenge.application.UserChallengeModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeComplete;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeCurrent;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel.ChallengeRecord;
-import org.haedal.zzansuni.domain.userchallenge.application.ChallengeVerificationModel;
 
 public class ChallengeRes {
 
@@ -41,7 +39,7 @@ public class ChallengeRes {
         List<Long> recordIds
     ) {
 
-        public static ChallengeRecordResponse from(ChallengeRecord dto) {
+        public static ChallengeRecordResponse from(UserChallengeModel.Record dto) {
             return ChallengeRecordResponse.builder()
                 .title(dto.title())
                 .totalCount(dto.totalCount())
@@ -90,17 +88,17 @@ public class ChallengeRes {
 
     ) {
 
-        public static ChallengeCurrentResponse from(ChallengeCurrent challengeCurrent) {
+        public static ChallengeCurrentResponse from(UserChallengeModel.Current current) {
             return ChallengeCurrentResponse.builder()
-                .challengeId(challengeCurrent.challengeId())
-                .title(challengeCurrent.title())
-                .successCount(challengeCurrent.successCount())
-                .totalCount(challengeCurrent.totalCount())
-                .participationDate(challengeCurrent.participationDate())
-                .startDate(challengeCurrent.startDate())
-                .endDate(challengeCurrent.endDate())
-                .category(challengeCurrent.category())
-                .reviewWritten(challengeCurrent.reviewWritten())
+                .challengeId(current.challengeId())
+                .title(current.title())
+                .successCount(current.successCount())
+                .totalCount(current.totalCount())
+                .participationDate(current.participationDate())
+                .startDate(current.startDate())
+                .endDate(current.endDate())
+                .category(current.category())
+                .reviewWritten(current.reviewWritten())
                 .build();
         }
     }
@@ -114,13 +112,13 @@ public class ChallengeRes {
         Boolean reviewWritten
     ) {
 
-        public static ChallengeCompleteResponse from(ChallengeComplete challengeComplete) {
+        public static ChallengeCompleteResponse from(UserChallengeModel.Complete complete) {
             return ChallengeCompleteResponse.builder()
-                .id(challengeComplete.challengeId())
-                .title(challengeComplete.title())
-                .successDate(challengeComplete.successDate())
-                .category(challengeComplete.category())
-                .reviewWritten(challengeComplete.reviewWritten())
+                .id(complete.challengeId())
+                .title(complete.title())
+                .successDate(complete.successDate())
+                .category(complete.category())
+                .reviewWritten(complete.reviewWritten())
                 .build();
         }
     }

@@ -3,6 +3,7 @@ package org.haedal.zzansuni.domain.challengegroup.port;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeGroupRankingModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,5 +16,5 @@ public interface ChallengeGroupReader {
 
     Page<ChallengeGroup> getChallengeGroupsShortsPaging(Pageable pageable, Long userId);
 
-    ChallengeGroupModel.Ranking getRanking(Long challengeGroupId, Long userId);
+    ChallengeGroupRankingModel.Main getRanking(Long challengeGroupId, Long userId);
 }

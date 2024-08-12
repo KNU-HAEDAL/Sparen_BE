@@ -13,6 +13,7 @@ import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserModel;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.userchallenge.QChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeGroupRankingModel;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -88,7 +89,7 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
 
 
     @Override
-    public ChallengeGroupModel.Ranking getRanking(Long challengeGroupId, Long userId) {
+    public ChallengeGroupRankingModel.Main getRanking(Long challengeGroupId, Long userId) {
         User user = queryFactory
                 .selectFrom(QUser.user)
                 .where(QUser.user.id.eq(userId))
@@ -114,7 +115,7 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
                         .and(QChallengeGroupUserExp.challengeGroupUserExp.user.id.eq(userId)))
                 .fetchOne();
 
-        return ChallengeGroupModel.Ranking.builder()
+        return ChallengeGroupRankingModel.Main.builder()
                 .rank(rank==null ? 0 : rank)
                 .accumulatedPoint(challengeGroupUserExp != null ? challengeGroupUserExp.getTotalExp() : 0)
                 .user(UserModel.Main.from(user))
