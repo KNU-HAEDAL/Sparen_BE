@@ -59,7 +59,7 @@ public class UserChallengeReaderImpl implements UserChallengeReader {
 
     @Override
     public Optional<UserChallenge> findByUserIdAndChallengeId(Long userId, Long challengeId) {
-        return userChallengeRepository.findByUserIdAndChallenge_Id(userId, challengeId);
+        return userChallengeRepository.findByUserIdAndChallengeId(userId, challengeId);
     }
 
     /**
