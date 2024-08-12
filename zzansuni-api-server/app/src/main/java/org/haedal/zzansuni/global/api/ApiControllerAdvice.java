@@ -7,13 +7,22 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.core.api.ErrorCode;
 import org.haedal.zzansuni.global.exception.ExternalServerConnectionException;
 import org.haedal.zzansuni.global.exception.UnauthorizedException;
+import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.slf4j.MDC;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.NoSuchElementException;
@@ -22,6 +31,61 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class ApiControllerAdvice {
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        log.info("HttpMessageNotReadableException", ex);
+        return ApiResponse.fail(ErrorCode.COMMON_INVALID_REQUEST);
+
+    }
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public ApiResponse<Void> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        log.info("HttpRequestMethodNotSupportedException", ex);
+        return ApiResponse.fail(ErrorCode.COMMON_INVALID_METHOD);
+    }
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleMissingServletRequestPart(MissingServletRequestPartException ex) {
+        log.info("MissingServletRequestPartException", ex);
+        return ApiResponse.fail(ErrorCode.COMMON_INVALID_REQUEST);
+    }
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
+        log.info("MissingServletRequestParameterException", ex);
+        return ApiResponse.fail(ErrorCode.COMMON_INVALID_PARAMETER);
+    }
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleMissingPathVariable(MissingPathVariableException ex) {
+        log.info("MissingPathVariableException", ex);
+        return ApiResponse.fail(ErrorCode.COMMON_INVALID_PARAMETER);
+    }
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    public ApiResponse<Void> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex) {
+        log.info("HttpMediaTypeNotSupportedException", ex);
+        return ApiResponse.fail(ErrorCode.COMMON_INVALID_MEDIA_TYPE);
+    }
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleHandlerMethodValidationException(HandlerMethodValidationException ex) {
+        log.info("HandlerMethodValidationException", ex);
+        return ApiResponse.fail(ErrorCode.COMMON_INVALID_PARAMETER);
+    }
 
 
     /**
@@ -96,17 +160,20 @@ public class ApiControllerAdvice {
     }
 
 
-
     /**
      * http status: 500 AND result: FAIL
      * 시스템 예외 상황. 집중 모니터링 대상
      */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiResponse<Void> onException(Exception e) {
+    public ApiResponse<Void> onException(
+            Exception e,
+            @AuthenticationPrincipal JwtUser jwtUser
+    ) {
         String eventId = MDC.get(CommonHttpRequestInterceptor.HEADER_REQUEST_UUID_KEY);
-        log.error("eventId = {} ", eventId, e);
-        return ApiResponse.fail(ErrorCode.COMMON_SYSTEM_ERROR);
+        log.error("eventId = {}, userId = {} ", eventId, jwtUser.getId(), e);
+        String message = ErrorCode.COMMON_SYSTEM_ERROR.getMessage() + "(eventId: " + eventId + ")";
+        return ApiResponse.fail(ErrorCode.COMMON_SYSTEM_ERROR.name(), message);
     }
 
     /**
@@ -119,8 +186,6 @@ public class ApiControllerAdvice {
         log.error("외부 서버 연결 실패", e);
         return ApiResponse.fail("EXTERNAL_SERVER_ERROR", e.getMessage());
     }
-
-
 
 
 }
