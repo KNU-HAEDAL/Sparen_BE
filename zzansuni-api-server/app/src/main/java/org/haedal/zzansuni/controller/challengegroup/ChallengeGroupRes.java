@@ -3,9 +3,10 @@ package org.haedal.zzansuni.controller.challengegroup;
 import lombok.Builder;
 import org.haedal.zzansuni.controller.user.UserRes;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupModel;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.DayType;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeModel;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeModel;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeGroupRankingModel;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -137,8 +138,8 @@ public class ChallengeGroupRes {
             ChallengeGroupRes.Ranking myRanking //null이면 랭킹이 없는 것
     ) {
         public static RankingPagingResponse from(
-                Page<ChallengeGroupModel.Ranking> rankingPage,
-                ChallengeGroupModel.Ranking myRanking
+                Page<ChallengeGroupRankingModel.Main> rankingPage,
+                ChallengeGroupRankingModel.Main myRanking
         ){
             var data = rankingPage.getContent().stream()
                 .map(ChallengeGroupRes.Ranking::from)
@@ -161,7 +162,7 @@ public class ChallengeGroupRes {
         UserRes.User user
     ) {
         public static Ranking from(
-                ChallengeGroupModel.Ranking model
+                ChallengeGroupRankingModel.Main model
         ){
             var user = UserRes.User.from(model.user());
             return Ranking.builder()

@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
-import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
 
 import java.util.ArrayList;
 import java.util.List;

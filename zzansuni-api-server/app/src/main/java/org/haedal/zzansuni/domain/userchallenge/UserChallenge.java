@@ -7,10 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
-import org.haedal.zzansuni.domain.challengegroup.challenge.Challenge;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeCommand;
-import org.haedal.zzansuni.domain.challengegroup.challenge.ChallengeStatus;
-import org.haedal.zzansuni.domain.userchallenge.verification.ChallengeVerification;
+import org.haedal.zzansuni.domain.challengegroup.Challenge;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
 import org.haedal.zzansuni.domain.user.User;
 
 import java.time.LocalDate;

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.controller.auth.AuthReq;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.auth.AuthService;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupService;
+import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
