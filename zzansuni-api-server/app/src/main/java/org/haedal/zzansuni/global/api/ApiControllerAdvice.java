@@ -171,7 +171,8 @@ public class ApiControllerAdvice {
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
         String eventId = MDC.get(CommonHttpRequestInterceptor.HEADER_REQUEST_UUID_KEY);
-        log.error("eventId = {}, userId = {} ", eventId, jwtUser.getId(), e);
+        String userId = jwtUser == null ? "anonymous" : jwtUser.getId().toString();
+        log.error("eventId = {}, userId = {} ", eventId, userId, e);
         String message = ErrorCode.COMMON_SYSTEM_ERROR.getMessage() + "(eventId: " + eventId + ")";
         return ApiResponse.fail(ErrorCode.COMMON_SYSTEM_ERROR.name(), message);
     }
