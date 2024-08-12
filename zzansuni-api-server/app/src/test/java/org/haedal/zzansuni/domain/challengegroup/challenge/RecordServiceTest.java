@@ -154,8 +154,8 @@ class RecordServiceTest {
         ChallengeCommand.ReviewCreate command = new ChallengeCommand.ReviewCreate(
             "Great challenge!", 5);
 
-        when(userChallengeReader.getByUserIdAndChallengeId(userId, challengeId)).thenReturn(
-            userChallenge);
+        when(userChallengeReader.findByUserIdAndChallengeId(userId, challengeId)).thenReturn(
+            Optional.of(userChallenge));
         // Mock ChallengeReviewReader to return an empty Optional
         when(challengeReviewReader.findByUserChallengeId(userChallenge.getId())).thenReturn(
             Optional.empty());
@@ -177,7 +177,7 @@ class RecordServiceTest {
 
         //assertNotNull(reviewId);  // 리뷰 ID가 null이 아닌지 확인
         //assertEquals(1L, reviewId);  // 리뷰 ID가 1L인지 확인
-        verify(userChallengeReader).getByUserIdAndChallengeId(userId, challengeId);
+        verify(userChallengeReader).findByUserIdAndChallengeId(userId, challengeId);
         verify(challengeReviewReader).findByUserChallengeId(userChallenge.getId());
         verify(challengeReviewStore).store(any());
     }
