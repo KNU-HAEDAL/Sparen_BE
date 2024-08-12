@@ -29,8 +29,8 @@ public class ChallengeReviewService {
      */
     @Transactional
     public Long createReview(ChallengeCommand.ReviewCreate command, Long challengeId, Long userId) {
-        UserChallenge userChallenge = userChallengeReader.getByUserIdAndChallengeId(userId,
-                challengeId);
+        UserChallenge userChallenge = userChallengeReader.findByUserIdAndChallengeId(userId,
+                challengeId).orElseThrow(() -> new IllegalStateException("해당 챌린지 참여 기록이 없습니다."));
 
         //이미 리뷰를 작성했는지 확인
         challengeReviewReader.findByUserChallengeId(userChallenge.getId())

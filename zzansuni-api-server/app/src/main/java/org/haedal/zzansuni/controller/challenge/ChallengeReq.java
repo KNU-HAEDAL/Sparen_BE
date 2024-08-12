@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.controller.challenge;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,7 @@ public class ChallengeReq {
 
     public record ReviewCreate(
         String content,
+        @Schema(description = "평점", example = "5")
         Integer rating
     ) {
 

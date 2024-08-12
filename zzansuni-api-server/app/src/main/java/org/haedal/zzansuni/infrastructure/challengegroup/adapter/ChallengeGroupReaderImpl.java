@@ -1,24 +1,23 @@
 package org.haedal.zzansuni.infrastructure.challengegroup.adapter;
 
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
-import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
-import org.haedal.zzansuni.domain.user.QUser;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserModel;
 import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.userchallenge.QChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.userchallenge.application.ChallengeGroupRankingModel;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
+import org.haedal.zzansuni.infrastructure.user.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,8 +30,9 @@ import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroup.challeng
 @RequiredArgsConstructor
 public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
     private final JPAQueryFactory queryFactory;
-    private final JdbcTemplate jdbcTemplate;
     private final ChallengeGroupRepository challengeGroupRepository;
+    private final UserRepository userRepository;
+
     @Override
     public ChallengeGroup getById(Long challengeGroupId) {
         return challengeGroupRepository
@@ -49,18 +49,29 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
 
     @Override
     public Page<ChallengeGroup> getChallengeGroupsPagingByCategory(Pageable pageable, ChallengeCategory category) {
+
+
+        BooleanExpression categoryEq = category == null ?
+                null : challengeGroup.category.eq(category);
+
         Long count = queryFactory
                 .select(challengeGroup.count())
                 .from(challengeGroup)
-                .where(challengeGroup.category.eq(category))
+                .where(categoryEq)
                 .fetchOne();
+
+        List<Long> challengeGroupIds = queryFactory
+                .select(challengeGroup.id)
+                .from(challengeGroup)
+                .where(categoryEq)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
         List<ChallengeGroup> page = queryFactory
                 .selectFrom(challengeGroup)
-                .where(challengeGroup.category.eq(category))
                 .leftJoin(challengeGroup.challenges).fetchJoin()
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .where(challengeGroup.id.in(challengeGroupIds))
                 .fetch();
 
         return new PageImpl<>(page, pageable, count == null ? 0 : count);
@@ -88,37 +99,42 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
     }
 
 
+    /**
+     * 1. userId로 유저 엔터티 조회
+     * 2. challengeGroupId, userId로 `챌린지그룹 유저 경험치`조회
+     * 3. 해당 challgneGroupUserExp보다 totalExp가 큰 로우 개수 조회
+     */
     @Override
     public ChallengeGroupRankingModel.Main getRanking(Long challengeGroupId, Long userId) {
-        User user = queryFactory
-                .selectFrom(QUser.user)
-                .where(QUser.user.id.eq(userId))
-                .fetchOne();
-        if(user == null) {
-            throw new NoSuchElementException();
-        }
-
-        String sql = "SELECT ranked.rank1 FROM (" +
-                "  SELECT user_id, RANK() OVER (ORDER BY total_exp DESC) as rank1 " +
-                "  FROM challenge_group_user_exp " +
-                "  WHERE challenge_group_id = ?" +
-                ") as ranked " +
-                "WHERE ranked.user_id = ?";
-
-        Integer rank = jdbcTemplate.queryForObject(sql, Integer.class, challengeGroupId, userId);
-
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(NoSuchElementException::new);
 
         ChallengeGroupUserExp challengeGroupUserExp = queryFactory
                 .select(QChallengeGroupUserExp.challengeGroupUserExp)
                 .from(QChallengeGroupUserExp.challengeGroupUserExp)
-                .where(QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId)
-                        .and(QChallengeGroupUserExp.challengeGroupUserExp.user.id.eq(userId)))
+                .where(
+                        QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId),
+                        QChallengeGroupUserExp.challengeGroupUserExp.user.id.eq(userId))
                 .fetchOne();
+        Integer accumulatedPoint = challengeGroupUserExp != null ? challengeGroupUserExp.getTotalExp() : 0;
+
+        Long count = queryFactory
+                .select(QChallengeGroupUserExp.challengeGroupUserExp.count())
+                .from(QChallengeGroupUserExp.challengeGroupUserExp)
+                .where(
+                        QChallengeGroupUserExp.challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId),
+                        QChallengeGroupUserExp.challengeGroupUserExp.totalExp.gt(accumulatedPoint)
+                )
+                .fetchOne();
+        assert count != null;
+        Integer rank = Integer.parseInt(count.toString()) + 1;
+
 
         return ChallengeGroupRankingModel.Main.builder()
-                .rank(rank==null ? 0 : rank)
-                .accumulatedPoint(challengeGroupUserExp != null ? challengeGroupUserExp.getTotalExp() : 0)
                 .user(UserModel.Main.from(user))
+                .rank(rank)
+                .accumulatedPoint(accumulatedPoint)
                 .build();
     }
 

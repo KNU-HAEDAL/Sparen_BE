@@ -45,10 +45,16 @@ public class UserController {
     @GetMapping("/api/user/strick")
     public ApiResponse<UserRes.Strick> getStrick(
             @AuthenticationPrincipal JwtUser jwtUser,
-            @RequestParam(required = false) LocalDate startDate, // false면 오늘
-            @RequestParam(required = false) LocalDate endDate // false면 365일전
+            UserReq.GetStrick request
     ) {
-        var userModelStrick = userService.getUserStrick(jwtUser.getId(), startDate, endDate);
+        if(request.startDate().isAfter(request.endDate())){
+            throw new IllegalArgumentException("시작일은 종료일보다 이전이어야 합니다.");
+        }
+        var userModelStrick = userService.getUserStrick(
+                jwtUser.getId(),
+                request.startDate(),
+                request.endDate()
+        );
         return ApiResponse.success(UserRes.Strick.from(userModelStrick));
     }
 

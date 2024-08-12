@@ -1,32 +1,35 @@
 package org.haedal.zzansuni.global.api;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.servers.Server;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
-@OpenAPIDefinition(
-        servers = {
-                @Server(url = "https://api.reditus.site",description = "Prod Server"),
-                @Server(url = "http://localhost:8080", description = "localhost"),
-        }
-)
+import java.util.List;
+
+
 @Configuration
 public class SwaggerConfig {
     private static final String BEARER_KEY = "bearer-key";
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI openAPI(
+            Server server
+    ) {
         var securityRequirement = new SecurityRequirement();
         securityRequirement.addList(BEARER_KEY);
 
         return new OpenAPI()
                 .components(components())
                 .info(info())
+                .servers(List.of(server))
                 .addSecurityItem(securityRequirement);
     }
 
@@ -48,5 +51,21 @@ public class SwaggerConfig {
                 .title("Zzansuni API")
                 .description("Zzansuni API 명세서")
                 .version("1.0.0");
+    }
+
+    @Bean
+    public Server getLocalServer() {
+        return new Server().url("http://localhost:8080")
+                .description("Local Server");
+    }
+
+    @Bean
+    @Primary
+    @Profile("prod")
+    public Server getProductServer(
+            @Value("${server-url}")
+            String serverUrl
+    ) {
+        return new Server().url(serverUrl).description("Product Server");
     }
 }

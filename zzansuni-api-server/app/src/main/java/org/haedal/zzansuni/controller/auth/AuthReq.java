@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.controller.auth;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.haedal.zzansuni.domain.auth.OAuth2Provider;
@@ -34,8 +35,10 @@ public class AuthReq {
 
     public record EmailLoginRequest(
             @NotBlank(message = "email은 필수입니다.")
+            @Schema(description = "이메일", example = "test@a.c")
             String email,
             @NotBlank(message = "password는 필수입니다.")
+            @Schema(description = "비밀번호", example = "test")
             String password
     ) {
     }
