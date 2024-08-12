@@ -4,7 +4,7 @@ import lombok.Builder;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupImage;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.UserModel;
 
 import java.time.LocalDate;

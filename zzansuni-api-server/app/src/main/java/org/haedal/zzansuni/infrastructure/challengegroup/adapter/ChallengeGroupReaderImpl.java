@@ -4,15 +4,15 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.domain.challengegroup.*;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
+import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.port.ChallengeGroupReader;
-import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupUserExp;
 import org.haedal.zzansuni.domain.user.QUser;
 import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.domain.user.UserModel;
-
-
+import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
+import org.haedal.zzansuni.domain.userchallenge.QChallengeGroupUserExp;
 import org.haedal.zzansuni.infrastructure.challengegroup.ChallengeGroupRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,10 +22,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroup.challengeGroup;
-import static org.haedal.zzansuni.domain.challengegroup.QChallengeGroupUserExp.challengeGroupUserExp;
 
 
 @Component
@@ -88,35 +86,6 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
         return new PageImpl<>(page, pageable, count == null ? 0 : count);
     }
 
-    @Override
-    public Optional<ChallengeGroupUserExp> findByChallengeGroupIdAndUserId(Long challengeGroupId, Long userId) {
-        ChallengeGroupUserExp result = queryFactory
-                .selectFrom(challengeGroupUserExp)
-                .where(challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId)
-                        .and(challengeGroupUserExp.user.id.eq(userId)))
-                .fetchOne();
-        return Optional.ofNullable(result);
-    }
-
-    @Override
-    public Page<ChallengeGroupUserExp> getUserExpPagingWithUserByChallengeGroupId(Long challengeGroupId, Pageable pageable) {
-        Long count = queryFactory
-                .select(challengeGroupUserExp.count())
-                .from(challengeGroupUserExp)
-                .where(challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
-                .fetchOne();
-
-        List<ChallengeGroupUserExp> page = queryFactory
-                .selectFrom(challengeGroupUserExp)
-                .where(challengeGroupUserExp.challengeGroup.id.eq(challengeGroupId))
-                .innerJoin(challengeGroupUserExp.user).fetchJoin()
-                .orderBy(challengeGroupUserExp.totalExp.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(page, pageable, count == null ? 0 : count);
-    }
 
     @Override
     public ChallengeGroupModel.Ranking getRanking(Long challengeGroupId, Long userId) {

@@ -10,6 +10,7 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupModel;
 import org.haedal.zzansuni.domain.challengegroup.application.ChallengeGroupQueryService;
+import org.haedal.zzansuni.domain.userchallenge.application.ChallengeRankingService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ChallengeGroupController {
     private final ChallengeGroupQueryService challengeGroupQueryService;
+    private final ChallengeRankingService challengeRankingService;
 
     @Operation(summary = "챌린지 그룹 목록 페이징", description = "챌린지 그룹 페이징 조회.")
     @GetMapping("/api/challengeGroups")
@@ -53,8 +55,8 @@ public class ChallengeGroupController {
             @PathVariable Long challengeGroupId,
             @Valid PagingRequest pagingRequest
     ) {
-        var rankingPage = challengeGroupQueryService.getChallengeGroupRankingsPaging(challengeGroupId, pagingRequest.toPageable());
-        var rankingModel = challengeGroupQueryService.getChallengeGroupRanking(challengeGroupId, jwtUser.getId());
+        var rankingPage = challengeRankingService.getChallengeGroupRankingsPaging(challengeGroupId, pagingRequest.toPageable());
+        var rankingModel = challengeRankingService.getChallengeGroupRanking(challengeGroupId, jwtUser.getId());
         var response = ChallengeGroupRes.RankingPagingResponse
                 .from(rankingPage, rankingModel);
         return ApiResponse.success(response);
