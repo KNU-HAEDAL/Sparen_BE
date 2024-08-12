@@ -1,6 +1,7 @@
 package org.haedal.zzansuni.infrastructure.challengegroup.adapter;
 
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -48,15 +49,21 @@ public class ChallengeGroupReaderImpl implements ChallengeGroupReader {
 
     @Override
     public Page<ChallengeGroup> getChallengeGroupsPagingByCategory(Pageable pageable, ChallengeCategory category) {
+
+
+        BooleanExpression categoryEq = category == null ?
+                null : challengeGroup.category.eq(category);
+
         Long count = queryFactory
                 .select(challengeGroup.count())
                 .from(challengeGroup)
-                .where(challengeGroup.category.eq(category))
+                .where(categoryEq)
                 .fetchOne();
+
 
         List<ChallengeGroup> page = queryFactory
                 .selectFrom(challengeGroup)
-                .where(challengeGroup.category.eq(category))
+                .where(categoryEq)
                 .leftJoin(challengeGroup.challenges).fetchJoin()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

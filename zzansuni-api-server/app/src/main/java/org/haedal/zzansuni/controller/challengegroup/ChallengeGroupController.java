@@ -1,6 +1,7 @@
 package org.haedal.zzansuni.controller.challengegroup;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,9 @@ public class ChallengeGroupController {
     @GetMapping("/api/challengeGroups")
     public ApiResponse<PagingResponse<ChallengeGroupRes.Info>> getChallengesPaging(
             @Valid PagingRequest pagingRequest,
-            @RequestParam ChallengeCategory category
+            @RequestParam(required = false)
+            @Schema(description = "챌린지 카테고리(null이면 전체)", implementation = ChallengeCategory.class)
+            ChallengeCategory category
     ) {
         var page = challengeGroupQueryService.getChallengeGroupsPaging(pagingRequest.toPageable(), category);
         var response = PagingResponse.from(page, ChallengeGroupRes.Info::from);
