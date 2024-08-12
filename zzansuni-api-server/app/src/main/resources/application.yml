@@ -31,6 +31,7 @@ logging.level:
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
+  use-fqn: true
 jwt:
   secret: ${JWT_SECRET:4099a46b-39db-4860-a61b-2ae76ea24c43}
   access-token-expire-time: 1800000 # 30 minutes
@@ -109,3 +110,4 @@ kakao:
   redirect-uri: ${KAKAO_REDIRECT_URI}
 naver:
   client-secret: ${NAVER_CLIENT_SECRET}
+server-url: 'https://api.reditus.site'
