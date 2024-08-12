@@ -4,8 +4,6 @@ import lombok.Builder;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroup;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeGroupImage;
-import org.haedal.zzansuni.domain.userchallenge.ChallengeGroupUserExp;
-import org.haedal.zzansuni.domain.user.UserModel;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -115,19 +113,6 @@ public class ChallengeGroupModel {
         }
     }
 
-    @Builder
-    public record Ranking(
-            UserModel.Main user,
-            Integer rank,
-            Integer accumulatedPoint
-    ) {
-        public static Ranking from(ChallengeGroupUserExp challengeGroupUserExp, int rank) {
-            return Ranking.builder()
-                    .user(UserModel.Main.from(challengeGroupUserExp.getUser()))
-                    .rank(rank)
-                    .accumulatedPoint(challengeGroupUserExp.getTotalExp())
-                    .build();
-        }
-    }
+
 
 }
