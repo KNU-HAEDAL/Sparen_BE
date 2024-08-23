@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'agree'
+    database: 'zzansuni'
 });
 
 // users 테이블 데이터 생성 및 삽입
