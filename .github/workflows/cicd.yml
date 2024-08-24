@@ -3,6 +3,8 @@ name: Build & Deploy
 on:
   push:
     branches: [ "main" ] # main 브랜치에 push가 발생하면 workflow가 실행됩니다.
+  pull_request:
+    branches: [ "main", "issue/*", "develop" ]
 permissions:
   contents: read # 권한을 설정합니다.
 
@@ -36,6 +38,19 @@ jobs:
 
       - name: Gradle build를 수행합니다.
         run: ./gradlew clean build
+
+      - name: 테스트 결과를 PR에 코멘트로 등록합니다
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: '**/build/test-results/test/TEST-*.xml'
+
+      - name: 테스트 실패 시, 실패한 코드 라인에 Check 코멘트를 등록합니다
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+          token: ${{ github.token }}
 
       - name: Build docker image and push to docker hub # Docker 이미지를 빌드하고 Docker Hub에 푸시합니다.
         run: |
