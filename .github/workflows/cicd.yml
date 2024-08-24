@@ -2,7 +2,7 @@ name: Build & Deploy
 
 on:
   push:
-    branches: [ "main", "issue/#57" ] # main 브랜치에 push가 발생하면 workflow가 실행됩니다.
+    branches: [ "main" ] # main 브랜치에 push가 발생하면 workflow가 실행됩니다.
   pull_request:
     branches: [ "main", "issue/*", "develop" ]
 permissions:
