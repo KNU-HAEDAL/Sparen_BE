@@ -24,6 +24,8 @@ spring: # default test profile
       max-file-size: 5MB
       max-request-size: 10MB
       resolve-lazily: true # 파일 업로드 시점에 메모리에 저장
+  lifecycle:
+    timeout-per-shutdown-phase: 15s # 스프링이 종료될때 모든 작업이 종료될때 까지 기다리는 시간
 logging.level:
   org.hibernate:
     orm.jdbc.bind: trace
@@ -31,7 +33,7 @@ logging.level:
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
-  use-fqn: true
+  use-fqn: true # 패키지 경로를 포함한 클래스명으로 문서화 (FOR inner static class)
 jwt:
   secret: ${JWT_SECRET:4099a46b-39db-4860-a61b-2ae76ea24c43}
   access-token-expire-time: 1800000 # 30 minutes
@@ -39,7 +41,11 @@ jwt:
 server:
   shutdown: graceful
   tomcat:
-    connection-timeout: 20000 # 20 seconds
+    connection-timeout: 3s # 클라이언트와 서버 사이의 연결 시간 초과(TCP 연결 수락 후, 실제 HTTP 요청이 올 때까지의 시간)
+    keep-alive-timeout: 15s # 클라이언트와 서버 사이의 keep-alive 시간 초과 (새로운 HTTP 요청이 올 때까지의 시간)
+    threads:
+      max: 50 # 최대 스레드 수(개발 환경에서는 50개로 설정)
+      min-spare: 5 # 최소 스레드 수(개발 환경에서는 5개로 설정)
 ---
 spring:
   config:
@@ -61,10 +67,15 @@ spring:
     baseline-on-migrate: false # Flyway가 초기화되지 않은 데이터베이스에 마이그레이션을 적용할 때 초기 버전으로 마이그레이션 파일을 적용할지 여부
     fail-on-missing-locations: true # 스크립트 파일을 저장하는 위치를 못 찾을때 실패할지 여부
     baseline-version: 1 # Flyway가 초기화되지 않은 데이터베이스에 마이그레이션을 적용할 때 버전을 설정
+server:
+  tomcat:
+    threads:
+      max: 200 # 최대 스레드 수 (기본값 200)
+      min-spare: 10 # 최소 스레드 수 (기본값 10)
 kakao:
-  client-id: c959f4526a0df321dff0a8636fec3428
+  client-id: ${KAKAO_CLIENT_ID:c959f4526a0df321dff0a8636fec3428}
 naver:
-  client-id: Ob2i2TZtIsaNqH8j_q9X
+  client-id: ${NAVER_CLIENT_ID:Ob2i2TZtIsaNqH8j_q9X}
 ---
 spring: # dev profile
   config:
