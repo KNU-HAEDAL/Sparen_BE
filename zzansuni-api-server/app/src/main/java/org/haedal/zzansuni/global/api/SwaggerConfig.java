@@ -10,19 +10,18 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 
+import java.util.Arrays;
 import java.util.List;
 
 
 @Configuration
 public class SwaggerConfig {
     private static final String BEARER_KEY = "bearer-key";
+
     @Bean
-    public OpenAPI openAPI(
-            Server server
-    ) {
+    public OpenAPI openAPI(Server server) {
         var securityRequirement = new SecurityRequirement();
         securityRequirement.addList(BEARER_KEY);
 
@@ -53,19 +52,20 @@ public class SwaggerConfig {
                 .version("1.0.0");
     }
 
-    @Bean
-    public Server getLocalServer() {
-        return new Server().url("http://localhost:8080")
-                .description("Local Server");
-    }
 
     @Bean
-    @Primary
-    @Profile("prod")
-    public Server getProductServer(
-            @Value("${server-url}")
-            String serverUrl
+    public Server getServer(
+            @Value("${server-url:http://localhost:8080}")
+            String serverUrl,
+            Environment environment
     ) {
-        return new Server().url(serverUrl).description("Product Server");
+        String[] activeProfiles = environment.getActiveProfiles();
+        String profileStr = activeProfiles.length > 0
+                ? Arrays.stream(activeProfiles).reduce((a, b) -> a + ", " + b).get()
+                : "default"
+                + "Server";
+        return new Server()
+                .url(serverUrl)
+                .description(profileStr);
     }
 }
