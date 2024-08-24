@@ -3,9 +3,8 @@ name: Build & Deploy
 on:
   push:
     branches: [ "main" ] # main 브랜치에 push가 발생하면 workflow가 실행됩니다.
-  pull_request:
-    branches: [ "main", "issue/*", "develop" ]
-permissions: write-all
+permissions:
+  contents: read # 권한을 설정합니다.
 
 jobs:
   ci:
@@ -38,19 +37,6 @@ jobs:
       - name: Gradle build를 수행합니다.
         run: ./gradlew clean build
 
-      - name: 테스트 결과를 PR에 코멘트로 등록합니다
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          files: '**/build/test-results/test/TEST-*.xml'
-
-      - name: 테스트 실패 시, 실패한 코드 라인에 Check 코멘트를 등록합니다
-        uses: mikepenz/action-junit-report@v3
-        if: always()
-        with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
-          token: ${{ github.token }}
-
       - name: Build docker image and push to docker hub # Docker 이미지를 빌드하고 Docker Hub에 푸시합니다.
         run: |
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
@@ -60,7 +46,6 @@ jobs:
   cd:
     runs-on: ubuntu-latest # ubuntu 최신 버전에서 script를 실행
     needs: ci # ci job이 성공적으로 끝나야 cd job이 실행됩니다.
-    if: github.ref == 'refs/heads/main' # main 브랜치에서만 CD 작업을 수행합니다.
 
     # appleboy/ssh-action@master 액션을 사용하여 지정한 서버에 ssh로 접속하고, script를 실행합니다.
     # script의 내용은 도커의 기존 프로세스들을 제거하고, docker repo로부터 방금 위에서 push한 내용을 pull 받아 실행하는 것입니다.
