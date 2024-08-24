@@ -31,10 +31,11 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Setup Gradle # Gradle을 설정합니다.
-        run: |
-          chmod +x ./gradlew
-          ./gradlew clean build
+      - name: Gradle 명령 실행을 위한 권한을 부여합니다
+        run: chmod +x ./gradlew
+
+      - name: Gradle build를 수행합니다.
+        run: ./gradlew clean build
 
       - name: Build docker image and push to docker hub # Docker 이미지를 빌드하고 Docker Hub에 푸시합니다.
         run: |
@@ -45,8 +46,8 @@ jobs:
   cd:
     runs-on: ubuntu-latest # ubuntu 최신 버전에서 script를 실행
     needs: ci # ci job이 성공적으로 끝나야 cd job이 실행됩니다.
-      
-      # appleboy/ssh-action@master 액션을 사용하여 지정한 서버에 ssh로 접속하고, script를 실행합니다.
+
+    # appleboy/ssh-action@master 액션을 사용하여 지정한 서버에 ssh로 접속하고, script를 실행합니다.
     # script의 내용은 도커의 기존 프로세스들을 제거하고, docker repo로부터 방금 위에서 push한 내용을 pull 받아 실행하는 것입니다.
     steps:
       - name: Deploy to server
