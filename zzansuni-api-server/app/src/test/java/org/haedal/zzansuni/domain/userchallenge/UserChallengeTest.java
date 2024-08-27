@@ -37,6 +37,23 @@ public class UserChallengeTest {
     }
 
     @Test
+    @DisplayName("인증_조건_횟수를_채운_경우_챌린지_상태가_완료로_변경된다.")
+    void 유저_챌린지_완료_상태_변경() {
+        // given
+        UserChallenge userChallenge = createUserChallenge();
+        ChallengeCommand.VerificationCreate command = ChallengeCommand.VerificationCreate.builder()
+            .content("content")
+            .imageUrl("imageUrl")
+            .build();
+        // when
+        for (int i = 0; i < userChallenge.getChallenge().getRequiredCount(); i++) {
+            userChallenge.addChallengeVerification(command);
+        }
+        // then
+        assertThat(userChallenge.getStatus()).isEqualTo(ChallengeStatus.SUCCESS);
+    }
+
+    @Test
     @DisplayName("챌린지_인증중_성공한_가장_최근_날짜를_가져온다.")
     void 유저_챌린지_성공일자_가져오기() {
         // given
