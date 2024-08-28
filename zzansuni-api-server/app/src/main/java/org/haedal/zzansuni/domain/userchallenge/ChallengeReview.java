@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.domain.BaseTimeEntity;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
 
+@Table(
+    indexes = {
+        @Index(name = "IDX_challenge_review_challenge_group", columnList = "challenge_group_id")
+    }
+)
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
