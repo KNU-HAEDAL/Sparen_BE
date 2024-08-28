@@ -44,7 +44,18 @@ public class UserChallengeTest {
     @DisplayName("인증_조건_횟수를_채운_경우_챌린지_상태가_완료로_변경된다.")
     void 유저_챌린지_완료_상태_변경() {
         // given
-        UserChallenge userChallenge = createUserChallenge();
+        Challenge challenge = Challenge.builder()
+            .challengeGroup(createChallengeGroup())
+            .requiredCount(2)
+            .dayType(DayType.WEEK)
+            .onceExp(100)
+            .successExp(100)
+            .difficulty(2)
+            .startDate(LocalDate.of(2021, 1, 1))
+            .endDate(LocalDate.of(2024, 1, 1))
+            .build();
+
+        UserChallenge userChallenge = createUserChallenge(challenge);
         ChallengeCommand.VerificationCreate command = ChallengeCommand.VerificationCreate.builder()
             .content("content")
             .imageUrl("imageUrl")
@@ -140,6 +151,18 @@ public class UserChallengeTest {
     private UserChallenge createUserChallenge() {
         User user = createUser(1L, "test");
         Challenge challenge = createChallenge();
+
+        return UserChallenge.builder()
+            .id(1L)
+            .challenge(challenge)
+            .status(ChallengeStatus.PROCEEDING)
+            .user(user)
+            .challengeVerifications(new ArrayList<>())
+            .build();
+    }
+
+    private UserChallenge createUserChallenge(Challenge challenge) {
+        User user = createUser(1L, "test");
 
         return UserChallenge.builder()
             .id(1L)
