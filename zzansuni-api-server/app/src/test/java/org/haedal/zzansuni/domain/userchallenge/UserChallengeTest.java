@@ -4,7 +4,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.haedal.zzansuni.domain.challengegroup.Challenge;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCategory;
 import org.haedal.zzansuni.domain.challengegroup.ChallengeCommand;
@@ -14,6 +17,7 @@ import org.haedal.zzansuni.domain.user.User;
 import org.haedal.zzansuni.global.security.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 public class UserChallengeTest {
 
@@ -54,11 +58,44 @@ public class UserChallengeTest {
     }
 
     @Test
+    @DisplayName("챌린지_완료_상태인_경우_인증_추가_불가능")
+    void 유저_챌린지_완료_상태_인증_추가_불가능() {
+        // TODO: 챌린지_완료_상태인_경우_인증_추가_불가능 기능 필요
+    }
+
+    @Test
     @DisplayName("챌린지_인증중_성공한_가장_최근_날짜를_가져온다.")
     void 유저_챌린지_성공일자_가져오기() {
         // given
+        UserChallenge userChallenge = createUserChallenge();
+        ChallengeCommand.VerificationCreate command1 = ChallengeCommand.VerificationCreate.builder()
+            .content("content")
+            .imageUrl("imageUrl")
+            .build();
+
+        ChallengeCommand.VerificationCreate command2 = ChallengeCommand.VerificationCreate.builder()
+            .content("content")
+            .imageUrl("imageUrl")
+            .build();
+
+        ChallengeVerification verification1 = ChallengeVerification.create(command1, userChallenge);
+        ChallengeVerification verification2 = ChallengeVerification.create(command2, userChallenge);
+
+        // 생성일자 강제 설정
+        ReflectionTestUtils.setField(verification1, "createdAt",
+            LocalDateTime.of(2023, 8, 4, 0, 0));
+        ReflectionTestUtils.setField(verification2, "createdAt",
+            LocalDateTime.of(2023, 8, 2, 0, 0));
+
+        // 챌린지 인증 추가
+        userChallenge.getChallengeVerifications().addAll(
+            List.of(verification1, verification2));
+
         // when
+        Optional<LocalDate> successDate = userChallenge.getSuccessDate();
+
         // then
+        assertThat(successDate.get()).isEqualTo(LocalDate.of(2023, 8, 4));
     }
 
     private User createUser(Long id, String nickname) {
@@ -96,7 +133,7 @@ public class UserChallengeTest {
             .successExp(100)
             .difficulty(2)
             .startDate(LocalDate.of(2021, 1, 1))
-            .endDate(LocalDate.of(2021, 1, 1).plusDays(7))
+            .endDate(LocalDate.of(2024, 1, 1))
             .build();
     }
 
