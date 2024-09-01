@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.userchallenge.domain;
+package org.haedal.zzansuni.challengereview.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.common.domain.BaseTimeEntity;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeCommand;
+import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 
 @Entity
 @AllArgsConstructor

@@ -4,9 +4,12 @@ import java.time.LocalDate;
 
 import org.haedal.zzansuni.challengegroup.domain.*;
 import org.haedal.zzansuni.challengegroup.domain.port.ChallengeReader;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReview;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewService;
 import org.haedal.zzansuni.userchallenge.domain.*;
-import org.haedal.zzansuni.userchallenge.domain.port.ChallengeReviewReader;
-import org.haedal.zzansuni.userchallenge.domain.port.ChallengeReviewStore;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewReader;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewStore;
 import org.haedal.zzansuni.userchallenge.domain.port.ChallengeVerificationReader;
 import org.haedal.zzansuni.userchallenge.domain.port.UserChallengeReader;
 import org.haedal.zzansuni.user.domain.User;

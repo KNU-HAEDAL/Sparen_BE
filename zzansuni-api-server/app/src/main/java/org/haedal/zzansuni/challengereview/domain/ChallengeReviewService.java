@@ -1,12 +1,9 @@
-package org.haedal.zzansuni.userchallenge.domain.application;
+package org.haedal.zzansuni.challengereview.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeCommand;
-import org.haedal.zzansuni.userchallenge.domain.port.ChallengeReviewReader;
-import org.haedal.zzansuni.userchallenge.domain.port.ChallengeReviewStore;
 import org.haedal.zzansuni.userchallenge.domain.port.UserChallengeReader;
-import org.haedal.zzansuni.userchallenge.domain.ChallengeReview;
 import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

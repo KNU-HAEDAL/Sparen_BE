@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.userchallenge.domain.application;
+package org.haedal.zzansuni.challengereview.domain;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +7,6 @@ import lombok.Builder;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeGroup;
 import org.haedal.zzansuni.challengegroup.domain.Challenge;
 import org.haedal.zzansuni.user.domain.UserModel;
-import org.haedal.zzansuni.userchallenge.domain.ChallengeReview;
 import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 
 public class ChallengeReviewModel {

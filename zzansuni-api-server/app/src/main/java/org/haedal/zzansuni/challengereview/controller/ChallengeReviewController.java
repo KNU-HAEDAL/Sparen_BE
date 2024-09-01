@@ -1,4 +1,4 @@
-package org.haedal.zzansuni.userchallenge.controller;
+package org.haedal.zzansuni.challengereview.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -7,9 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.common.controller.PagingRequest;
 import org.haedal.zzansuni.common.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
-import org.haedal.zzansuni.userchallenge.domain.application.ChallengeReviewModel.ChallengeReviewWithChallenge;
-import org.haedal.zzansuni.userchallenge.domain.application.ChallengeReviewModel.ChallengeReviewWithUserInfo;
-import org.haedal.zzansuni.userchallenge.domain.application.ChallengeReviewService;
+import org.haedal.zzansuni.userchallenge.controller.ChallengeReq;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel.ChallengeReviewWithChallenge;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel.ChallengeReviewWithUserInfo;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewService;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

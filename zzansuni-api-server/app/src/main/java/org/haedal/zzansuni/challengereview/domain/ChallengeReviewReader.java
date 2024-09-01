@@ -1,10 +1,10 @@
-package org.haedal.zzansuni.userchallenge.domain.port;
+package org.haedal.zzansuni.challengereview.domain;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.haedal.zzansuni.userchallenge.domain.ChallengeReview;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

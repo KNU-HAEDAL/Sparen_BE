@@ -1,10 +1,9 @@
-package org.haedal.zzansuni.userchallenge.infrastructure.adapter;
+package org.haedal.zzansuni.challengereview.infrastructure;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.userchallenge.domain.port.ChallengeReviewReader;
-import org.haedal.zzansuni.userchallenge.domain.ChallengeReview;
-import org.haedal.zzansuni.userchallenge.infrastructure.ChallengeReviewRepository;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReview;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-import static org.haedal.zzansuni.userchallenge.domain.QChallengeReview.challengeReview;
+import static org.haedal.zzansuni.challengereview.domain.QChallengeReview.challengeReview;
 
 
 @Component

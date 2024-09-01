@@ -11,7 +11,7 @@ import org.haedal.zzansuni.userchallenge.domain.ChallengeGroupUserExp;
 import org.haedal.zzansuni.userchallenge.domain.ChallengeStatus;
 import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 import org.haedal.zzansuni.userchallenge.domain.port.ChallengeGroupUserExpStore;
-import org.haedal.zzansuni.userchallenge.domain.port.ChallengeReviewReader;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewReader;
 import org.haedal.zzansuni.userchallenge.domain.port.UserChallengeReader;
 import org.haedal.zzansuni.userchallenge.domain.port.UserChallengeStore;
 import org.junit.jupiter.api.BeforeEach;

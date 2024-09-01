@@ -1,6 +1,6 @@
-package org.haedal.zzansuni.userchallenge.infrastructure;
+package org.haedal.zzansuni.challengereview.infrastructure;
 
-import org.haedal.zzansuni.userchallenge.domain.ChallengeReview;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReview;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

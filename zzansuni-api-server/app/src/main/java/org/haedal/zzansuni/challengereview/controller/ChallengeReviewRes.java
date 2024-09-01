@@ -1,11 +1,11 @@
-package org.haedal.zzansuni.userchallenge.controller;
+package org.haedal.zzansuni.challengereview.controller;
 
 import java.util.Map;
 import lombok.Builder;
 import org.haedal.zzansuni.user.controller.UserRes;
-import org.haedal.zzansuni.userchallenge.domain.application.ChallengeReviewModel;
-import org.haedal.zzansuni.userchallenge.domain.application.ChallengeReviewModel.ChallengeReviewWithChallenge;
-import org.haedal.zzansuni.userchallenge.domain.application.ChallengeReviewModel.ChallengeReviewWithUserInfo;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel.ChallengeReviewWithChallenge;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 
 public class ChallengeReviewRes {
 
