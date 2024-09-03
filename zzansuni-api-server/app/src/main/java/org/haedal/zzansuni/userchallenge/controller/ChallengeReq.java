@@ -19,18 +19,6 @@ public class ChallengeReq {
 
     }
 
-    public record ReviewCreate(
-        String content,
-        @Schema(description = "평점", example = "5")
-        Integer rating
-    ) {
 
-        public ChallengeCommand.ReviewCreate toCommand() {
-            return ChallengeCommand.ReviewCreate.builder()
-                .content(content)
-                .rating(rating)
-                .build();
-        }
-    }
 
 }

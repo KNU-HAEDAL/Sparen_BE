@@ -1,15 +1,10 @@
 package org.haedal.zzansuni.userchallenge.domain.application;
 
-import java.time.LocalDate;
 
 import org.haedal.zzansuni.challengegroup.domain.*;
 import org.haedal.zzansuni.challengegroup.domain.port.ChallengeReader;
-import org.haedal.zzansuni.challengereview.domain.ChallengeReview;
-import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel;
-import org.haedal.zzansuni.challengereview.domain.ChallengeReviewService;
+import org.haedal.zzansuni.challengereview.domain.*;
 import org.haedal.zzansuni.userchallenge.domain.*;
-import org.haedal.zzansuni.challengereview.domain.ChallengeReviewReader;
-import org.haedal.zzansuni.challengereview.domain.ChallengeReviewStore;
 import org.haedal.zzansuni.userchallenge.domain.port.ChallengeVerificationReader;
 import org.haedal.zzansuni.userchallenge.domain.port.UserChallengeReader;
 import org.haedal.zzansuni.user.domain.User;
@@ -150,7 +145,7 @@ class RecordServiceTest {
     void createReview() {
         Long userId = 1L;
         Long challengeId = 1L;
-        ChallengeCommand.ReviewCreate command = new ChallengeCommand.ReviewCreate(
+        ChallengeReviewCommand.Create command = new ChallengeReviewCommand.Create(
             "Great challenge!", 5);
 
         when(userChallengeReader.findByUserIdAndChallengeId(userId, challengeId)).thenReturn(

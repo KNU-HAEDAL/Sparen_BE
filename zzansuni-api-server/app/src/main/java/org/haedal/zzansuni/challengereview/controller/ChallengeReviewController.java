@@ -4,13 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.haedal.zzansuni.common.controller.PagingRequest;
-import org.haedal.zzansuni.common.controller.PagingResponse;
-import org.haedal.zzansuni.core.api.ApiResponse;
-import org.haedal.zzansuni.userchallenge.controller.ChallengeReq;
 import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel.ChallengeReviewWithChallenge;
 import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel.ChallengeReviewWithUserInfo;
 import org.haedal.zzansuni.challengereview.domain.ChallengeReviewService;
+import org.haedal.zzansuni.common.controller.PagingRequest;
+import org.haedal.zzansuni.common.controller.PagingResponse;
+import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.global.jwt.JwtUser;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -67,7 +66,7 @@ public class ChallengeReviewController {
     public ApiResponse<Long> challengeReviewCreate(
         @PathVariable Long challengeId,
         @AuthenticationPrincipal JwtUser jwtUser,
-        @RequestBody ChallengeReq.ReviewCreate request
+        @RequestBody ChallengeReviewReq.Create request
     ) {
         Long response = challengeReviewService.createReview(request.toCommand(), challengeId,
             jwtUser.getId());

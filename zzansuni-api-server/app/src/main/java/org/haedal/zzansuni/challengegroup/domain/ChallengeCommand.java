@@ -50,25 +50,6 @@ public class ChallengeCommand {
         }
     }
 
-    @Getter
-    public static class ReviewCreate extends SelfValidating<ReviewCreate> {
 
-        @NotBlank(message = "내용은 필수입니다.")
-        private final String content;
-
-        @NotNull(message = "평점은 필수입니다.")
-        @Min(1)
-        @Max(5)
-        private final Integer rating;
-
-        @Builder
-        public ReviewCreate(String content, Integer rating) {
-            this.content = content;
-            this.rating = rating;
-            this.validateSelf();
-        }
-
-
-    }
 
 }

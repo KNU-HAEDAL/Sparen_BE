@@ -2,7 +2,6 @@ package org.haedal.zzansuni.challengereview.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.haedal.zzansuni.challengegroup.domain.ChallengeCommand;
 import org.haedal.zzansuni.userchallenge.domain.port.UserChallengeReader;
 import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 import org.springframework.data.domain.Page;
@@ -25,7 +24,7 @@ public class ChallengeReviewService {
      * 챌린지 리뷰 작성하기
      */
     @Transactional
-    public Long createReview(ChallengeCommand.ReviewCreate command, Long challengeId, Long userId) {
+    public Long createReview(ChallengeReviewCommand.Create command, Long challengeId, Long userId) {
         UserChallenge userChallenge = userChallengeReader.findByUserIdAndChallengeId(userId,
                 challengeId).orElseThrow(() -> new IllegalStateException("해당 챌린지 참여 기록이 없습니다."));
 
