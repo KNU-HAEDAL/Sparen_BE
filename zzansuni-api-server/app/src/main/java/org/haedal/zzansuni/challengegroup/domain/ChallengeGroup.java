@@ -18,9 +18,12 @@ import java.util.List;
 @Builder
 @Getter
 @Table(
-        indexes = {
-                @Index(name = "idx_challenge_group_join_start_date_join_end_date_category", columnList = "join_start_date, join_end_date, category"),
-        }
+    indexes = {
+        @Index(
+            name = "idx_challenge_group_join_start_date_join_end_date_category",
+            columnList = "join_start_date, join_end_date, category"
+        ),
+    }
 )
 public class ChallengeGroup extends BaseTimeEntity {
 
