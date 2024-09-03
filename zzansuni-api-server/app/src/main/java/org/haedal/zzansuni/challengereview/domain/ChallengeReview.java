@@ -15,6 +15,11 @@ import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
+@Table(
+    indexes = {
+        @Index(name = "idx_challenge_review_challenge_group_id", columnList = "challenge_group_id"),
+    }
+)
 public class ChallengeReview extends BaseTimeEntity {
 
     @Id
@@ -25,7 +30,7 @@ public class ChallengeReview extends BaseTimeEntity {
     @JoinColumn(name = "user_challenge_id", nullable = false)
     private UserChallenge userChallenge;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String content;
 
     @Column(nullable = false)

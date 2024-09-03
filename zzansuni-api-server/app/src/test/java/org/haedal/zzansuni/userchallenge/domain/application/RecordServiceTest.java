@@ -106,7 +106,7 @@ class RecordServiceTest {
             .userChallenge(userChallenge)
             .imageUrl("http://example.com/image.jpg")
             .content("Test Verification")
-            .status(ChallengeVerificationStatus.APPROVED)
+            .status(ChallengeVerificationStatus.PRE_APPROVED)
             .build();
 
         challengeReview = ChallengeReview.builder()

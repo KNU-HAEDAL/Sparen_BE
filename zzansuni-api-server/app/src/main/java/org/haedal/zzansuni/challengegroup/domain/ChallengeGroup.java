@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.common.domain.BaseTimeEntity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,24 +17,36 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
+@Table(
+        indexes = {
+                @Index(name = "idx_challenge_group_join_start_date_join_end_date_category", columnList = "join_start_date, join_end_date, category"),
+        }
+)
 public class ChallengeGroup extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
+    private String title;
+
+    @Column(nullable = false, length = 1000)
+    private String content;
+
+    @Column(nullable = false, length = 1000)
+    private String guide;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ChallengeCategory category;
 
     @Column(nullable = false)
-    private String title;
+    private LocalDate joinStartDate;
 
     @Column(nullable = false)
-    private String content;
+    private LocalDate joinEndDate;
 
-    @Column(nullable = false)
-    private String guide;
 
     @Column(nullable = false)
     private Integer cumulativeCount;
