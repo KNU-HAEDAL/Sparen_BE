@@ -3,7 +3,6 @@ package org.haedal.zzansuni.challengegroup.domain.application;
 import lombok.Builder;
 import lombok.Getter;
 import org.haedal.zzansuni.challengegroup.domain.Challenge;
-import org.haedal.zzansuni.challengegroup.domain.DayType;
 
 import java.time.LocalDate;
 
@@ -16,7 +15,6 @@ public class ChallengeModel {
     public record Main(
         Long id,
         Integer requiredCount,
-        DayType dayType,
         Integer onceExp,
         Integer successExp,
         Integer difficulty,
@@ -27,12 +25,9 @@ public class ChallengeModel {
             return Main.builder()
                 .id(challenge.getId())
                 .requiredCount(challenge.getRequiredCount())
-                .dayType(challenge.getDayType())
                 .onceExp(challenge.getOnceExp())
                 .successExp(challenge.getSuccessExp())
                 .difficulty(challenge.getDifficulty())
-                .startDate(challenge.getStartDate())
-                .endDate(challenge.getEndDate())
                 .build();
         }
     }

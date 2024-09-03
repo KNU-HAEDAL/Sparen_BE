@@ -4,7 +4,6 @@ import lombok.Builder;
 import org.haedal.zzansuni.user.controller.UserRes;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeCategory;
 import org.haedal.zzansuni.challengegroup.domain.application.ChallengeGroupModel;
-import org.haedal.zzansuni.challengegroup.domain.DayType;
 import org.haedal.zzansuni.challengegroup.domain.application.ChallengeModel;
 import org.haedal.zzansuni.userchallenge.domain.application.ChallengeGroupRankingModel;
 import org.springframework.data.domain.Page;
@@ -109,7 +108,6 @@ public class ChallengeGroupRes {
         Integer difficulty,
         Integer onceExp,
         Integer successExp,
-        DayType dayType,
         Integer dayCount
     ) {
         public static Challenge from(
@@ -121,7 +119,6 @@ public class ChallengeGroupRes {
                 .difficulty(challenge.difficulty())
                 .onceExp(challenge.onceExp())
                 .successExp(challenge.successExp())
-                .dayType(challenge.dayType())
                 .dayCount(challenge.requiredCount())
                 .build();
         }

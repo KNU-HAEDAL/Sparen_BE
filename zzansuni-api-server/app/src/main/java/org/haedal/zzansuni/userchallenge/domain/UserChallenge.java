@@ -26,7 +26,7 @@ import java.util.Optional;
 @Table(
     uniqueConstraints = {
         @UniqueConstraint(
-            name = "user_challenge_unique",
+            name = "uk_user_challenge_challenge_user",
             columnNames = {"challenge_id", "user_id"}
         )
     }
@@ -48,6 +48,14 @@ public class UserChallenge extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ChallengeStatus status;
+
+    @Column(nullable = false)
+    private LocalDate activeStartDate;
+
+    @Column(nullable = false)
+    private LocalDate activeEndDate;
+
+    private LocalDate successDate;
 
     @OneToMany(mappedBy = "userChallenge", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChallengeVerification> challengeVerifications = new ArrayList<>();

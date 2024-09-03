@@ -25,12 +25,6 @@ public class Challenge extends BaseTimeEntity {
     @JoinColumn(name = "challenge_group_id")
     private ChallengeGroup challengeGroup;
 
-    @Column(nullable = false)
-    private Integer requiredCount;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DayType dayType;
 
     @Column(nullable = false)
     private Integer onceExp;
@@ -42,22 +36,20 @@ public class Challenge extends BaseTimeEntity {
     private Integer difficulty;
 
     @Column(nullable = false)
-    private LocalDate startDate;
+    private Integer requiredCount;
 
     @Column(nullable = false)
-    private LocalDate endDate;
+    private Integer activePeriod;
 
 
     public static Challenge create(ChallengeGroupCommand.CreateChallenge command, ChallengeGroup group) {
         return Challenge.builder()
                 .challengeGroup(group)
-                .requiredCount(command.getRequiredCount())
-                .dayType(command.getDayType())
                 .onceExp(command.getOnceExp())
                 .successExp(command.getSuccessExp())
                 .difficulty(command.getDifficulty())
-                .startDate(command.getStartDate())
-                .endDate(command.getEndDate())
+                .requiredCount(command.getRequiredCount())
+                .activePeriod(command.getActivePeriod())
                 .build();
     }
 

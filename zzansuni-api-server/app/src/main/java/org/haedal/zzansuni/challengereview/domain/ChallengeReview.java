@@ -1,13 +1,8 @@
 package org.haedal.zzansuni.challengereview.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.haedal.zzansuni.common.domain.BaseTimeEntity;
-import org.haedal.zzansuni.challengegroup.domain.ChallengeCommand;
 import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 
 @Entity
@@ -15,6 +10,11 @@ import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
+@Table(
+    indexes = {
+        @Index(name = "idx_challenge_review_challenge_group_id", columnList = "challenge_group_id"),
+    }
+)
 public class ChallengeReview extends BaseTimeEntity {
 
     @Id
@@ -25,7 +25,7 @@ public class ChallengeReview extends BaseTimeEntity {
     @JoinColumn(name = "user_challenge_id", nullable = false)
     private UserChallenge userChallenge;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String content;
 
     @Column(nullable = false)
@@ -35,7 +35,7 @@ public class ChallengeReview extends BaseTimeEntity {
     @Column(nullable = false)
     private Long challengeGroupId;
 
-    public static ChallengeReview create(UserChallenge userChallenge, ChallengeCommand.ReviewCreate command) {
+    public static ChallengeReview create(UserChallenge userChallenge, ChallengeReviewCommand.Create command) {
         Long challengeGroupId = userChallenge.getChallenge().getChallengeGroupId();
         return ChallengeReview.builder()
             .userChallenge(userChallenge)

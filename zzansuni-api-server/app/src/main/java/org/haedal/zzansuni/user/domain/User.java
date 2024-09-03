@@ -11,7 +11,9 @@ import org.haedal.zzansuni.global.security.Role;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"email"}, name = "uk_users_email"),
+})
 public class User extends BaseTimeEntity {
 
     @Id
@@ -25,9 +27,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Role role;
 
-    @Column(unique = true)
     private String email;
 
+    @Column(length = 128)
     private String password;
 
     @Column(nullable = false)
@@ -36,6 +38,7 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private OAuth2Provider provider;
 
+    @Column(length = 128)
     private String authToken;
 
     private String profileImageUrl;

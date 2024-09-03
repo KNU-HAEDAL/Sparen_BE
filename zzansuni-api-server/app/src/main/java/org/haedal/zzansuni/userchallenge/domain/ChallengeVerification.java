@@ -22,7 +22,7 @@ public class ChallengeVerification extends BaseTimeEntity {
 
     private String imageUrl;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String content;
 
     @Enumerated(EnumType.STRING)
@@ -34,7 +34,7 @@ public class ChallengeVerification extends BaseTimeEntity {
             .userChallenge(userChallenge)
             .imageUrl(command.getImageUrl())
             .content(command.getContent())
-            .status(ChallengeVerificationStatus.APPROVED)
+            .status(ChallengeVerificationStatus.PRE_APPROVED)
             .build();
     }
 

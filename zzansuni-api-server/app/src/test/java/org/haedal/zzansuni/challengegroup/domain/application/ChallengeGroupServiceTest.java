@@ -29,9 +29,6 @@ class ChallengeGroupServiceTest {
         LocalDate startDate = LocalDate.of(2021, 1, 1);
         // given
         ChallengeGroupCommand.CreateChallenge createChallenge = ChallengeGroupCommand.CreateChallenge.builder()
-                .startDate(startDate)
-                .endDate(startDate.plusDays(7))
-                .dayType(DayType.WEEK)
                 .requiredCount(1)
                 .onceExp(100)
                 .successExp(100)
@@ -61,8 +58,6 @@ class ChallengeGroupServiceTest {
 
         assertThat(challengeGroup.getChallenges().size()).isEqualTo(1);
         Challenge challenge = challengeGroup.getChallenges().get(0);
-        assertThat(challenge.getStartDate()).isEqualTo(startDate);
-        assertThat(challenge.getEndDate()).isEqualTo(startDate.plusDays(7));
 
 
     }
@@ -83,22 +78,16 @@ class ChallengeGroupServiceTest {
         Challenge challenge1 = Challenge.builder()
                 .challengeGroup(challengeGroup)
                 .requiredCount(1)
-                .dayType(DayType.WEEK)
                 .onceExp(100)
                 .successExp(100)
                 .difficulty(2)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(7))
                 .build();
         Challenge challenge2 = Challenge.builder()
                 .challengeGroup(challengeGroup)
                 .requiredCount(1)
-                .dayType(DayType.WEEK)
                 .onceExp(100)
                 .successExp(100)
                 .difficulty(2)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(7))
                 .build();
         challengeRepository.save(challenge1);
         challengeRepository.save(challenge2);

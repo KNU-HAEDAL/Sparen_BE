@@ -29,12 +29,9 @@ public class UserChallengeTest {
         Challenge challenge = Challenge.builder()
             .challengeGroup(createChallengeGroup())
             .requiredCount(2)
-            .dayType(DayType.WEEK)
             .onceExp(100)
             .successExp(100)
             .difficulty(2)
-            .startDate(LocalDate.of(2021, 1, 1))
-            .endDate(LocalDate.of(2024, 1, 1))
             .build();
 
         UserChallenge userChallenge = createUserChallenge(challenge);
@@ -140,12 +137,9 @@ public class UserChallengeTest {
         return Challenge.builder()
             .challengeGroup(challengeGroup)
             .requiredCount(2)
-            .dayType(DayType.WEEK)
             .onceExp(100)
             .successExp(100)
             .difficulty(2)
-            .startDate(LocalDate.of(2021, 1, 1))
-            .endDate(LocalDate.of(2024, 1, 1))
             .build();
     }
 

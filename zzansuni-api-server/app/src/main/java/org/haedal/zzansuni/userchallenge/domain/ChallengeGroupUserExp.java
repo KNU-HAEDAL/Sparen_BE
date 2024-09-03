@@ -11,12 +11,12 @@ import org.haedal.zzansuni.user.domain.User;
 @AllArgsConstructor
 @Builder
 @Table(
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "challenge_group_user_exp_unique",
-                        columnNames = {"challenge_group_id", "user_id"}
-                )
-        }
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uk_challenge_group_user_exp_challenge_group_user",
+            columnNames = {"challenge_group_id", "user_id"}
+        )
+    }
 )
 public class ChallengeGroupUserExp {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
