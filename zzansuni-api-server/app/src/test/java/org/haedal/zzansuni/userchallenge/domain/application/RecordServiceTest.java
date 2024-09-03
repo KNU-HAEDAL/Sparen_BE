@@ -86,12 +86,9 @@ class RecordServiceTest {
             .id(1L)
             .challengeGroup(challengeGroup)
             .requiredCount(10)
-            .dayType(DayType.DAY)
             .onceExp(10)
             .successExp(50)
             .difficulty(1)
-            .startDate(LocalDate.now())
-            .endDate(LocalDate.now().plusDays(30))
             .build();
 
         userChallenge = UserChallenge.builder()

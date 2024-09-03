@@ -32,8 +32,6 @@ public class UserChallengeModel {
                     .title(challengeGroup.getTitle())
                     .totalCount(challenge.getRequiredCount())
                     .successCount(challengeVerificationList.size())
-                    .startDate(challenge.getStartDate())
-                    .endDate(challenge.getEndDate())
                     .recordIds(challengeVerificationList.stream()
                             .map(ChallengeVerification::getId)
                             .collect(Collectors.toList()))
@@ -62,8 +60,6 @@ public class UserChallengeModel {
                     .totalCount(challenge.getRequiredCount())
                     .successCount(userChallenge.getChallengeVerifications().size())
                     .participationDate(userChallenge.getCreatedAt())
-                    .startDate(challenge.getStartDate())
-                    .endDate(challenge.getEndDate())
                     .category(challenge.getChallengeGroup().getCategory())
                     .reviewWritten(reviewWritten)
                     .build();

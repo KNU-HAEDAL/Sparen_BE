@@ -45,10 +45,10 @@ public class Challenge extends BaseTimeEntity {
     public static Challenge create(ChallengeGroupCommand.CreateChallenge command, ChallengeGroup group) {
         return Challenge.builder()
                 .challengeGroup(group)
-                .requiredCount(command.getRequiredCount())
                 .onceExp(command.getOnceExp())
                 .successExp(command.getSuccessExp())
                 .difficulty(command.getDifficulty())
+                .requiredCount(command.getRequiredCount())
                 .activePeriod(command.getActivePeriod())
                 .build();
     }

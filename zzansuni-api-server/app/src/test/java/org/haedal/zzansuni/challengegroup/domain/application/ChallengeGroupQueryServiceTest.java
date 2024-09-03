@@ -65,12 +65,9 @@ class ChallengeGroupQueryServiceTest {
         Challenge challenge = Challenge.builder()
                 .challengeGroup(challengeGroup)
                 .requiredCount(12)
-                .dayType(DayType.WEEK)
                 .successExp(100)
                 .onceExp(10)
                 .difficulty(3)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(7))
                 .build();
         challengeRepository.save(challenge);
 

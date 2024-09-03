@@ -36,12 +36,6 @@ public class ChallengeGroupCommand {
 
     @Getter
     public static class CreateChallenge extends SelfValidating<CreateChallenge> {
-        @NotNull(message = "startDate는 필수값입니다.")
-        private final LocalDate startDate;
-        @NotNull(message = "endDate는 필수값입니다.")
-        private final LocalDate endDate;
-        @NotNull(message = "dayType은 필수값입니다.")
-        private final DayType dayType;
         @NotNull(message = "requiredCount는 필수값입니다.")
         private final Integer requiredCount;
         @NotNull(message = "onceExp는 필수값입니다.")
@@ -50,16 +44,16 @@ public class ChallengeGroupCommand {
         private final Integer successExp;
         @NotNull(message = "difficulty는 필수값입니다.")
         private final Integer difficulty;
+        @NotNull(message = "activePeriod는 필수값입니다.")
+        private final Integer activePeriod;
 
         @Builder
-        public CreateChallenge(LocalDate startDate, LocalDate endDate, DayType dayType, Integer requiredCount, Integer onceExp, Integer successExp, Integer difficulty) {
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.dayType = dayType;
+        public CreateChallenge(Integer requiredCount, Integer onceExp, Integer successExp, Integer difficulty, Integer activePeriod) {
             this.requiredCount = requiredCount;
             this.onceExp = onceExp;
             this.successExp = successExp;
             this.difficulty = difficulty;
+            this.activePeriod = activePeriod;
             this.validateSelf();
         }
     }

@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeCategory;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeGroupCommand;
-import org.haedal.zzansuni.challengegroup.domain.DayType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,9 +36,6 @@ public class AdminReq {
             @NotNull(message = "startDate는 필수값입니다.")
             LocalDate startDate,
             @NotNull(message = "endDate는 필수값입니다.")
-            LocalDate endDate,
-            @NotNull(message = "dayType은 필수값입니다.")
-            DayType dayType,
             @NotNull(message = "requiredCount는 필수값입니다.")
             Integer requiredCount,
             @NotNull(message = "onceExp는 필수값입니다.")
@@ -51,9 +47,6 @@ public class AdminReq {
     ){
         public ChallengeGroupCommand.CreateChallenge toCommand() {
             return ChallengeGroupCommand.CreateChallenge.builder()
-                    .startDate(startDate)
-                    .endDate(endDate)
-                    .dayType(dayType)
                     .requiredCount(requiredCount)
                     .onceExp(onceExp)
                     .successExp(successExp)
