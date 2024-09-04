@@ -113,12 +113,6 @@ public class UserServiceTest {
     }
 
 
-    @DisplayName("유저의 스트릭을 조회한다.")
-    @Test
-    public void getUserStrick(){
-
-    }
-
 
 
     User createUser(Long id, String nickname){

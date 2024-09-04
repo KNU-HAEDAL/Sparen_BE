@@ -74,7 +74,7 @@ public class UserIntegratedTest {
     @DisplayName("유저의 스트릭을 조회한다.")
     @Test
     @Transactional
-    public void getUserStrick(){
+    public void getUserStreak(){
         User user = createUser("테스트유저");
         userRepository.save(user);
 
@@ -107,17 +107,17 @@ public class UserIntegratedTest {
 
 
         //when
-        List<DayCountType> userStricks = userChallengeReader.countAllByUserIdAndDate(user.getId(), LocalDate.now().minusDays(7), LocalDate.now());
+        List<DayCountType> userStreaks = userChallengeReader.countAllByUserIdAndDate(user.getId(), LocalDate.now().minusDays(7), LocalDate.now());
 
         //then
-        assertThat(userStricks.size()).isEqualTo(2);
-        assertThat(userStricks.get(0).getDate()).isEqualTo(LocalDate.now().minusDays(5));
-        assertThat(userStricks.get(0).getCount()).isEqualTo(1);
-        assertThat(userStricks.get(1).getDate()).isEqualTo(LocalDate.now().minusDays(4));
-        assertThat(userStricks.get(1).getCount()).isEqualTo(1);
+        assertThat(userStreaks.size()).isEqualTo(2);
+        assertThat(userStreaks.get(0).getDate()).isEqualTo(LocalDate.now().minusDays(5));
+        assertThat(userStreaks.get(0).getCount()).isEqualTo(1);
+        assertThat(userStreaks.get(1).getDate()).isEqualTo(LocalDate.now().minusDays(4));
+        assertThat(userStreaks.get(1).getCount()).isEqualTo(1);
 
-        System.out.println("userStrick: ");
-        for (DayCountType dayCountType : userStricks) {
+        System.out.println("userStreak: ");
+        for (DayCountType dayCountType : userStreaks) {
             System.out.println(dayCountType.getDate() + " : " + dayCountType.getCount());
         }
     }

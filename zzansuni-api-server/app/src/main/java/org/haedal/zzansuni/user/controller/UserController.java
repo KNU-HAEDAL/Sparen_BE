@@ -40,20 +40,20 @@ public class UserController {
     }
 
     @Operation(summary = "스트릭 조회", description = "스트릭을 조회한다.")
-    @GetMapping("/api/user/strick")
-    public ApiResponse<UserRes.Strick> getStrick(
+    @GetMapping("/api/user/streak")
+    public ApiResponse<UserRes.Streak> getStreak(
             @AuthenticationPrincipal JwtUser jwtUser,
-            UserReq.GetStrick request
+            UserReq.GetStreak request
     ) {
         if(request.startDate().isAfter(request.endDate())){
             throw new IllegalArgumentException("시작일은 종료일보다 이전이어야 합니다.");
         }
-        var userModelStrick = userService.getUserStrick(
+        var userModelStreak = userService.getUserStreak(
                 jwtUser.getId(),
                 request.startDate(),
                 request.endDate()
         );
-        return ApiResponse.success(UserRes.Strick.from(userModelStrick));
+        return ApiResponse.success(UserRes.Streak.from(userModelStreak));
     }
 
     @Operation(summary = "유저 랭킹 페이징", description = "전체 유저 랭킹을 조회 페이징")

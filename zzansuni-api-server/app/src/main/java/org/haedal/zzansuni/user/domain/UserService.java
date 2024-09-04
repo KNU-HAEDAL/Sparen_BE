@@ -43,10 +43,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserModel.Strick getUserStrick(Long id, LocalDate startDate, LocalDate endDate){
-        List<DayCountType> userStricks = userChallengeReader.countAllByUserIdAndDate(id, startDate, endDate);
-        Map<LocalDate, Integer> map = userStricks.stream()
+    public UserModel.Streak getUserStreak(Long id, LocalDate startDate, LocalDate endDate){
+        List<DayCountType> userStreaks = userChallengeReader.countAllByUserIdAndDate(id, startDate, endDate);
+        Map<LocalDate, Integer> map = userStreaks.stream()
                 .collect(Collectors.toMap(DayCountType::getDate, DayCountType::getCount));
-        return UserModel.Strick.from(map, startDate, endDate);
+        return UserModel.Streak.from(map, startDate, endDate);
     }
 }

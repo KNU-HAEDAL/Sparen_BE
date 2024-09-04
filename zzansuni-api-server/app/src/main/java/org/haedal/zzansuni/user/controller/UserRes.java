@@ -64,13 +64,13 @@ public class UserRes {
     }
 
     @Builder
-    public record Strick(
+    public record Streak(
             /** 여기서 Model의 DayCount를 사용해도 되는지 */
             List<UserModel.DayCount> dayCounts
     ) {
-        public static Strick from(UserModel.Strick strick){
-            return Strick.builder()
-                    .dayCounts(strick.dayCounts())
+        public static Streak from(UserModel.Streak streak){
+            return Streak.builder()
+                    .dayCounts(streak.dayCounts())
                     .build();
         }
     }
