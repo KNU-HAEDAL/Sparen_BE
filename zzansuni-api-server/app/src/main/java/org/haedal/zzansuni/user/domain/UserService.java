@@ -1,6 +1,7 @@
 package org.haedal.zzansuni.user.domain;
 
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.user.domain.port.UserReader;
 import org.haedal.zzansuni.userchallenge.domain.DayCountType;
 import org.haedal.zzansuni.userchallenge.domain.port.UserChallengeReader;
 import org.springframework.data.domain.Page;

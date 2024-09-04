@@ -1,6 +1,7 @@
 package org.haedal.zzansuni.user.domain;
 
 import org.haedal.zzansuni.global.security.Role;
+import org.haedal.zzansuni.user.domain.port.UserReader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
