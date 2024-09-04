@@ -29,16 +29,16 @@ public class UserModel{
     }
 
     @Builder
-    public record Strick(
+    public record Streak(
             List<DayCount> dayCounts
     ) {
         /** 여기서 count 0인걸 포함하는 기능을 쓰는게 맞는지 */
-        public static Strick from(Map<LocalDate, Integer> strickCounts, LocalDate startDate, LocalDate endDate) {
+        public static Streak from(Map<LocalDate, Integer> streakCounts, LocalDate startDate, LocalDate endDate) {
             List<DayCount> resultList = startDate.datesUntil(endDate.plusDays(1))
                     // 날짜가 존재하면 map(date)로 count를 가져오고, 없으면 0을 저장한다.
-                    .map(date -> new DayCount(date, strickCounts.getOrDefault(date, 0)))
+                    .map(date -> new DayCount(date, streakCounts.getOrDefault(date, 0)))
                     .collect(Collectors.toList());
-            return new Strick(resultList);
+            return new Streak(resultList);
         }
 
         @Override

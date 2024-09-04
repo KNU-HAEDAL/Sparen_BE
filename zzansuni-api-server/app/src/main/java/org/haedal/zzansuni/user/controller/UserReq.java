@@ -19,13 +19,13 @@ public class UserReq {
     }
 
     @ParameterObject
-    public record GetStrick(
+    public record GetStreak(
             @Schema(description = "시작일(null이면 종료일보다 365일 전)", example = "2023-08-12")
             LocalDate startDate,
             @Schema(description = "종료일(null이면 현재일)", example = "2024-08-12")
             LocalDate endDate
     ){
-        public GetStrick{
+        public GetStreak {
             if(endDate == null){
                 endDate = LocalDate.now();
             }

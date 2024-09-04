@@ -6,7 +6,7 @@ import org.haedal.zzansuni.challengegroup.domain.port.ChallengeGroupReader;
 import org.haedal.zzansuni.challengegroup.domain.port.ChallengeReader;
 import org.haedal.zzansuni.global.security.Role;
 import org.haedal.zzansuni.user.domain.User;
-import org.haedal.zzansuni.user.domain.UserReader;
+import org.haedal.zzansuni.user.domain.port.UserReader;
 import org.haedal.zzansuni.userchallenge.domain.ChallengeGroupUserExp;
 import org.haedal.zzansuni.userchallenge.domain.ChallengeStatus;
 import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
@@ -25,7 +25,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
