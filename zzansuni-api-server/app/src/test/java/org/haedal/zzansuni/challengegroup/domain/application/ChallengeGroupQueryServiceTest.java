@@ -21,23 +21,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @Transactional
 class ChallengeGroupQueryServiceTest {
+
     @Autowired
     ChallengeGroupQueryService challengeGroupQueryService;
-    @Autowired ChallengeGroupRepository challengeGroupRepository;
-    @Autowired ChallengeRepository challengeRepository;
-    @Autowired ChallengeGroupImageRepository challengeGroupImageRepository;
-    @Autowired EntityManager em;
+    @Autowired
+    ChallengeGroupRepository challengeGroupRepository;
+    @Autowired
+    ChallengeRepository challengeRepository;
+    @Autowired
+    ChallengeGroupImageRepository challengeGroupImageRepository;
+    @Autowired
+    EntityManager em;
 
     @DisplayName("챌린지 그룹 목록 페이징이 정상적으로 동작한다.")
     @Test
     void getChallengeGroupsPaging() {
         // given
-        for(int i = 0; i < 20; i++) {
-            ChallengeGroup challengeGroup = createChallengeGroup("title" + i, ChallengeCategory.ECHO);
+        for (int i = 0; i < 20; i++) {
+            ChallengeGroup challengeGroup = createChallengeGroup("title" + i,
+                ChallengeCategory.ECHO);
             challengeGroupRepository.save(challengeGroup);
         }
-        for(int i = 0; i < 10; i++) {
-            ChallengeGroup challengeGroup = createChallengeGroup("title" + i, ChallengeCategory.VOLUNTEER);
+        for (int i = 0; i < 10; i++) {
+            ChallengeGroup challengeGroup = createChallengeGroup("title" + i,
+                ChallengeCategory.VOLUNTEER);
             challengeGroupRepository.save(challengeGroup);
         }
 
@@ -48,7 +55,8 @@ class ChallengeGroupQueryServiceTest {
         em.clear();
 
         // then
-        Page<ChallengeGroupModel.Info> challengeGroupsPaging = challengeGroupQueryService.getChallengeGroupsPaging(pageable, category);
+        Page<ChallengeGroupModel.Info> challengeGroupsPaging = challengeGroupQueryService.getChallengeGroupsPaging(
+            pageable, category);
 
         assertEquals(10, challengeGroupsPaging.getContent().size());
         assertEquals(2, challengeGroupsPaging.getTotalPages());
@@ -63,23 +71,25 @@ class ChallengeGroupQueryServiceTest {
         challengeGroupRepository.save(challengeGroup);
 
         Challenge challenge = Challenge.builder()
-                .challengeGroup(challengeGroup)
-                .requiredCount(12)
-                .successExp(100)
-                .onceExp(10)
-                .difficulty(3)
-                .build();
+            .challengeGroup(challengeGroup)
+            .requiredCount(12)
+            .successExp(100)
+            .onceExp(10)
+            .difficulty(3)
+            .activePeriod(7)
+            .build();
         challengeRepository.save(challenge);
 
         ChallengeGroupImage challengeGroupImage = ChallengeGroupImage.builder()
-                .challengeGroup(challengeGroup)
-                .imageUrl("image-url")
-                .build();
+            .challengeGroup(challengeGroup)
+            .imageUrl("image-url")
+            .build();
         challengeGroupImageRepository.save(challengeGroupImage);
 
         em.clear();
         // when
-        ChallengeGroupModel.Detail model = challengeGroupQueryService.getChallengeGroupDetail(challengeGroup.getId());
+        ChallengeGroupModel.Detail model = challengeGroupQueryService.getChallengeGroupDetail(
+            challengeGroup.getId());
 
         // then
         assertEquals(challengeGroup.getId(), model.id());
@@ -103,14 +113,15 @@ class ChallengeGroupQueryServiceTest {
     }
 
 
-
     private ChallengeGroup createChallengeGroup(String title, ChallengeCategory category) {
         return ChallengeGroup.builder()
-                .title(title)
-                .category(category)
-                .content("content")
-                .guide("guide")
-                .cumulativeCount(0)
-                .build();
+            .title(title)
+            .category(category)
+            .content("content")
+            .guide("guide")
+            .cumulativeCount(0)
+            .joinStartDate(LocalDate.now())
+            .joinEndDate(LocalDate.now().plusDays(10))
+            .build();
     }
 }
