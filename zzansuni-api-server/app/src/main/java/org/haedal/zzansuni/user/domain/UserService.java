@@ -20,6 +20,14 @@ public class UserService {
     private final UserChallengeReader userChallengeReader;
 
     @Transactional(readOnly = true)
+    public List<UserModel.Admin> getManagerAndAdmin() {
+        List<User> admins = userReader.getManagerAndAdmin();
+        return admins.stream()
+                .map(UserModel.Admin::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
     public UserModel.Main getUserModel(Long id) {
         User user = userReader.getById(id);
         return UserModel.Main.from(user);

@@ -2,6 +2,7 @@ package org.haedal.zzansuni.user.infrastructure;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.haedal.zzansuni.global.security.Role;
 import org.haedal.zzansuni.user.domain.QUser;
 import org.haedal.zzansuni.user.domain.User;
 import org.haedal.zzansuni.user.domain.UserReader;
@@ -53,5 +54,10 @@ public class UserReaderImpl implements UserReader {
                 .fetch();
 
         return new PageImpl<>(users, pageable, totalCount == null ? 0 : totalCount);
+    }
+
+    @Override
+    public List<User> getManagerAndAdmin() {
+        return userRepository.findByRoleIn(List.of(Role.ADMIN, Role.MANAGER));
     }
 }

@@ -1,8 +1,10 @@
 package org.haedal.zzansuni.user.domain;
 
 import lombok.Builder;
+import org.haedal.zzansuni.global.security.Role;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,5 +73,23 @@ public class UserModel{
         }
     }
 
+    @Builder
+    public record Admin(
+            Long id,
+            String email,
+            String nickname,
+            LocalDateTime createdAt,
+            Role role
+    ) {
+        public static Admin from(User user) {
+            return Admin.builder()
+                    .id(user.getId())
+                    .email(user.getEmail())
+                    .nickname(user.getNickname())
+                    .createdAt(user.getCreatedAt())
+                    .role(user.getRole())
+                    .build();
+        }
+    }
 
 }

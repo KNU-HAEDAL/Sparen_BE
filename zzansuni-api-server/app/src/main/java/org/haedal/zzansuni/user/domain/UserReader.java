@@ -3,6 +3,7 @@ package org.haedal.zzansuni.user.domain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserReader {
@@ -15,4 +16,5 @@ public interface UserReader {
     Optional<User> findByAuthToken(String authToken);
 
     Page<User> getUserPagingByRanking(Pageable pageable);
+    List<User> getManagerAndAdmin();
 }
