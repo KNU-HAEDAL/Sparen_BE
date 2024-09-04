@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,13 +24,14 @@ public class AuthService {
     private final JwtUtils jwtUtils;
     private final UserReader userReader;
     private final UserStore userStore;
-    private final RefreshTokenStore refreshTokenStore;
-    private final RefreshTokenReader refreshTokenReader;
     private final CreateJwtUseCase createJwtUseCase;
 
     /**
-     * OAuth2 로그인 또는 회원가입 <br> [state]는 nullable한 입력 값이다.<br> 1. OAuth2Client를 이용해 해당 provider로부터
-     * 유저정보를 가져옴 2. authToken으로 유저를 찾거나 없으면 회원가입 3. 토큰 발급, 유저정보 반환
+     * OAuth2 로그인 또는 회원가입 <br>
+     * [state]는 nullable한 입력 값이다.<br>
+     * 1. OAuth2Client를 이용해 해당 provider로부터 유저정보를 가져옴
+     * 2. authToken으로 유저를 찾거나 없으면 회원가입
+     * 3. 토큰 발급, 유저정보 반환
      */
     public Pair<JwtToken, UserModel.Main> oAuth2LoginOrSignup(OAuth2Provider provider,
                                                               @NonNull String code, @Nullable String state) {
@@ -97,35 +97,34 @@ public class AuthService {
         return Pair.of(jwtToken, userMain);
     }
 
-    //TODO 방어로직 추가
     public JwtToken reissueToken(String rawToken) {
         JwtUtils.UserIdAndUuid userIdAndUuid = jwtUtils.validateAndGetUserIdAndUuid(rawToken);
 
-        RefreshToken refreshToken = refreshTokenReader.findById(userIdAndUuid.uuid())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 토큰입니다."));
-
-        // jwtUtils에서 이미 검증하였으나, 방어적으로 다시 한번 검증
-        if (!refreshToken.getUser().getId().equals(userIdAndUuid.userId())) {
-            throw new IllegalArgumentException("토큰의 유저정보가 일치하지 않습니다.");
-        } else if (refreshToken.getExpiredAt().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("만료된 토큰입니다.");
-        }
-
-        refreshTokenStore.delete(refreshToken.getId());
-        User user = refreshToken.getUser();
-        return createJwtToken(user);
-    }
-
-    private JwtToken createJwtToken(User user) {
-        JwtToken jwtToken;
-        while (true) {
+        for(int i = 0; i < 5; i++) {
             try {
-                jwtToken = createJwtUseCase.invoke(user);
-                break;
+                return createJwtUseCase.removeRefreshTokenAndCreateJwt(userIdAndUuid);
             } catch (DataIntegrityViolationException e) {
-                log.error("중복된 uuid 발생");
+                log.error("중복된 uuid 발생, 재시도  : {}", i);
             }
         }
-        return jwtToken;
+        throw new RuntimeException("로그인 처리중에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+    }
+
+    /**
+     * 중복 uuid 저장이 발생하는 경우를 대비하여 10번까지 시도한다.
+     * 유저 생성과 리프래시토큰 저장을 한 트랜잭션에서 처리하게 된다면
+     * 모든 처리가 롤백되어야 한다. <br>
+     * 데이터베이스에서 발생한 에러는 트랜잭션 상태에 영향을 미쳐 예외가 발생한 후의 추가 처리에 실패한다.
+     * `Transaction`과 관련된 AOP에서 `noRollbackFor`에서의 에러로 처리가 불가능하다.
+     */
+    private JwtToken createJwtToken(User user) {
+        for(int i = 0; i < 5; i++) {
+            try {
+                return createJwtUseCase.invoke(user);
+            } catch (DataIntegrityViolationException e) {
+                log.error("중복된 uuid 발생, 재시도  : {}", i);
+            }
+        }
+        throw new RuntimeException("로그인 처리중에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.");
     }
 }

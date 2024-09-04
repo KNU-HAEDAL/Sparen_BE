@@ -11,11 +11,14 @@ import org.haedal.zzansuni.user.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class CreateJwtUseCase {
     private final JwtUtils jwtUtils;
+    private final RefreshTokenReader refreshTokenReader;
     private final RefreshTokenStore refreshTokenStore;
     private final UuidHolder uuidHolder;
     /**
@@ -32,5 +35,22 @@ public class CreateJwtUseCase {
         RefreshToken refreshToken = RefreshToken.create(uuid, user, jwtToken.getRefreshTokenExpireAt());
         refreshTokenStore.flushSave(refreshToken);
         return jwtToken;
+    }
+
+    @Transactional
+    public JwtToken removeRefreshTokenAndCreateJwt(JwtUtils.UserIdAndUuid userIdAndUuid) {
+        RefreshToken refreshToken = refreshTokenReader.findById(userIdAndUuid.uuid())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 토큰입니다."));
+
+        // jwtUtils에서 이미 검증하였으나, 방어적으로 다시 한번 검증
+        if (!refreshToken.getUser().getId().equals(userIdAndUuid.userId())) {
+            throw new IllegalArgumentException("토큰의 유저정보가 일치하지 않습니다.");
+        } else if (refreshToken.getExpiredAt().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("만료된 토큰입니다.");
+        }
+
+        refreshTokenStore.delete(refreshToken.getId());
+        User user = refreshToken.getUser();
+        return invoke(user);
     }
 }

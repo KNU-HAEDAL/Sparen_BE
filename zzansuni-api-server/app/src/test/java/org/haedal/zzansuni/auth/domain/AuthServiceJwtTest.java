@@ -5,6 +5,8 @@ import org.haedal.zzansuni.common.domain.UuidHolder;
 import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.haedal.zzansuni.user.domain.UserCommand;
 import org.haedal.zzansuni.user.domain.UserModel;
+import org.haedal.zzansuni.user.infrastructure.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,15 @@ public class AuthServiceJwtTest {
     private AuthServiceJwtTestConfig.TestUuidHolder testUuidHolder;
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
+    @Autowired
+    private UserRepository userRepository;
 
+
+    @AfterEach
+    void tearDown() {
+        refreshTokenRepository.deleteAll();
+        userRepository.deleteAllInBatch();
+    }
 
     @Test
     @DisplayName("회원가입시 리프레시 토큰이 저장된다.")
