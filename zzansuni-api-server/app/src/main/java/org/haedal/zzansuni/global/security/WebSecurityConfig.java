@@ -7,7 +7,12 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.global.exception.UnauthorizedException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,6 +24,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -65,13 +71,21 @@ public class WebSecurityConfig {
          * anyRequest() 메서드를 통해 나머지 요청에 대한 인증 설정을 한다.
          * authenticated() 메서드를 통해 인증된 사용자만 접근 가능하도록 설정한다.
          */
-        http.authorizeHttpRequests((authorize) ->
-                authorize
-                        .requestMatchers(
-                                "/api/auth/**",
-                                "/swagger-ui/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
+        http.authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers(
+                        "/api/auth/**",
+                        "/swagger-ui/**",
+                        "/api/health"
+                ).permitAll()
+                .requestMatchers(
+                        HttpMethod.GET,
+                        "/api/challengeGroups/**",
+                        "/api/users/ranking"
+                )
+                .permitAll() // 해당 PATH의 GET 요청은 인증 없이 접근 가능
+                .requestMatchers("/api/admin/auth/manager").hasRole("ADMIN") // ADMIN 권한만 접근 가능
+                .requestMatchers("/api/admin/**").hasRole("MANAGER") // MANAGER, ADMIN 권한만 접근 가능
+                .anyRequest().authenticated() // 나머지 요청은 인증된 사용자만 접근 가능
         );
 
         /**
@@ -82,10 +96,10 @@ public class WebSecurityConfig {
          */
         http.exceptionHandling((exception) -> exception
                 .authenticationEntryPoint((request, response, authException) ->
-                        responseError(response, "UNAUTHORIZED", "인증이 필요합니다.",401)
+                        responseError(response, "UNAUTHORIZED", "인증이 필요합니다.", 401)
                 )
                 .accessDeniedHandler((request, response, accessDeniedException) ->
-                        responseError(response, "ACCESS_DENIED", "권한이 없습니다.",403)
+                        responseError(response, "ACCESS_DENIED", "권한이 없습니다.", 403)
                 )
         );
 
@@ -120,12 +134,12 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(){
+    public AuthenticationManager authenticationManager() {
         return new ProviderManager(List.of(jwtProvider));
     }
 
     @Bean
-    public AuthorizationJwtHeaderFilter jwtAuthenticationFilter(AuthenticationManager authenticationManager){
+    public AuthorizationJwtHeaderFilter jwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         return new AuthorizationJwtHeaderFilter(authenticationManager);
     }
 
@@ -148,5 +162,25 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    /**
+     * RoleHierarchy
+     * ADMIN > MANAGER > USER
+     */
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        return RoleHierarchyImpl.withDefaultRolePrefix()
+                .role("ADMIN").implies("MANAGER")
+                .role("MANAGER").implies("USER")
+                .build();
+
+    }
+
+    @Bean
+    public MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setRoleHierarchy(roleHierarchy);
+        return expressionHandler;
     }
 }
