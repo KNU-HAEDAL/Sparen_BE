@@ -1,6 +1,7 @@
 package org.haedal.zzansuni.auth.domain;
 
 import jakarta.persistence.EntityManager;
+import org.haedal.zzansuni.auth.infrastructure.RefreshTokenRepository;
 import org.haedal.zzansuni.user.domain.User;
 import org.haedal.zzansuni.user.domain.UserModel;
 import org.haedal.zzansuni.global.jwt.JwtToken;
@@ -24,10 +25,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AuthServiceTest {
     @Autowired private AuthService authService;
     @Autowired private UserRepository userRepository;
+    @Autowired private RefreshTokenRepository refreshTokenRepository;
     @Autowired private EntityManager em;
 
     @AfterEach
     void tearDown() {
+        refreshTokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
