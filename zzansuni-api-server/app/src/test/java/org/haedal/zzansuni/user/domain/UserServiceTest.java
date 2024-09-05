@@ -1,6 +1,7 @@
 package org.haedal.zzansuni.user.domain;
 
 import org.haedal.zzansuni.global.security.Role;
+import org.haedal.zzansuni.user.domain.port.UserReader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -111,12 +112,6 @@ public class UserServiceTest {
 
     }
 
-
-    @DisplayName("유저의 스트릭을 조회한다.")
-    @Test
-    public void getUserStrick(){
-
-    }
 
 
 

@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.haedal.zzansuni.global.jwt.JwtUtils;
 import org.haedal.zzansuni.user.domain.*;
+import org.haedal.zzansuni.user.domain.port.UserReader;
+import org.haedal.zzansuni.user.domain.port.UserStore;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.util.Pair;
 import org.springframework.lang.NonNull;

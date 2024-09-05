@@ -13,7 +13,7 @@ import org.haedal.zzansuni.challengegroup.domain.ChallengeCommand;
 import org.haedal.zzansuni.challengegroup.domain.application.ChallengeModel;
 import org.haedal.zzansuni.challengegroup.domain.port.ChallengeReader;
 import org.haedal.zzansuni.user.domain.User;
-import org.haedal.zzansuni.user.domain.UserReader;
+import org.haedal.zzansuni.user.domain.port.UserReader;
 import org.haedal.zzansuni.userchallenge.domain.ChallengeGroupUserExp;
 import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 import org.springframework.data.domain.Page;
