@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,6 +25,11 @@ public class UserService {
     public UserModel.Main getUserModel(Long id) {
         User user = userReader.getById(id);
         return UserModel.Main.from(user);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserModel.Main> getManagerAndAdmin() {
+        return new ArrayList<>();
     }
 
     /**
