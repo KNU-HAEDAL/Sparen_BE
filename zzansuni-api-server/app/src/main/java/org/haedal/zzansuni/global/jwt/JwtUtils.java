@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -26,16 +27,18 @@ public class JwtUtils implements InitializingBean {
     private Key secretKey;
     private static final String ROLE = "role";
     private static final String IS_ACCESS_TOKEN = "isAccessToken";
-
+    private static final String REFRESH_UUID = "uuid";
     private static final String ISSUER = "zzansuni";
 
 
-    public JwtToken createToken(JwtUser jwtUser) {
-        String accessToken = generateToken(jwtUser, true);
-        String refreshToken = generateToken(jwtUser, false);
+    public JwtToken generateToken(JwtUser jwtUser, String refreshUuid) {
+        String accessToken = generateAccessToken(jwtUser);
+        String refreshToken = generateRefreshToken(jwtUser, refreshUuid);
+        LocalDateTime refreshTokenExpireAt = LocalDateTime.now().plusSeconds(REFRESH_TOKEN_EXPIRE_TIME/1000);
         return JwtToken.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .refreshTokenExpireAt(refreshTokenExpireAt)
                 .build();
     }
 
@@ -52,20 +55,26 @@ public class JwtUtils implements InitializingBean {
         }
     }
 
-    /**
-     * [validateToken] 이후 호출하는 메서드.
-     * refreshToken을 통해, accessToken을 재발급하는 메서드.
-     * refreshToken의 유효성을 검사하고, isAccessToken이 true일때만 accessToken을 재발급한다.
-     */
-    public String reissueAccessToken(JwtToken.ValidToken refreshToken) {
-        Claims claims = extractClaims(refreshToken.getValue());
-        if (claims.get(IS_ACCESS_TOKEN, Boolean.class)) {
+
+    public UserIdAndUuid validateAndGetUserIdAndUuid(String rawToken) {
+        try {
+            Claims claims = extractClaims(rawToken);
+            Boolean isAccessToken = claims.get(IS_ACCESS_TOKEN, Boolean.class);
+            if (isAccessToken == null || isAccessToken) {
+                throw new UnauthorizedException("RefreshToken이 유효하지 않습니다.");
+            }
+            Long userId = Long.parseLong(claims.getSubject());
+            String uuid = claims.get(REFRESH_UUID, String.class);
+            return new UserIdAndUuid(userId, uuid);
+        } catch (Exception e) {
             throw new UnauthorizedException("RefreshToken이 유효하지 않습니다.");
         }
-        JwtUser jwtUser = claimsToJwtUser(claims);
-        return generateToken(jwtUser, true);
-
     }
+
+    public record UserIdAndUuid(
+        Long userId,
+        String uuid
+    ){ }
 
     /**
      * [validateToken] 이후 호출하는 메서드.
@@ -85,15 +94,30 @@ public class JwtUtils implements InitializingBean {
 
     /**
      * Jwt 토큰생성
-     * accessToken과 refreshToken의 다른점은 만료시간과, isAccessToken이다.
+     * 엑세스토큰 여부, 유저 id, role을 저장한다.
      */
-    private String generateToken(JwtUser jwtUser, boolean isAccessToken) {
-        long expireTime = isAccessToken ? ACCESS_TOKEN_EXPIRE_TIME : REFRESH_TOKEN_EXPIRE_TIME;
-        Date expireDate = new Date(System.currentTimeMillis() + expireTime);
+    private String generateAccessToken(JwtUser jwtUser) {
+        Date expireDate = new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRE_TIME);
         return Jwts.builder()
                 .signWith(secretKey)
                 .claim(ROLE, jwtUser.getRole().toString())
-                .claim(IS_ACCESS_TOKEN, isAccessToken)
+                .claim(IS_ACCESS_TOKEN, true)
+                .setSubject(jwtUser.getId().toString())
+                .setExpiration(expireDate)
+                .setIssuer(ISSUER)
+                .compact();
+    }
+
+    /**
+     * refreshToken 생성
+     * 엑세스토큰 여부, uuid, 유저 아이디를 저장한다.
+     */
+    private String generateRefreshToken(JwtUser jwtUser, String refreshUuid) {
+        Date expireDate = new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRE_TIME);
+        return Jwts.builder()
+                .signWith(secretKey)
+                .claim(IS_ACCESS_TOKEN, false)
+                .claim(REFRESH_UUID, refreshUuid)
                 .setSubject(jwtUser.getId().toString())
                 .setExpiration(expireDate)
                 .setIssuer(ISSUER)

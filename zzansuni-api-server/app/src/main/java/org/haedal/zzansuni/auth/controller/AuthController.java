@@ -53,15 +53,15 @@ public class AuthController {
 
     @Operation(summary = "액세스 토큰 재발급", description = "리프레시 토큰을 이용하여 액세스 토큰을 재발급한다.")
     @PostMapping("/api/auth/refresh")
-    public ApiResponse<AuthRes.AccessTokenResponse> refresh(
+    public ApiResponse<AuthRes.JwtResponse> refresh(
         @RequestHeader("Authorization") String authorization
     ) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Bearer 토큰이 필요합니다.");
         }
         String rawToken = authorization.substring("Bearer ".length());
-        String accessToken = authService.reissueToken(rawToken);
-        var response = AuthRes.AccessTokenResponse.of(accessToken);
+        JwtToken jwtToken = authService.reissueToken(rawToken);
+        var response = AuthRes.JwtResponse.from(jwtToken);
         return ApiResponse.success(response);
     }
 
