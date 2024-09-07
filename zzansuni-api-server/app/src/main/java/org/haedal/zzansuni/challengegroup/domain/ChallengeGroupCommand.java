@@ -20,15 +20,21 @@ public class ChallengeGroupCommand {
         private final String guide;
         @NotNull(message = "category는 필수값입니다.")
         private final ChallengeCategory category;
+        @NotNull(message = "joinStartDate는 필수값입니다.")
+        private final LocalDate joinStartDate;
+        @NotNull(message = "joinEndDate는 필수값입니다.")
+        private final LocalDate joinEndDate;
         @NotNull(message = "challenges는 필수값입니다.")
         private final List<CreateChallenge> createChallenges;
 
         @Builder
-        public Create(String title, String content, String guide, ChallengeCategory category, List<CreateChallenge> createChallenges) {
+        public Create(String title, String content, String guide, ChallengeCategory category, LocalDate joinStartDate, LocalDate joinEndDate, List<CreateChallenge> createChallenges) {
             this.title = title;
             this.content = content;
             this.guide = guide;
             this.category = category;
+            this.joinStartDate = joinStartDate;
+            this.joinEndDate = joinEndDate;
             this.createChallenges = createChallenges;
             this.validateSelf();
         }

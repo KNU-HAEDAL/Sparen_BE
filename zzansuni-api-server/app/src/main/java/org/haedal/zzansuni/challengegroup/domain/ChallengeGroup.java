@@ -65,6 +65,8 @@ public class ChallengeGroup extends BaseTimeEntity {
                 .content(command.getContent())
                 .guide(command.getGuide())
                 .cumulativeCount(0)
+                .joinStartDate(command.getJoinStartDate())
+                .joinEndDate(command.getJoinEndDate())
                 .challenges(challenges)
                 .build();
         command.getCreateChallenges().stream().map(challenge -> Challenge.create(challenge, group))
