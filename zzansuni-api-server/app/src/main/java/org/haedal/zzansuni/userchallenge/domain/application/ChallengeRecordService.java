@@ -40,9 +40,9 @@ public class ChallengeRecordService {
      * 챌린지 기록 상세 가져오기
      */
     @Transactional(readOnly = true)
-    public ChallengeVerificationModel getChallengeRecordDetail(Long recordId) {
+    public ChallengeVerificationModel.Main getChallengeRecordDetail(Long recordId) {
         ChallengeVerification challengeVerification = challengeVerificationReader.getById(recordId);
-        return ChallengeVerificationModel.from(challengeVerification);
+        return ChallengeVerificationModel.Main.from(challengeVerification);
     }
 
 

@@ -8,18 +8,21 @@ import org.haedal.zzansuni.userchallenge.domain.ChallengeVerification;
 @Getter
 @Builder
 public class ChallengeVerificationModel {
+    @Getter
+    @Builder
+    public static class Main {
+        private Long id;
+        private LocalDateTime createdAt;
+        private String content;
+        private String imageUrl;
 
-    private final Long id;
-    private final LocalDateTime createdAt;
-    private final String content;
-    private final String imageUrl;
-
-    public static ChallengeVerificationModel from(ChallengeVerification challengeVerification) {
-        return ChallengeVerificationModel.builder()
-            .id(challengeVerification.getId())
-            .createdAt(challengeVerification.getCreatedAt())
-            .content(challengeVerification.getContent())
-            .imageUrl(challengeVerification.getImageUrl())
-            .build();
+        public static ChallengeVerificationModel.Main from(ChallengeVerification challengeVerification) {
+            return ChallengeVerificationModel.Main.builder()
+                    .id(challengeVerification.getId())
+                    .createdAt(challengeVerification.getCreatedAt())
+                    .content(challengeVerification.getContent())
+                    .imageUrl(challengeVerification.getImageUrl())
+                    .build();
+        }
     }
 }

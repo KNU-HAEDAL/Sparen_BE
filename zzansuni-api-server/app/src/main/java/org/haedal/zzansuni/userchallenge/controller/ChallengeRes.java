@@ -59,7 +59,7 @@ public class ChallengeRes {
         String imageUrl
     ) {
 
-        public static ChallengeRecordDetailDto from(ChallengeVerificationModel model) {
+        public static ChallengeRecordDetailDto from(ChallengeVerificationModel.Main model) {
             return ChallengeRecordDetailDto.builder()
                 .id(model.getId())
                 .createdAt(model.getCreatedAt())
@@ -121,5 +121,30 @@ public class ChallengeRes {
                 .reviewWritten(complete.reviewWritten())
                 .build();
         }
+    }
+
+
+    @Builder
+    public record ChallengeVerification(
+            Long verificationId,
+            String content,
+            String imageUrl,
+            LocalDateTime createdAt,
+            Long ChallengeGroupId,
+            String ChallengeGroupTitle,
+            Long UserId,
+            String UserNickname,
+            String UserImageUrl
+    ) {
+
+//        public static ChallengeVerification from(ChallengeVerificationModel. verification) {
+//            return ChallengeVerification.builder()
+//                .verificationId(verification.getVerificationId())
+//                .userChallengeId(verification.getUserChallengeId())
+//                .content(verification.getContent())
+//                .imageUrl(verification.getImageUrl())
+//                .createdAt(verification.getCreatedAt())
+//                .build();
+//        }
     }
 }

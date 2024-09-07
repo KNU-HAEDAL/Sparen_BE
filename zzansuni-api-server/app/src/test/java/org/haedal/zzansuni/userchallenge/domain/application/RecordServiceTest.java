@@ -135,7 +135,7 @@ class RecordServiceTest {
         Long recordId = 1L;
         when(challengeVerificationReader.getById(recordId)).thenReturn(challengeVerification);
 
-        ChallengeVerificationModel result = challengeRecordService.getChallengeRecordDetail(recordId);
+        ChallengeVerificationModel.Main result = challengeRecordService.getChallengeRecordDetail(recordId);
 
         assertNotNull(result);
         verify(challengeVerificationReader).getById(recordId);
