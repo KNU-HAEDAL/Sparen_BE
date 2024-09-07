@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.auth.controller.AuthReq;
 import org.haedal.zzansuni.auth.domain.AuthService;
+import org.haedal.zzansuni.challengegroup.controller.ChallengeGroupReq;
 import org.haedal.zzansuni.challengegroup.domain.application.ChallengeGroupService;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.user.domain.UserModel;
@@ -55,5 +56,13 @@ public class AdminController {
     public ApiResponse<Void> deleteChallengeGroup(@PathVariable Long challengeGroupId) {
         challengeGroupService.deleteChallengeGroup(challengeGroupId);
         return ApiResponse.success(null, "챌린지 그룹 삭제 성공");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "챌린지 그룹 수정", description = "챌린지 그룹을 수정합니다. 새로운 챌린지를 추가할땐 id=-1로 설정합니다.")
+    @PutMapping("/api/admin/challengeGroups/{challengeGroupId}")
+    public ApiResponse<Void> updateChallengeGroup(@Valid @RequestBody ChallengeGroupReq.Update request) {
+        challengeGroupService.updateChallengeGroup(request.toCommand());
+        return ApiResponse.success(null, "챌린지 그룹 수정 성공");
     }
 }
