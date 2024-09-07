@@ -73,4 +73,22 @@ public class ChallengeGroup extends BaseTimeEntity {
                 .forEach(challenges::add);
         return group;
     }
+
+    public ChallengeGroup update(ChallengeGroupCommand.Update command) {
+        this.category = command.getCategory();
+        this.title = command.getTitle();
+        this.content = command.getContent();
+        this.guide = command.getGuide();
+        this.joinStartDate = command.getJoinStartDate();
+        this.joinEndDate = command.getJoinEndDate();
+        return this;
+    }
+
+    public void addChallenges(List<Challenge> challenges) {
+        this.challenges.addAll(challenges);
+    }
+
+    public void removeChallenges(List<Challenge> challenges) {
+        this.challenges.removeAll(challenges);
+    }
 }

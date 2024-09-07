@@ -2,7 +2,6 @@ package org.haedal.zzansuni.challengegroup.domain;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +50,15 @@ public class Challenge extends BaseTimeEntity {
                 .requiredCount(command.getRequiredCount())
                 .activePeriod(command.getActivePeriod())
                 .build();
+    }
+
+    public Challenge update(ChallengeGroupCommand.UpdateChallenge command) {
+        this.onceExp = command.getOnceExp();
+        this.successExp = command.getSuccessExp();
+        this.difficulty = command.getDifficulty();
+        this.requiredCount = command.getRequiredCount();
+        this.activePeriod = command.getActivePeriod();
+        return this;
     }
 
     /**
