@@ -8,9 +8,13 @@ import org.haedal.zzansuni.auth.controller.AuthReq;
 import org.haedal.zzansuni.auth.domain.AuthService;
 import org.haedal.zzansuni.challengegroup.controller.ChallengeGroupReq;
 import org.haedal.zzansuni.challengegroup.domain.application.ChallengeGroupService;
+import org.haedal.zzansuni.common.controller.PagingRequest;
+import org.haedal.zzansuni.common.controller.PagingResponse;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.user.domain.UserModel;
 import org.haedal.zzansuni.user.domain.UserService;
+import org.haedal.zzansuni.userchallenge.controller.ChallengeRes;
+import org.haedal.zzansuni.userchallenge.domain.application.ChallengeVerificationSerivce;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +28,7 @@ public class AdminController {
     private final AuthService authService;
     private final ChallengeGroupService challengeGroupService;
     private final UserService userService;
+    private final ChallengeVerificationSerivce challengeVerificationSerivce;
 
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "매니저 등록", description = "매니저를 등록한다.")
@@ -65,4 +70,15 @@ public class AdminController {
         challengeGroupService.updateChallengeGroup(request.toCommand());
         return ApiResponse.success(null, "챌린지 그룹 수정 성공");
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "챌린지 인증 조회", description = "챌린지 인증을 페이징 조회합니다. 챌린지 이름으로 검색이 가능합니다.")
+    @GetMapping("/api/admin/challenges/verifications")
+    public ApiResponse<PagingResponse<ChallengeRes.ChallengeVerification>> getChallengeVerifications(
+            @Valid PagingRequest pagingRequest,
+            @RequestParam(required = false) String challengeTitle){
+        var verificationPage = challengeVerificationSerivce.getChallengeVerifications(pagingRequest.toPageable(), challengeTitle);
+        return ApiResponse.success(PagingResponse.from(verificationPage, ChallengeRes.ChallengeVerification::from), "챌린지 인증 조회 성공");
+    }
+
 }
