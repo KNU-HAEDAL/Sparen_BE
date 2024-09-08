@@ -9,7 +9,6 @@ import org.haedal.zzansuni.auth.domain.AuthService;
 import org.haedal.zzansuni.user.domain.UserModel;
 import org.haedal.zzansuni.global.jwt.JwtToken;
 import org.springframework.data.util.Pair;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,9 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class AuthController {
-
     private final AuthService authService;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Operation(summary = "oauth2 로그인", description = "oauth2 code를 이용하여 로그인한다.")
     @PostMapping("/api/auth/oauth2")
@@ -51,7 +48,7 @@ public class AuthController {
         return ApiResponse.success(response);
     }
 
-    @Operation(summary = "액세스 토큰 재발급", description = "리프레시 토큰을 이용하여 액세스 토큰을 재발급한다.")
+    @Operation(summary = "JWT 재발급", description = "리프레시 토큰을 이용하여 JWT를 재발급한다. 발급에 사용된 리프레시 토큰은 만료된다.")
     @PostMapping("/api/auth/refresh")
     public ApiResponse<AuthRes.JwtResponse> refresh(
         @RequestHeader("Authorization") String authorization
