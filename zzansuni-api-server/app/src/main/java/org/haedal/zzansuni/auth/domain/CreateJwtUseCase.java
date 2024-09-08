@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Slf4j
 @Component
@@ -32,7 +33,9 @@ public class CreateJwtUseCase {
         JwtUser jwtUser = JwtUser.of(user.getId(), user.getRole());
         String uuid = uuidHolder.random();
         JwtToken jwtToken = jwtUtils.generateToken(jwtUser, uuid);
-        RefreshToken refreshToken = RefreshToken.create(uuid, user, jwtToken.getRefreshTokenExpireAt());
+
+        LocalDateTime expiredAt = jwtToken.getRefreshTokenExpireAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        RefreshToken refreshToken = RefreshToken.create(uuid, user, expiredAt);
         refreshTokenStore.flushSave(refreshToken);
         return jwtToken;
     }

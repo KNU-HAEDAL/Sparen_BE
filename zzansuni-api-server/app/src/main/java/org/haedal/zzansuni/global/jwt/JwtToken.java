@@ -3,14 +3,14 @@ package org.haedal.zzansuni.global.jwt;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Builder
 public class JwtToken {
     private String accessToken;
     private String refreshToken;
-    private LocalDateTime refreshTokenExpireAt;
+    private Date refreshTokenExpireAt;
 
     /**
      * 유효한 토큰을 나타내는 VO

@@ -31,7 +31,7 @@ public class JwtProvider implements AuthenticationProvider {
         String token = (String) authentication.getCredentials();
 
         // 토큰을 검증하는 단계
-        if (!jwtUtils.validateToken(token)) {
+        if (!jwtUtils.validateAccessToken(token)) {
             throw new AuthenticationServiceException("유효하지 않은 토큰입니다.");
         }
         JwtUser jwtUser = jwtUtils.getJwtUser(JwtToken.ValidToken.of(token));

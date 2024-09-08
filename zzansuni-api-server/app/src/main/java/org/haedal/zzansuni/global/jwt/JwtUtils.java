@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -32,9 +31,12 @@ public class JwtUtils implements InitializingBean {
 
 
     public JwtToken generateToken(JwtUser jwtUser, String refreshUuid) {
-        String accessToken = generateAccessToken(jwtUser);
-        String refreshToken = generateRefreshToken(jwtUser, refreshUuid);
-        LocalDateTime refreshTokenExpireAt = LocalDateTime.now().plusSeconds(REFRESH_TOKEN_EXPIRE_TIME/1000);
+        long systemTimeMillis = System.currentTimeMillis();
+        Date accessTokenExpireAt = new Date(systemTimeMillis + ACCESS_TOKEN_EXPIRE_TIME);
+        Date refreshTokenExpireAt = new Date(systemTimeMillis + REFRESH_TOKEN_EXPIRE_TIME);
+
+        String accessToken = generateAccessToken(jwtUser, accessTokenExpireAt);
+        String refreshToken = generateRefreshToken(jwtUser, refreshUuid, refreshTokenExpireAt);
         return JwtToken.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -46,10 +48,20 @@ public class JwtUtils implements InitializingBean {
      * Jwt가 유효한지 검사하는 메서드.
      * 만료시간, 토큰의 유효성을 검사한다.
      */
-    public boolean validateToken(String rawToken) {
+    public boolean validateAccessToken(String rawToken) {
         try {
             Claims claims = extractClaims(rawToken);
-            return !claims.getExpiration().before(new Date());
+            Boolean isAccessToken = claims.get(IS_ACCESS_TOKEN, Boolean.class);
+            if(!isAccessToken) {
+                return false;
+            }
+            if(!claims.getIssuer().equals(ISSUER)) {
+                return false;
+            }
+            if(claims.getExpiration().before(new Date())) {
+                return false;
+            }
+            return true;
         } catch (Exception e) {//JwtException, ExpiredJwtException, NullPointerException
             return false;
         }
@@ -60,7 +72,7 @@ public class JwtUtils implements InitializingBean {
         try {
             Claims claims = extractClaims(rawToken);
             Boolean isAccessToken = claims.get(IS_ACCESS_TOKEN, Boolean.class);
-            if (isAccessToken == null || isAccessToken) {
+            if (isAccessToken) {
                 throw new UnauthorizedException("RefreshToken이 유효하지 않습니다.");
             }
             Long userId = Long.parseLong(claims.getSubject());
@@ -88,7 +100,8 @@ public class JwtUtils implements InitializingBean {
 
     private JwtUser claimsToJwtUser(Claims claims) {
         Role userRole = Role.valueOf(claims.get(ROLE, String.class));
-        return JwtUser.of(Long.parseLong(claims.getSubject()), userRole);
+        Long userId = Long.parseLong(claims.getSubject());
+        return JwtUser.of(userId, userRole);
     }
 
 
@@ -96,8 +109,7 @@ public class JwtUtils implements InitializingBean {
      * Jwt 토큰생성
      * 엑세스토큰 여부, 유저 id, role을 저장한다.
      */
-    private String generateAccessToken(JwtUser jwtUser) {
-        Date expireDate = new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRE_TIME);
+    private String generateAccessToken(JwtUser jwtUser, Date expireDate) {
         return Jwts.builder()
                 .signWith(secretKey)
                 .claim(ROLE, jwtUser.getRole().toString())
@@ -112,8 +124,7 @@ public class JwtUtils implements InitializingBean {
      * refreshToken 생성
      * 엑세스토큰 여부, uuid, 유저 아이디를 저장한다.
      */
-    private String generateRefreshToken(JwtUser jwtUser, String refreshUuid) {
-        Date expireDate = new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRE_TIME);
+    private String generateRefreshToken(JwtUser jwtUser, String refreshUuid, Date expireDate) {
         return Jwts.builder()
                 .signWith(secretKey)
                 .claim(IS_ACCESS_TOKEN, false)
