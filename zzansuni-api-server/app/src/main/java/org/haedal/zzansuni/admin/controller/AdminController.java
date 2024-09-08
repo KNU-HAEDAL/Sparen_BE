@@ -14,6 +14,7 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.user.domain.UserModel;
 import org.haedal.zzansuni.user.domain.UserService;
 import org.haedal.zzansuni.userchallenge.controller.ChallengeRes;
+import org.haedal.zzansuni.userchallenge.domain.ChallengeVerificationStatus;
 import org.haedal.zzansuni.userchallenge.domain.application.ChallengeVerificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -79,6 +80,15 @@ public class AdminController {
             @RequestParam(required = false) String challengeTitle){
         var verificationPage = challengeVerificationService.getChallengeVerifications(pagingRequest.toPageable(), challengeTitle);
         return ApiResponse.success(PagingResponse.from(verificationPage, ChallengeRes.ChallengeVerification::from), "챌린지 인증 조회 성공");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "챌린지 인증 승인/거절", description = "챌린지 인증을 승인/거절합니다. 거절시 경험치가 취소됩니다.")
+    @PatchMapping("/api/admin/challenges/verifications/{challengeVerificationId}")
+    public ApiResponse<Void> approveChallengeVerification(@PathVariable Long challengeVerificationId,
+                                                          @Valid @RequestParam ChallengeVerificationStatus status) {
+        challengeVerificationService.confirm(challengeVerificationId, status);
+        return ApiResponse.success(null, "챌린지 인증 승인/거절 성공");
     }
 
 }
