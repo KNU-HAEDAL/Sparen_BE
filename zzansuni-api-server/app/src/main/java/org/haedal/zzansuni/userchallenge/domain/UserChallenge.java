@@ -60,10 +60,12 @@ public class UserChallenge extends BaseTimeEntity {
     @OneToMany(mappedBy = "userChallenge", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChallengeVerification> challengeVerifications = new ArrayList<>();
 
-    public static UserChallenge create(Challenge challenge, User user) {
+    public static UserChallenge create(Challenge challenge, User user, LocalDate activeStartDate, LocalDate activeEndDate) {
         return UserChallenge.builder()
             .challenge(challenge)
             .user(user)
+            .activeStartDate(activeStartDate)
+            .activeEndDate(activeEndDate)
             .status(ChallengeStatus.PROCEEDING)
             .build();
     }

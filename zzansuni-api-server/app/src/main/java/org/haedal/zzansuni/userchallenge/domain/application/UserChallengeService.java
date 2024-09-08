@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.userchallenge.domain.application;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,9 @@ public class UserChallengeService {
             .ifPresent(userChallenge -> {
                 throw new IllegalArgumentException("이미 참여한 챌린지입니다.");
             });
-
-        UserChallenge userChallenge = UserChallenge.create(challenge, user);
+        LocalDate now = LocalDate.now();
+        LocalDate deadline = now.plusDays(challenge.getActivePeriod());
+        UserChallenge userChallenge = UserChallenge.create(challenge, user, now, deadline);
         userChallengeStore.store(userChallenge);
 
 
