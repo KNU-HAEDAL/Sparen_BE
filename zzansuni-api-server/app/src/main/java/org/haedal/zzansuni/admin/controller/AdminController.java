@@ -14,7 +14,7 @@ import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.user.domain.UserModel;
 import org.haedal.zzansuni.user.domain.UserService;
 import org.haedal.zzansuni.userchallenge.controller.ChallengeRes;
-import org.haedal.zzansuni.userchallenge.domain.application.ChallengeVerificationSerivce;
+import org.haedal.zzansuni.userchallenge.domain.application.ChallengeVerificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ public class AdminController {
     private final AuthService authService;
     private final ChallengeGroupService challengeGroupService;
     private final UserService userService;
-    private final ChallengeVerificationSerivce challengeVerificationSerivce;
+    private final ChallengeVerificationService challengeVerificationService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "매니저 등록", description = "매니저를 등록한다.")
@@ -77,7 +77,7 @@ public class AdminController {
     public ApiResponse<PagingResponse<ChallengeRes.ChallengeVerification>> getChallengeVerifications(
             @Valid PagingRequest pagingRequest,
             @RequestParam(required = false) String challengeTitle){
-        var verificationPage = challengeVerificationSerivce.getChallengeVerifications(pagingRequest.toPageable(), challengeTitle);
+        var verificationPage = challengeVerificationService.getChallengeVerifications(pagingRequest.toPageable(), challengeTitle);
         return ApiResponse.success(PagingResponse.from(verificationPage, ChallengeRes.ChallengeVerification::from), "챌린지 인증 조회 성공");
     }
 

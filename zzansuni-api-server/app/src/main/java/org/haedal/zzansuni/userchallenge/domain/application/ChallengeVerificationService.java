@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ChallengeVerificationSerivce {
+public class ChallengeVerificationService {
     private final ChallengeVerificationReader challengeVerificationReader;
 
 
