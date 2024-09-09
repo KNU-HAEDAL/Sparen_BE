@@ -34,8 +34,8 @@ public class ChallengeGroupRes {
                 .title(challengeGroupDetail.title())
                 .content(challengeGroupDetail.content())
                 .participantCount(challengeGroupDetail.cumulativeCount())
-                .startDate(challengeGroupDetail.getMinStartDate())
-                .endDate(challengeGroupDetail.getMaxEndDate())
+                .startDate(challengeGroupDetail.joinStartDate())
+                .endDate(challengeGroupDetail.joinEndDate())
                 .category(challengeGroupDetail.category())
                 .build();
         }

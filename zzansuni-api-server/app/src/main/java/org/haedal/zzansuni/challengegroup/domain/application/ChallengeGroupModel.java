@@ -67,24 +67,12 @@ public class ChallengeGroupModel {
         String title,
         String content,
         String guide,
+        LocalDate joinStartDate,
+        LocalDate joinEndDate,
         Integer cumulativeCount,
         List<String> imageUrls,
         List<ChallengeModel.Main> challenges
     ) {
-
-        public LocalDate getMinStartDate() {
-            return challenges.stream()
-                .map(ChallengeModel.Main::startDate)
-                .min(LocalDate::compareTo)
-                .orElse(LocalDate.now());
-        }
-
-        public LocalDate getMaxEndDate() {
-            return challenges.stream()
-                .map(ChallengeModel.Main::endDate)
-                .max(LocalDate::compareTo)
-                .orElse(LocalDate.now());
-        }
 
         public static Detail from(ChallengeGroup challengeGroup,
             List<ChallengeGroupImage> challengeGroupImages) {
@@ -100,6 +88,8 @@ public class ChallengeGroupModel {
                 .title(challengeGroup.getTitle())
                 .content(challengeGroup.getContent())
                 .guide(challengeGroup.getGuide())
+                .joinStartDate(challengeGroup.getJoinStartDate())
+                .joinEndDate(challengeGroup.getJoinEndDate())
                 .cumulativeCount(challengeGroup.getCumulativeCount())
                 .imageUrls(imageUrls)
                 .challenges(challenges)
