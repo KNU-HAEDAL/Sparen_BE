@@ -107,7 +107,7 @@ public class UserChallenge extends BaseTimeEntity {
      * 챌린지 성공일자 가져오기
      * [챌린지 인증]을 통해 성공한 가장 최근 날짜를 가져온다.
      */
-    public Optional<LocalDate> getSuccessDate() {
+    public Optional<LocalDate> getRecentSuccessDate() {
         return this.challengeVerifications.stream()
             .map(ChallengeVerification::getCreatedAt)
             .max(LocalDateTime::compareTo)

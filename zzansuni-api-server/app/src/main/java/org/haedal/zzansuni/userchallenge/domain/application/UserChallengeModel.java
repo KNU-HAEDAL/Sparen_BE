@@ -84,7 +84,7 @@ public class UserChallengeModel {
                     .challengeId(challenge.getId())
                     .title(challenge.getChallengeGroup().getTitle())
                     // 성공한 날짜는 가장 최근에 인증한 날짜로 설정
-                    .successDate(userChallenge.getSuccessDate().orElse(null))
+                    .successDate(userChallenge.getRecentSuccessDate().orElse(null))
                     .category(challenge.getChallengeGroup().getCategory())
                     .reviewWritten(reviewWritten)
                     .build();
