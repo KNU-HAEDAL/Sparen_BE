@@ -2,6 +2,7 @@ package org.haedal.zzansuni.challengegroup.controller;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.haedal.zzansuni.admin.controller.AdminReq;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeCategory;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeGroupCommand;
 
@@ -24,8 +25,8 @@ public class ChallengeGroupReq {
             LocalDate joinStartDate,
             @NotNull(message = "joinEndDate는 필수값입니다.")
             LocalDate joinEndDate,
-            @NotNull(message = "challenges는 필수값입니다.")
-            List<UpdateChallenge> challenges
+            List<UpdateChallenge> updateChallenges,
+            List<AdminReq.CreateChallengeRequest> createChallenges
     ) {
         public ChallengeGroupCommand.Update toCommand() {
             return ChallengeGroupCommand.Update.builder()
@@ -36,7 +37,8 @@ public class ChallengeGroupReq {
                     .category(category)
                     .joinStartDate(joinStartDate)
                     .joinEndDate(joinEndDate)
-                    .updateChallenges(challenges.stream().map(UpdateChallenge::toCommand).toList())
+                    .updateChallenges(updateChallenges.stream().map(UpdateChallenge::toCommand).toList())
+                    .createChallenges(createChallenges.stream().map(AdminReq.CreateChallengeRequest::toCommand).toList())
                     .build();
         }
     }

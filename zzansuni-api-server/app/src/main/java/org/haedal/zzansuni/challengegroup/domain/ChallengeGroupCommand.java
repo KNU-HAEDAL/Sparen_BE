@@ -82,11 +82,11 @@ public class ChallengeGroupCommand {
         private final LocalDate joinStartDate;
         @NotNull(message = "joinEndDate는 필수값입니다.")
         private final LocalDate joinEndDate;
-        @NotNull(message = "challenges는 필수값입니다.")
         private final List<UpdateChallenge> updateChallenges;
+        private final List<CreateChallenge> createChallenges;
 
         @Builder
-        public Update(Long id, String title, String content, String guide, ChallengeCategory category, LocalDate joinStartDate, LocalDate joinEndDate, List<UpdateChallenge> updateChallenges) {
+        public Update(Long id, String title, String content, String guide, ChallengeCategory category, LocalDate joinStartDate, LocalDate joinEndDate, List<UpdateChallenge> updateChallenges, List<CreateChallenge> createChallenges) {
             this.id = id;
             this.title = title;
             this.content = content;
@@ -95,6 +95,7 @@ public class ChallengeGroupCommand {
             this.joinStartDate = joinStartDate;
             this.joinEndDate = joinEndDate;
             this.updateChallenges = updateChallenges;
+            this.createChallenges = createChallenges;
             this.validateSelf();
         }
     }

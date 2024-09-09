@@ -10,7 +10,6 @@ import org.haedal.zzansuni.challengegroup.domain.port.ChallengeReader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,40 +33,30 @@ public class ChallengeGroupService {
         challengeGroupStore.delete(challengeGroup.getId());
     }
 
-    /**
-     * ChallengeGroupCommand.Update에서
-     * id=-1인 경우는 새로운 Challenge이므로 create로 처리한다.
-     * id가 존재하는 경우는 update로 처리한다.
-     * id가 존재하지 않는 경우는 delete로 처리한다.
-     */
-    //TODO: 변경감지 없이 update
+
     @Transactional
     public void updateChallengeGroup(ChallengeGroupCommand.Update command) {
         ChallengeGroup challengeGroup = challengeGroupReader.getById(command.getId());
-
-        List<Challenge> challenges = new ArrayList<>();
-        Set<Challenge> existedChallenges = new HashSet<>();
-
-        for (ChallengeGroupCommand.UpdateChallenge challenge : command.getUpdateChallenges()) {
-            processChallenge(challenge, challengeGroup, challenges, existedChallenges);
-        }
-
         challengeGroup.update(command);
-        removeChallenges(challengeGroup, existedChallenges);
-        challengeGroup.addChallenges(challenges);
+
+        Set<Challenge> existingChallenges = new HashSet<>();
+        createChallenges(challengeGroup, command.getCreateChallenges());
+        updateChallenges(command.getUpdateChallenges(), existingChallenges);
+        removeChallenges(challengeGroup, existingChallenges);
     }
 
-    private void processChallenge(ChallengeGroupCommand.UpdateChallenge updateChallengeCommand,
-                                  ChallengeGroup challengeGroup,
-                                  List<Challenge> newChallenges,
-                                  Set<Challenge> existingChallenges)
-    {
-        if (updateChallengeCommand.getId().equals(-1L)) {
-            newChallenges.add(Challenge.create(updateChallengeCommand.convertCreate(), challengeGroup));
-        } else {
-            Challenge updateChallenge = challengeReader.getById(updateChallengeCommand.getId());
+    private void createChallenges(ChallengeGroup challengeGroup, List<ChallengeGroupCommand.CreateChallenge> createChallenges) {
+        List<Challenge> newChallenges = createChallenges.stream()
+                .map(challenge -> Challenge.create(challenge, challengeGroup))
+                .toList();
+        challengeGroup.addChallenges(newChallenges);
+    }
+
+    private void updateChallenges(List<ChallengeGroupCommand.UpdateChallenge> challenges, Set<Challenge> existingChallenges) {
+        for (ChallengeGroupCommand.UpdateChallenge challenge : challenges) {
+            Challenge updateChallenge = challengeReader.getById(challenge.getId());
+            updateChallenge.update(challenge);
             existingChallenges.add(updateChallenge);
-            updateChallenge.update(updateChallengeCommand);
         }
     }
 
