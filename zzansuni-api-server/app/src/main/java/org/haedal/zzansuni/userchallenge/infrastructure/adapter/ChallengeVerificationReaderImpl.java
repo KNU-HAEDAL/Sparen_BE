@@ -60,7 +60,7 @@ ChallengeVerificationReaderImpl implements ChallengeVerificationReader {
                 .innerJoin(challengeVerification.userChallenge, userChallenge)
                 .innerJoin(userChallenge.challenge, challenge)
                 .innerJoin(challenge.challengeGroup, challengeGroup)
-                .where(eqChallengeTitle(challengeTitle))
+                .where(containsChallengeTitle(challengeTitle))
                 .fetchFirst();
 
         List<ChallengeVerification> userChallenges = queryFactory
@@ -68,7 +68,7 @@ ChallengeVerificationReaderImpl implements ChallengeVerificationReader {
                 .innerJoin(challengeVerification.userChallenge, userChallenge)
                 .innerJoin(userChallenge.challenge, challenge)
                 .innerJoin(challenge.challengeGroup, challengeGroup)
-                .where(eqChallengeTitle(challengeTitle))
+                .where(containsChallengeTitle(challengeTitle))
                 .orderBy(challengeVerification.modifiedAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -77,7 +77,7 @@ ChallengeVerificationReaderImpl implements ChallengeVerificationReader {
         return new PageImpl<>(userChallenges, pageable, count == null ? 0 : count);
     }
 
-    private BooleanExpression eqChallengeTitle(String challengeTitle) {
+    private BooleanExpression containsChallengeTitle(String challengeTitle) {
         return challengeTitle == null ? null : challengeGroup.title.contains(challengeTitle);
     }
 
