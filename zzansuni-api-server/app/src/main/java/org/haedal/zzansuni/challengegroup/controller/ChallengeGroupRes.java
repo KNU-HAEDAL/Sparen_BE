@@ -25,31 +25,33 @@ public class ChallengeGroupRes {
         ChallengeCategory category
 
     ) {
+
         public static Info from(
             ChallengeGroupModel.Detail challengeGroupDetail
-        ){
+        ) {
             return Info.builder()
-                    .id(challengeGroupDetail.id())
-                    .title(challengeGroupDetail.title())
-                    .content(challengeGroupDetail.content())
-                    .participantCount(challengeGroupDetail.cumulativeCount())
-                    .startDate(challengeGroupDetail.getMinStartDate())
-                    .endDate(challengeGroupDetail.getMaxEndDate())
-                    .category(challengeGroupDetail.category())
-                    .build();
+                .id(challengeGroupDetail.id())
+                .title(challengeGroupDetail.title())
+                .content(challengeGroupDetail.content())
+                .participantCount(challengeGroupDetail.cumulativeCount())
+                .startDate(challengeGroupDetail.getMinStartDate())
+                .endDate(challengeGroupDetail.getMaxEndDate())
+                .category(challengeGroupDetail.category())
+                .build();
         }
+
         public static Info from(
-                ChallengeGroupModel.Info challengeGroupInfo
-        ){
+            ChallengeGroupModel.Info challengeGroupInfo
+        ) {
             return Info.builder()
-                    .id(challengeGroupInfo.id())
-                    .title(challengeGroupInfo.title())
-                    .content(challengeGroupInfo.content())
-                    .participantCount(challengeGroupInfo.cumulativeCount())
-                    .startDate(challengeGroupInfo.getMinStartDate())
-                    .endDate(challengeGroupInfo.getMaxEndDate())
-                    .category(challengeGroupInfo.category())
-                    .build();
+                .id(challengeGroupInfo.id())
+                .title(challengeGroupInfo.title())
+                .content(challengeGroupInfo.content())
+                .participantCount(challengeGroupInfo.cumulativeCount())
+                .startDate(challengeGroupInfo.joinStartDate())
+                .endDate(challengeGroupInfo.joinEndDate())
+                .category(challengeGroupInfo.category())
+                .build();
         }
 
     }
@@ -69,9 +71,10 @@ public class ChallengeGroupRes {
         List<String> imageUrls,
         List<Challenge> challenges
     ) {
+
         public static Detail from(
-                ChallengeGroupModel.Detail challengeGroupDetail
-        ){
+            ChallengeGroupModel.Detail challengeGroupDetail
+        ) {
             List<ChallengeModel.Main> challenges = challengeGroupDetail
                 .challenges();
 
@@ -79,7 +82,6 @@ public class ChallengeGroupRes {
                 .map(ChallengeModel.Main::difficulty)
                 .max(Integer::compareTo)
                 .orElse(0);
-
 
             return Detail.builder()
                 .id(challengeGroupDetail.id())
@@ -110,9 +112,10 @@ public class ChallengeGroupRes {
         Integer successExp,
         Integer dayCount
     ) {
+
         public static Challenge from(
             ChallengeModel.Main challenge
-        ){
+        ) {
             return Challenge.builder()
                 .id(challenge.id())
                 .participantCount(challenge.requiredCount())
@@ -126,26 +129,25 @@ public class ChallengeGroupRes {
     }
 
 
-
-
     @Builder
     public record RankingPagingResponse(
-            List<ChallengeGroupRes.Ranking> data,
-            Integer totalPage,
-            ChallengeGroupRes.Ranking myRanking //null이면 랭킹이 없는 것
+        List<ChallengeGroupRes.Ranking> data,
+        Integer totalPage,
+        ChallengeGroupRes.Ranking myRanking //null이면 랭킹이 없는 것
     ) {
+
         public static RankingPagingResponse from(
-                Page<ChallengeGroupRankingModel.Main> rankingPage,
-                ChallengeGroupRankingModel.Main myRanking
-        ){
+            Page<ChallengeGroupRankingModel.Main> rankingPage,
+            ChallengeGroupRankingModel.Main myRanking
+        ) {
             var data = rankingPage.getContent().stream()
                 .map(ChallengeGroupRes.Ranking::from)
                 .toList();
             return RankingPagingResponse.builder()
-                    .data(data)
-                    .totalPage(rankingPage.getTotalPages())
-                    .myRanking(ChallengeGroupRes.Ranking.from(myRanking))
-                    .build();
+                .data(data)
+                .totalPage(rankingPage.getTotalPages())
+                .myRanking(ChallengeGroupRes.Ranking.from(myRanking))
+                .build();
         }
 
     }
@@ -158,15 +160,16 @@ public class ChallengeGroupRes {
         Integer acquiredPoint,
         UserRes.User user
     ) {
+
         public static Ranking from(
-                ChallengeGroupRankingModel.Main model
-        ){
+            ChallengeGroupRankingModel.Main model
+        ) {
             var user = UserRes.User.from(model.user());
             return Ranking.builder()
-                    .ranking(model.rank())
-                    .acquiredPoint(model.accumulatedPoint())
-                    .user(user)
-                    .build();
+                .ranking(model.rank())
+                .acquiredPoint(model.accumulatedPoint())
+                .user(user)
+                .build();
         }
 
     }

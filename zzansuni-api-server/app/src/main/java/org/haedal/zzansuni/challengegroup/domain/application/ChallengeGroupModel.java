@@ -37,6 +37,8 @@ public class ChallengeGroupModel {
         String content,
         String guide,
         Integer cumulativeCount,
+        LocalDate joinStartDate,
+        LocalDate joinEndDate,
         List<ChallengeModel.Main> challenges
     ) {
 
@@ -51,6 +53,8 @@ public class ChallengeGroupModel {
                 .content(challengeGroup.getContent())
                 .guide(challengeGroup.getGuide())
                 .cumulativeCount(challengeGroup.getCumulativeCount())
+                .joinStartDate(challengeGroup.getJoinStartDate())
+                .joinEndDate(challengeGroup.getJoinEndDate())
                 .challenges(challenges)
                 .build();
         }
