@@ -106,11 +106,10 @@ public class ChallengeGroupRes {
     public record Challenge(
         Long id,
         Integer participantCount,
-
         Integer difficulty,
         Integer onceExp,
         Integer successExp,
-        Integer dayCount
+        Integer count
     ) {
 
         public static Challenge from(
@@ -122,7 +121,7 @@ public class ChallengeGroupRes {
                 .difficulty(challenge.difficulty())
                 .onceExp(challenge.onceExp())
                 .successExp(challenge.successExp())
-                .dayCount(challenge.requiredCount())
+                .count(challenge.requiredCount())
                 .build();
         }
 
