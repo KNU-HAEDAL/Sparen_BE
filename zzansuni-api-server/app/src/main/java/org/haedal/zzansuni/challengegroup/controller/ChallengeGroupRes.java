@@ -105,7 +105,6 @@ public class ChallengeGroupRes {
     @Builder
     public record Challenge(
         Long id,
-        Integer participantCount,
         Integer difficulty,
         Integer onceExp,
         Integer successExp,
@@ -117,7 +116,6 @@ public class ChallengeGroupRes {
         ) {
             return Challenge.builder()
                 .id(challenge.id())
-                .participantCount(challenge.requiredCount())
                 .difficulty(challenge.difficulty())
                 .onceExp(challenge.onceExp())
                 .successExp(challenge.successExp())
