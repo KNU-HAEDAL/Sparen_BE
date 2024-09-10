@@ -6,7 +6,6 @@ import org.haedal.zzansuni.challengegroup.domain.ChallengeGroup;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeGroupCommand;
 import org.haedal.zzansuni.challengegroup.domain.port.ChallengeGroupReader;
 import org.haedal.zzansuni.challengegroup.domain.port.ChallengeGroupStore;
-import org.haedal.zzansuni.challengegroup.domain.port.ChallengeReader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,6 @@ import java.util.Set;
 public class ChallengeGroupService {
     private final ChallengeGroupStore challengeGroupStore;
     private final ChallengeGroupReader challengeGroupReader;
-    private final ChallengeReader challengeReader;
 
     @Transactional
     public void createChallengeGroup(ChallengeGroupCommand.Create command) {
@@ -41,7 +39,7 @@ public class ChallengeGroupService {
 
         Set<Challenge> existingChallenges = new HashSet<>();
         createChallenges(challengeGroup, command.getCreateChallenges());
-        updateChallenges(command.getUpdateChallenges(), existingChallenges);
+        updateChallenges(challengeGroup, command.getUpdateChallenges(), existingChallenges);
         removeChallenges(challengeGroup, existingChallenges);
     }
 
@@ -52,10 +50,10 @@ public class ChallengeGroupService {
         challengeGroup.addChallenges(newChallenges);
     }
 
-    private void updateChallenges(List<ChallengeGroupCommand.UpdateChallenge> challenges, Set<Challenge> existingChallenges) {
-        for (ChallengeGroupCommand.UpdateChallenge challenge : challenges) {
-            Challenge updateChallenge = challengeReader.getById(challenge.getId());
-            updateChallenge.update(challenge);
+    private void updateChallenges(ChallengeGroup challengeGroup, List<ChallengeGroupCommand.UpdateChallenge> challenges, Set<Challenge> existingChallenges) {
+        for (ChallengeGroupCommand.UpdateChallenge challengeCommand : challenges) {
+            Challenge updateChallenge = challengeGroup.getChallengeById(challengeCommand.getId()).orElseThrow();
+            updateChallenge.update(challengeCommand);
             existingChallenges.add(updateChallenge);
         }
     }

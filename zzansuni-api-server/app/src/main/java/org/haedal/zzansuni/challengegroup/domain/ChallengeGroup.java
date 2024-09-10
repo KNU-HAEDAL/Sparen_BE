@@ -11,6 +11,7 @@ import org.haedal.zzansuni.common.domain.BaseTimeEntity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -90,5 +91,11 @@ public class ChallengeGroup extends BaseTimeEntity {
 
     public void removeChallenges(List<Challenge> challenges) {
         this.challenges.removeAll(challenges);
+    }
+
+    public Optional<Challenge> getChallengeById(Long challengeId) {
+        return this.challenges.stream()
+                .filter(challenge -> challenge.getId().equals(challengeId))
+                .findFirst();
     }
 }
