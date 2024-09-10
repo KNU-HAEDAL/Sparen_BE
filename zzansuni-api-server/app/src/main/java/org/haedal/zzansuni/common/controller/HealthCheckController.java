@@ -14,9 +14,10 @@ import java.util.Arrays;
 public class HealthCheckController {
     private final Environment env;
 
-    @GetMapping("/health")
+    @GetMapping("/api/health")
     public String healthCheck() {
-        return "ok" + Arrays.toString(env.getActiveProfiles());
+        String hostname = env.getProperty("HOSTNAME");
+        return "ok:" + Arrays.toString(env.getActiveProfiles())+":"+hostname;
     }
 
 }

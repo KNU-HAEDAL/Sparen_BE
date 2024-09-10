@@ -23,12 +23,14 @@ public class AuthRes {
     }
 
     @Builder
-    public record AccessTokenResponse(
-            String accessToken
+    public record JwtResponse(
+            String accessToken,
+            String refreshToken
     ) {
-        public static AccessTokenResponse of(String accessToken) {
-            return AccessTokenResponse.builder()
-                    .accessToken(accessToken)
+        public static JwtResponse from(JwtToken jwtToken) {
+            return JwtResponse.builder()
+                    .accessToken(jwtToken.getAccessToken())
+                    .refreshToken(jwtToken.getRefreshToken())
                     .build();
         }
     }

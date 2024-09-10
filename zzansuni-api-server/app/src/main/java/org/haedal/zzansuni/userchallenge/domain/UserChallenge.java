@@ -79,19 +79,17 @@ public class UserChallenge extends BaseTimeEntity {
      * 1. 챌린지 인증을 추가
      * 2. 챌린지 인증을 추가하면서 챌린지 인증에 따른 경험치를 추가
      * 3. 챌린지를 완료한 경우 챌린지 완료로 변경, 경험치 추가
-     * 4. 챌린지그룹-경험치 추가 이벤트를 반환
+     * 4. 챌린지그룹-경험치 추가 이벤트를 반환(경험치 증가는 이벤트 핸들러에서 처리)
      */
     public AddUserExpByVerificationEvent addChallengeVerification(ChallengeCommand.VerificationCreate command) {
         ChallengeVerification challengeVerification = ChallengeVerification.create(command, this);
         this.challengeVerifications.add(challengeVerification);
 
         int acquiredExp = this.challenge.getOnceExp();
-        user.addExp(challenge.getOnceExp());
 
         // 만약 챌린지 인증 참여횟수와 필요참여획수가 같으면 챌린지 완료로 변경
         if (this.challengeVerifications.size() == this.challenge.getRequiredCount()) {
             user.addExp(challenge.getSuccessExp());
-            acquiredExp += challenge.getSuccessExp();
             this.completeChallengeStatus();
         }
         return AddUserExpByVerificationEvent

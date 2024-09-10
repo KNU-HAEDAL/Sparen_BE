@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -19,6 +18,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class JwtProvider implements AuthenticationProvider {
     private final JwtUtils jwtUtils;
+    private static final String ROLE_PREFIX = "ROLE_";
 
     /**
      * JwtAuthenticationToken을 받아서 인증을 진행
@@ -31,14 +31,17 @@ public class JwtProvider implements AuthenticationProvider {
         String token = (String) authentication.getCredentials();
 
         // 토큰을 검증하는 단계
-        if(!jwtUtils.validateToken(token)){
+        if (!jwtUtils.validateAccessToken(token)) {
             throw new AuthenticationServiceException("유효하지 않은 토큰입니다.");
         }
         JwtUser jwtUser = jwtUtils.getJwtUser(JwtToken.ValidToken.of(token));
-        Set<SimpleGrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(jwtUser.getRole().name()));
 
         // 검증 후 인증정보 Authentication 객체를 반환
-        return new UsernamePasswordAuthenticationToken(jwtUser, null, authorities);
+        return new UsernamePasswordAuthenticationToken(jwtUser, null, getAuthorities(jwtUser));
+    }
+
+    private Set<SimpleGrantedAuthority> getAuthorities(JwtUser jwtUser) {
+        return Set.of(new SimpleGrantedAuthority(ROLE_PREFIX + jwtUser.getRole().name()));
     }
 
     /**

@@ -83,7 +83,7 @@ public class UserChallengeService {
 
         AddUserExpByVerificationEvent event = userChallenge.addChallengeVerification(command);
 
-        // 챌린지 경험치 획득 로직
+        // 챌린지 경험치 획득 로직 (유저, 챌린지그룹-유저 경험치)
         addUserExpByVerificationUseCase.invoke(event);
 
         // 챌린지 RequiredCount 가져오기 위해 챌린지 정보 가져온다
