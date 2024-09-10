@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ChallengeVerificationService {
     private final ChallengeVerificationReader challengeVerificationReader;
+    private final SubUserExpByVerificationUseCase subUserExpByVerificationUseCase;
 
 
     @Transactional(readOnly = true)
@@ -58,6 +59,9 @@ public class ChallengeVerificationService {
         if (userChallenge.getSuccessDate() != null) {
             revertedExp += challenge.getSuccessExp();
         }
-        user.subExp(revertedExp);
+
+        SubUserExpByVerificationEvent event = SubUserExpByVerificationEvent
+                .of(user.getId(), revertedExp, challenge.getChallengeGroupId());
+        subUserExpByVerificationUseCase.invoke(event);
     }
 }
