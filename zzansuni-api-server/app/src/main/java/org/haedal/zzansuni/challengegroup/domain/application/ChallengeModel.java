@@ -18,9 +18,9 @@ public class ChallengeModel {
         Integer onceExp,
         Integer successExp,
         Integer difficulty,
-        LocalDate startDate,
-        LocalDate endDate
+        Integer activePeriod
     ) {
+
         public static Main from(Challenge challenge) {
             return Main.builder()
                 .id(challenge.getId())
@@ -28,6 +28,7 @@ public class ChallengeModel {
                 .onceExp(challenge.getOnceExp())
                 .successExp(challenge.getSuccessExp())
                 .difficulty(challenge.getDifficulty())
+                .activePeriod(challenge.getActivePeriod())
                 .build();
         }
     }
@@ -55,8 +56,6 @@ public class ChallengeModel {
                 .build();
         }
     }
-
-
 
 
 }
