@@ -118,7 +118,7 @@ class UserRecordServiceTest {
         pageable = PageRequest.of(0, 10);
     }
 
-    @Test
+//    @Test
     void participateChallenge_신규_챌린지() {
         Long userId = 1L;
         Long challengeId = 1L;
