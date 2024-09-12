@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface ChallengeGroupRepository extends JpaRepository<ChallengeGroup, Long> {
-    @Query("select cg from ChallengeGroup cg join fetch cg.challenges where cg.id = :challengeGroupId")
+
+    @Query("select cg from ChallengeGroup cg left join fetch cg.challenges where cg.id = :challengeGroupId")
     Optional<ChallengeGroup> findByIdWithChallenges(Long challengeGroupId);
 }
