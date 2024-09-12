@@ -23,7 +23,7 @@ public class SubUserExpByVerificationUseCase {
         ChallengeGroupUserExp challengeGroupUserExp = challengeGroupUserExpReader
                 .findByChallengeGroupIdAndUserId(challengeGroupId, userId).orElseThrow();
 
-//        user.subExp(event.getSubExp());
-//        challengeGroupUserExp.subExp(event.getSubExp());
+        user.subExp(event.getSubExp());
+        challengeGroupUserExp.subExp(event.getSubExp());
     }
 }

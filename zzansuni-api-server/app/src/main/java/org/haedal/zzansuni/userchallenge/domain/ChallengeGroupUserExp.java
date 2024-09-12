@@ -44,4 +44,8 @@ public class ChallengeGroupUserExp {
     public void addExp(Integer exp) {
         this.totalExp += exp;
     }
+
+    public void subExp(Integer exp) {
+        this.totalExp -= exp;
+    }
 }

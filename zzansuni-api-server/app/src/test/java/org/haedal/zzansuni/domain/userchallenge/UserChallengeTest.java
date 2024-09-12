@@ -101,7 +101,7 @@ public class UserChallengeTest {
             List.of(verification1, verification2));
 
         // when
-        Optional<LocalDate> successDate = userChallenge.getSuccessDate();
+        Optional<LocalDate> successDate = userChallenge.getRecentSuccessDate();
 
         // then
         assertThat(successDate.get()).isEqualTo(LocalDate.of(2023, 8, 4));

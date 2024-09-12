@@ -60,10 +60,12 @@ public class UserChallenge extends BaseTimeEntity {
     @OneToMany(mappedBy = "userChallenge", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChallengeVerification> challengeVerifications = new ArrayList<>();
 
-    public static UserChallenge create(Challenge challenge, User user) {
+    public static UserChallenge create(Challenge challenge, User user, LocalDate activeStartDate, LocalDate activeEndDate) {
         return UserChallenge.builder()
             .challenge(challenge)
             .user(user)
+            .activeStartDate(activeStartDate)
+            .activeEndDate(activeEndDate)
             .status(ChallengeStatus.PROCEEDING)
             .build();
     }
@@ -103,7 +105,7 @@ public class UserChallenge extends BaseTimeEntity {
      * 챌린지 성공일자 가져오기
      * [챌린지 인증]을 통해 성공한 가장 최근 날짜를 가져온다.
      */
-    public Optional<LocalDate> getSuccessDate() {
+    public Optional<LocalDate> getRecentSuccessDate() {
         return this.challengeVerifications.stream()
             .map(ChallengeVerification::getCreatedAt)
             .max(LocalDateTime::compareTo)

@@ -3,6 +3,7 @@ package org.haedal.zzansuni.userchallenge.controller;
 import lombok.Builder;
 import org.haedal.zzansuni.challengegroup.domain.ChallengeCategory;
 import org.haedal.zzansuni.challengegroup.domain.application.ChallengeModel;
+import org.haedal.zzansuni.userchallenge.domain.ChallengeVerificationStatus;
 import org.haedal.zzansuni.userchallenge.domain.application.ChallengeVerificationModel;
 import org.haedal.zzansuni.userchallenge.domain.application.UserChallengeModel;
 
@@ -59,7 +60,7 @@ public class ChallengeRes {
         String imageUrl
     ) {
 
-        public static ChallengeRecordDetailDto from(ChallengeVerificationModel model) {
+        public static ChallengeRecordDetailDto from(ChallengeVerificationModel.Main model) {
             return ChallengeRecordDetailDto.builder()
                 .id(model.getId())
                 .createdAt(model.getCreatedAt())
@@ -120,6 +121,33 @@ public class ChallengeRes {
                 .category(complete.category())
                 .reviewWritten(complete.reviewWritten())
                 .build();
+        }
+    }
+
+
+    @Builder
+    public record ChallengeVerification(
+            Long verificationId,
+            String content,
+            String imageUrl,
+            ChallengeVerificationStatus status,
+            LocalDateTime createdAt,
+            String challengeGroupTitle,
+            String userNickname,
+            String userImageUrl
+    ) {
+
+        public static ChallengeVerification from(ChallengeVerificationModel.Admin verification) {
+            return ChallengeVerification.builder()
+                    .verificationId(verification.verificationId())
+                    .content(verification.content())
+                    .imageUrl(verification.imageUrl())
+                    .status(verification.status())
+                    .createdAt(verification.createdAt())
+                    .challengeGroupTitle(verification.ChallengeGroupTitle())
+                    .userNickname(verification.UserNickname())
+                    .userImageUrl(verification.UserImageUrl())
+                    .build();
         }
     }
 }

@@ -95,4 +95,8 @@ public class User extends BaseTimeEntity {
     public void addExp(Integer exp) {
         this.exp += exp;
     }
+
+    public void subExp(Integer exp) {
+        this.exp -= exp;
+    }
 }

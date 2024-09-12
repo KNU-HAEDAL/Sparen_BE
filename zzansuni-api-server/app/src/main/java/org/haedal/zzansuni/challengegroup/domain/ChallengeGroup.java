@@ -11,6 +11,7 @@ import org.haedal.zzansuni.common.domain.BaseTimeEntity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -65,10 +66,36 @@ public class ChallengeGroup extends BaseTimeEntity {
                 .content(command.getContent())
                 .guide(command.getGuide())
                 .cumulativeCount(0)
+                .joinStartDate(command.getJoinStartDate())
+                .joinEndDate(command.getJoinEndDate())
                 .challenges(challenges)
                 .build();
         command.getCreateChallenges().stream().map(challenge -> Challenge.create(challenge, group))
                 .forEach(challenges::add);
         return group;
+    }
+
+    public ChallengeGroup update(ChallengeGroupCommand.Update command) {
+        this.category = command.getCategory();
+        this.title = command.getTitle();
+        this.content = command.getContent();
+        this.guide = command.getGuide();
+        this.joinStartDate = command.getJoinStartDate();
+        this.joinEndDate = command.getJoinEndDate();
+        return this;
+    }
+
+    public void addChallenges(List<Challenge> challenges) {
+        this.challenges.addAll(challenges);
+    }
+
+    public void removeChallenges(List<Challenge> challenges) {
+        this.challenges.removeAll(challenges);
+    }
+
+    public Optional<Challenge> getChallengeById(Long challengeId) {
+        return this.challenges.stream()
+                .filter(challenge -> challenge.getId().equals(challengeId))
+                .findFirst();
     }
 }

@@ -38,4 +38,12 @@ public class ChallengeVerification extends BaseTimeEntity {
             .build();
     }
 
+    public void approve() {
+        this.status = ChallengeVerificationStatus.APPROVED;
+    }
+
+    public void reject() {
+        this.status = ChallengeVerificationStatus.REJECTED;
+    }
+
 }

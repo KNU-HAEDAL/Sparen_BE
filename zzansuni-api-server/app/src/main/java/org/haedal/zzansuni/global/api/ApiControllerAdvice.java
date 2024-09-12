@@ -43,7 +43,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ApiResponse<Void> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
-        log.info("HttpRequestMethodNotSupportedException", ex);
+        log.error("HttpRequestMethodNotSupportedException", ex);
         return ApiResponse.fail(ErrorCode.COMMON_INVALID_METHOD);
     }
 
@@ -51,7 +51,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> handleMissingServletRequestPart(MissingServletRequestPartException ex) {
-        log.info("MissingServletRequestPartException", ex);
+        log.error("MissingServletRequestPartException", ex);
         return ApiResponse.fail(ErrorCode.COMMON_INVALID_REQUEST);
     }
 
@@ -59,7 +59,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
-        log.info("MissingServletRequestParameterException", ex);
+        log.error("MissingServletRequestParameterException", ex);
         return ApiResponse.fail(ErrorCode.COMMON_INVALID_PARAMETER);
     }
 
@@ -67,7 +67,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> handleMissingPathVariable(MissingPathVariableException ex) {
-        log.info("MissingPathVariableException", ex);
+        log.error("MissingPathVariableException", ex);
         return ApiResponse.fail(ErrorCode.COMMON_INVALID_PARAMETER);
     }
 
@@ -75,7 +75,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     public ApiResponse<Void> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex) {
-        log.info("HttpMediaTypeNotSupportedException", ex);
+        log.error("HttpMediaTypeNotSupportedException", ex);
         return ApiResponse.fail(ErrorCode.COMMON_INVALID_MEDIA_TYPE);
     }
 
@@ -83,7 +83,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> handleHandlerMethodValidationException(HandlerMethodValidationException ex) {
-        log.info("HandlerMethodValidationException", ex);
+        log.error("HandlerMethodValidationException", ex);
         return ApiResponse.fail(ErrorCode.COMMON_INVALID_PARAMETER);
     }
 
@@ -95,6 +95,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> illegalArgumentException(IllegalArgumentException e) {
+        log.error("IllegalArgumentException", e);
         return ApiResponse.fail("BAD_REQUEST", e.getMessage());
     }
 
@@ -105,6 +106,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> illegalStateException(IllegalStateException e) {
+        log.error("IllegalStateException", e);
         return ApiResponse.fail("BAD_REQUEST", e.getMessage());
     }
 
@@ -116,7 +118,7 @@ public class ApiControllerAdvice {
                 .findFirst()
                 .map(ConstraintViolation::getMessage)
                 .orElse("잘못된 입력 값입니다.");
-
+        log.error("ConstraintViolationException", e);
         return ApiResponse.fail("BAD_REQUEST", errorMsg);
     }
 
@@ -129,6 +131,7 @@ public class ApiControllerAdvice {
                 .findFirst()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .orElse("잘못된 입력 값입니다.");
+        log.error("MethodArgumentNotValidException", e);
         return ApiResponse.fail("BAD_REQUEST", errorMsg);
     }
 
@@ -139,12 +142,14 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResponse<Void> noSuchElementException(NoSuchElementException e) {
+        log.error("NoSuchElementException", e);
         return ApiResponse.fail(ErrorCode.COMMON_ENTITY_NOT_FOUND);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResponse<Void> noResourceFoundException(NoResourceFoundException e) {
+        log.error("NoResourceFoundException", e);
         return ApiResponse.fail("NOT_FOUND", e.getResourcePath() + "는 존재하지 않습니다.");
     }
 
@@ -156,6 +161,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ApiResponse<Void> onUnauthorizedException(UnauthorizedException e) {
+        log.error("UnauthorizedException", e);
         return ApiResponse.fail("UNAUTHORIZED", e.getMessage());
     }
 

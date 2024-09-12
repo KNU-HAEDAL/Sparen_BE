@@ -26,6 +26,14 @@ public class UserService {
         return UserModel.Main.from(user);
     }
 
+    @Transactional(readOnly = true)
+    public List<UserModel.Main> getManagerAndAdmin() {
+        List<User> users = userReader.getManagerAndAdmin();
+        return users.stream()
+                .map(UserModel.Main::from)
+                .toList();
+    }
+
     /**
      * 수정해야할 정보를 받고 해당 값으로 모두 업데이트
      */
