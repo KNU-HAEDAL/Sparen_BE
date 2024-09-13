@@ -108,7 +108,8 @@ public class ChallengeGroupRes {
         Integer difficulty,
         Integer onceExp,
         Integer successExp,
-        Integer count
+        Integer count,
+        Integer period
     ) {
 
         public static Challenge from(
@@ -119,6 +120,7 @@ public class ChallengeGroupRes {
                 .difficulty(challenge.difficulty())
                 .onceExp(challenge.onceExp())
                 .successExp(challenge.successExp())
+                .period(challenge.activePeriod())
                 .count(challenge.requiredCount())
                 .build();
         }
