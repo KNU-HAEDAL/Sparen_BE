@@ -21,11 +21,11 @@ public class UserController {
 
     @Operation(summary = "내 정보 조회", description = "내 정보를 조회한다.")
     @GetMapping("/api/user")
-    public ApiResponse<UserRes.UserInfo> getUserInfo(
+    public ApiResponse<UserRes.UserMyInfo> getUserInfo(
             @AuthenticationPrincipal JwtUser jwtUser
     ) {
         var userModel = userService.getUserModel(jwtUser.getId());
-        return ApiResponse.success(UserRes.UserInfo.from(userModel));
+        return ApiResponse.success(UserRes.UserMyInfo.from(userModel));
     }
 
     @Operation(summary = "내 정보 수정", description = "내 정보를 수정한다.")
@@ -58,11 +58,11 @@ public class UserController {
 
     @Operation(summary = "유저 랭킹 페이징", description = "전체 유저 랭킹을 조회 페이징")
     @GetMapping("/api/users/ranking")
-    public ApiResponse<PagingResponse<UserRes.UserInfo>> getUsersRanking(
+    public ApiResponse<PagingResponse<UserRes.User>> getUsersRanking(
             @Valid PagingRequest request
     ) {
         var userModelPage = userService.getUserPagingByRanking(request.toPageable());
-        var response = PagingResponse.from(userModelPage, UserRes.UserInfo::from);
+        var response = PagingResponse.from(userModelPage, UserRes.User::from);
         return ApiResponse.success(response);
     }
 

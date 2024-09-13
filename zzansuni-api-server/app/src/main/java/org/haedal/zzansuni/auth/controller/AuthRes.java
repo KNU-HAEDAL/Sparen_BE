@@ -10,10 +10,10 @@ public class AuthRes {
     public record LoginResponse(
             String accessToken,
             String refreshToken,
-            UserRes.UserInfo userInfo
+            UserRes.UserMyInfo userInfo
     ) {
         public static LoginResponse from(JwtToken jwtToken, UserModel.Main userMain) {
-            var userInfo = UserRes.UserInfo.from(userMain);
+            var userInfo = UserRes.UserMyInfo.from(userMain);
             return LoginResponse.builder()
                     .accessToken(jwtToken.getAccessToken())
                     .refreshToken(jwtToken.getRefreshToken())

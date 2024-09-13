@@ -1,6 +1,7 @@
 package org.haedal.zzansuni.user.controller;
 
 import lombok.Builder;
+import org.haedal.zzansuni.global.security.Role;
 import org.haedal.zzansuni.user.domain.TierSystem;
 import org.haedal.zzansuni.user.domain.UserModel;
 
@@ -9,21 +10,23 @@ import java.util.List;
 
 public class UserRes {
     @Builder
-    public record UserInfo(
+    public record UserMyInfo(
             Long id,
             String nickname,
             String profileImageUrl,
             String email,
-            TierInfo tierInfo
+            TierInfo tierInfo,
+            Role role
     ) {
-        public static UserInfo from(UserModel.Main userMain) {
+        public static UserMyInfo from(UserModel.Main userMain) {
             var tierInfo = TierInfo.from(userMain.exp());
-            return UserInfo.builder()
+            return UserMyInfo.builder()
                     .id(userMain.id())
                     .nickname(userMain.nickname())
                     .profileImageUrl(userMain.profileImageUrl())
                     .email(userMain.email())
                     .tierInfo(tierInfo)
+                    .role(userMain.role())
                     .build();
         }
     }
