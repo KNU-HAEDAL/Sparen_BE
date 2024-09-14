@@ -90,6 +90,16 @@ public class ChallengeReviewModel {
                 .ratingCount(ratingCount)
                 .build();
         }
+
+        public static Score from(Map<Integer, Integer> ratingCount) {
+            var averageRating = ratingCount.entrySet().stream()
+                .mapToDouble(entry -> entry.getKey() * entry.getValue())
+                .sum() / ratingCount.values().stream().mapToInt(Integer::intValue).sum();
+            return Score.builder()
+                .averageRating((float) averageRating)
+                .ratingCount(ratingCount)
+                .build();
+        }
     }
 
 }
