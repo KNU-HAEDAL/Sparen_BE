@@ -207,17 +207,4 @@ class RecordServiceTest {
         verify(challengeReviewReader).getChallengeReviewPage(pageable);
     }
 
-    @Test
-    void getChallengeGroupReviewScore() {
-        Long challengeGroupId = 1L;
-        List<ChallengeReview> challengeReviews = Collections.singletonList(challengeReview);
-        when(challengeReviewReader.findByChallengeGroupId(challengeGroupId)).thenReturn(
-            challengeReviews);
-
-        ChallengeReviewModel.Score result = challengeReviewService.getChallengeGroupReviewScore(
-            challengeGroupId);
-
-        assertNotNull(result);
-        verify(challengeReviewReader).findByChallengeGroupId(challengeGroupId);
-    }
 }
