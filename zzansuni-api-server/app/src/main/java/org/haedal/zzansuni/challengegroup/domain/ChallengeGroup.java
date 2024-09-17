@@ -11,7 +11,6 @@ import org.haedal.zzansuni.common.domain.BaseTimeEntity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -82,20 +81,25 @@ public class ChallengeGroup extends BaseTimeEntity {
         this.guide = command.getGuide();
         this.joinStartDate = command.getJoinStartDate();
         this.joinEndDate = command.getJoinEndDate();
+        updateChallenges(command.getUpdateChallenges());
+        command.getCreateChallenges().stream().map(challenge -> Challenge.create(challenge,this))
+                .forEach(this.challenges::add);
         return this;
     }
 
-    public void addChallenges(List<Challenge> challenges) {
-        this.challenges.addAll(challenges);
+    public void updateChallenges(List<ChallengeGroupCommand.UpdateChallenge> command) {
+        List<Challenge> removeChallenges = new ArrayList<>();
+        for (Challenge existingChallenge : this.challenges) {
+            for (ChallengeGroupCommand.UpdateChallenge updateCommand : command) {
+                if (existingChallenge.getId().equals(updateCommand.getId())) {
+                    existingChallenge.update(updateCommand);
+                } else {
+                    removeChallenges.add(existingChallenge);
+                }
+            }
+        }
+        this.challenges.removeAll(removeChallenges);
     }
 
-    public void removeChallenges(List<Challenge> challenges) {
-        this.challenges.removeAll(challenges);
-    }
 
-    public Optional<Challenge> getChallengeById(Long challengeId) {
-        return this.challenges.stream()
-                .filter(challenge -> challenge.getId().equals(challengeId))
-                .findFirst();
-    }
 }

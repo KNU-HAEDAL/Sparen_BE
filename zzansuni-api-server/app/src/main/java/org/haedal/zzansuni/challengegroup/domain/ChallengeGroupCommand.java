@@ -126,14 +126,5 @@ public class ChallengeGroupCommand {
             this.validateSelf();
         }
 
-        public ChallengeGroupCommand.CreateChallenge convertCreate() {
-            return ChallengeGroupCommand.CreateChallenge.builder()
-                    .requiredCount(requiredCount)
-                    .onceExp(onceExp)
-                    .successExp(successExp)
-                    .difficulty(difficulty)
-                    .activePeriod(activePeriod)
-                    .build();
-        }
     }
 }
