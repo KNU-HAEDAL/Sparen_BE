@@ -12,7 +12,10 @@ import org.haedal.zzansuni.userchallenge.domain.UserChallenge;
 @Builder
 @Table(
     indexes = {
-        @Index(name = "idx_challenge_review_challenge_group_id", columnList = "challenge_group_id"),
+        @Index(
+            name = "idx_challenge_review_challenge_group_id_rating",
+            columnList = "challenge_group_id, rating"
+        ),
     }
 )
 public class ChallengeReview extends BaseTimeEntity {
