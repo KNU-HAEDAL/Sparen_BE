@@ -54,13 +54,12 @@ public class Challenge extends BaseTimeEntity {
                 .build();
     }
 
-    public Challenge update(ChallengeGroupCommand.UpdateChallenge command) {
+    public void update(ChallengeGroupCommand.UpdateChallenge command) {
         this.onceExp = command.getOnceExp();
         this.successExp = command.getSuccessExp();
         this.difficulty = command.getDifficulty();
         this.requiredCount = command.getRequiredCount();
         this.activePeriod = command.getActivePeriod();
-        return this;
     }
 
     protected boolean updateChallengeIfPresent(List<ChallengeGroupCommand.UpdateChallenge> command) {
