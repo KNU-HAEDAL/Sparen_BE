@@ -1,8 +1,10 @@
 package org.haedal.zzansuni.challengereview.infrastructure;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.haedal.zzansuni.challengereview.domain.ChallengeReview;
+import org.haedal.zzansuni.challengereview.domain.ChallengeReviewModel;
 import org.haedal.zzansuni.challengereview.domain.ChallengeReviewReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -56,7 +58,7 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
      */
     @Override
     public Page<ChallengeReview> getChallengeReviewPageByChallengeGroupId(Long challengeGroupId,
-        Pageable pageable) {
+                                                                          Pageable pageable) {
         Long count = queryFactory
             .select(challengeReview.count())
             .from(challengeReview)
@@ -113,5 +115,27 @@ public class ChallengeReviewReaderImpl implements ChallengeReviewReader {
             .from(challengeReview)
             .where(challengeReview.challengeGroupId.eq(challengeGroupId))
             .fetch();
+    }
+
+    @Override
+    public ChallengeReviewModel.Score getScoreModelByChallengeGroupId(Long challengeGroupId) {
+        List<Tuple> fetch = queryFactory
+            .select(challengeReview.rating, challengeReview.count())
+            .from(challengeReview)
+            .where(challengeReview.challengeGroupId.eq(challengeGroupId))
+            .groupBy(challengeReview.rating)
+            .fetch();
+        Map<Integer, Integer> ratingCount = fetch
+            .stream()
+            .collect(
+                HashMap::new,
+                (m, v) ->
+                    m.put(v.get(challengeReview.rating), v.get(challengeReview.count()).intValue()),
+                HashMap::putAll
+            );
+        for(int i = 1; i <= 5; i++) {
+            ratingCount.putIfAbsent(i, 0);
+        }
+        return ChallengeReviewModel.Score.from(ratingCount);
     }
 }

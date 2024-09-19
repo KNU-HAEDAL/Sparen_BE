@@ -67,9 +67,6 @@ public class ChallengeReviewService {
     @Transactional(readOnly = true)
     public ChallengeReviewModel.Score getChallengeGroupReviewScore(
             Long challengeGroupId) {
-        List<ChallengeReview> challengeReviews = challengeReviewReader.findByChallengeGroupId(
-                challengeGroupId);
-        //TODO 모든 리뷰를 가져와서 계산 -> 성능 이슈 발생 가능
-        return ChallengeReviewModel.Score.of(challengeReviews);
+        return challengeReviewReader.getScoreModelByChallengeGroupId(challengeGroupId);
     }
 }

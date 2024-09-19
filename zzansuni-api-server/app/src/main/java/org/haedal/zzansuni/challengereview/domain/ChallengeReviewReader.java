@@ -23,4 +23,6 @@ public interface ChallengeReviewReader {
 
     List<ChallengeReview> findByChallengeGroupId(Long challengeGroupId);
 
+    ChallengeReviewModel.Score getScoreModelByChallengeGroupId(Long challengeGroupId);
+
 }
