@@ -92,9 +92,15 @@ public class ChallengeReviewModel {
         }
 
         public static Score from(Map<Integer, Integer> ratingCount) {
+            double valuesCount = ratingCount.values().stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+            if(valuesCount == 0){
+                valuesCount = 1;
+            } // 0으로 나누는 경우를 방지
             var averageRating = ratingCount.entrySet().stream()
                 .mapToDouble(entry -> entry.getKey() * entry.getValue())
-                .sum() / ratingCount.values().stream().mapToInt(Integer::intValue).sum();
+                .sum() / valuesCount;
             return Score.builder()
                 .averageRating((float) averageRating)
                 .ratingCount(ratingCount)

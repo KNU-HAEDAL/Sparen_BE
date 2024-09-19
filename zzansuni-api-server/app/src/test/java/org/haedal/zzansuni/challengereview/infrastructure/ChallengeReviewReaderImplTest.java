@@ -70,7 +70,8 @@ class ChallengeReviewReaderImplTest {
         challengeReviewRepository.saveAll(reviews);
 
         // when
-        ChallengeReviewModel.Score score = challengeReviewReader.getScoreModelByChallengeGroupId(1L);
+        ChallengeReviewModel.Score score = challengeReviewReader.getScoreModelByChallengeGroupId(challengeGroup.getId());
+
 
 
         // then
@@ -79,7 +80,40 @@ class ChallengeReviewReaderImplTest {
             () -> assertEquals(3, score.ratingCount().get(2)),
             () -> assertEquals(3, score.ratingCount().get(3)),
             () -> assertEquals(2, score.ratingCount().get(4)),
-            () -> assertEquals(0, score.ratingCount().get(5))
+            () -> assertEquals(0, score.ratingCount().get(5)),
+            ()-> assertEquals(236, Math.round(score.averageRating()*100))// 1*3 + 2*3 + 3*3 + 4*2 / 3+6+9+8 = 26 / 11 = 2.363
+        );
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("리뷰 평점이 아무거도 없을때, 평균이 0이 나온다.")
+    void getScoreModelByChallengeGroupIdWhenNoReview() {
+        // given
+        ChallengeGroup challengeGroup = createChallengeGroup();
+        Challenge challenge = Challenge.builder()
+            .challengeGroup(challengeGroup)
+            .requiredCount(2)
+            .onceExp(100)
+            .successExp(100)
+            .difficulty(2)
+            .activePeriod(10)
+            .build();
+
+        challengeGroupRepository.save(challengeGroup);
+        challengeRepository.save(challenge);
+
+        // when
+        ChallengeReviewModel.Score score = challengeReviewReader.getScoreModelByChallengeGroupId(challengeGroup.getId());
+
+        // then
+        assertAll(
+            () -> assertEquals(0, score.ratingCount().get(1)),
+            () -> assertEquals(0, score.ratingCount().get(2)),
+            () -> assertEquals(0, score.ratingCount().get(3)),
+            () -> assertEquals(0, score.ratingCount().get(4)),
+            () -> assertEquals(0, score.ratingCount().get(5)),
+            ()-> assertEquals(0, Math.round(score.averageRating()*100))
         );
     }
 
