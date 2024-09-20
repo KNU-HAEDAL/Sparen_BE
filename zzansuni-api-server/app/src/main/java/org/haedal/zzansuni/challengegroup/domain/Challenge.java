@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.haedal.zzansuni.common.domain.BaseTimeEntity;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -52,13 +54,22 @@ public class Challenge extends BaseTimeEntity {
                 .build();
     }
 
-    public Challenge update(ChallengeGroupCommand.UpdateChallenge command) {
+    public void update(ChallengeGroupCommand.UpdateChallenge command) {
         this.onceExp = command.getOnceExp();
         this.successExp = command.getSuccessExp();
         this.difficulty = command.getDifficulty();
         this.requiredCount = command.getRequiredCount();
         this.activePeriod = command.getActivePeriod();
-        return this;
+    }
+
+    protected boolean updateChallengeIfPresent(List<ChallengeGroupCommand.UpdateChallenge> command) {
+        for (ChallengeGroupCommand.UpdateChallenge updateCommand : command) {
+            if (this.id.equals(updateCommand.getId())) {
+                update(updateCommand);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
