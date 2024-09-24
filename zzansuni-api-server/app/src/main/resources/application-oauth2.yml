@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: local, dev, prod # dev, prod 공통 설정
+kakao:
+  client-id: ${KAKAO_CLIENT_ID:c959f4526a0df321dff0a8636fec3428}
+naver:
+  client-id: ${NAVER_CLIENT_ID:Ob2i2TZtIsaNqH8j_q9X}
+---
+spring: # local profile
+  config:
+    activate:
+      on-profile: local
+kakao:
+  client-secret: ${KAKAO_CLIENT_SECRET:placeholder}
+  redirect-uri: ${KAKAO_REDIRECT_URI:placeholder}
+naver:
+  client-secret: ${NAVER_CLIENT_SECRET:placeholder}
+---
+spring: # dev,prod profile
+  config:
+    activate:
+      on-profile: dev, prod
+kakao:
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-uri: ${KAKAO_REDIRECT_URI}
+naver:
+  client-secret: ${NAVER_CLIENT_SECRET}
+server-url: ${SERVER_URL}

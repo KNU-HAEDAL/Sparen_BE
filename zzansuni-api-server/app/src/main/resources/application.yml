@@ -3,6 +3,8 @@ spring: # default test profile
     include:
       - flyway
       - database
+      - jwt
+      - oauth2
   servlet:
     multipart:
       max-file-size: 5MB
@@ -14,10 +16,6 @@ springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
   use-fqn: true # 패키지 경로를 포함한 클래스명으로 문서화 (FOR inner static class)
-jwt:
-  secret: ${JWT_SECRET:4099a46b-39db-4860-a61b-2ae76ea24c43}
-  access-token-expire-time: 1800000 # 30 minutes
-  refresh-token-expire-time: 2592000000 # 30 days
 server:
   shutdown: graceful
   tomcat:
@@ -36,20 +34,6 @@ server:
     threads:
       max: 200 # 최대 스레드 수 (기본값 200)
       min-spare: 10 # 최소 스레드 수 (기본값 10)
-kakao:
-  client-id: ${KAKAO_CLIENT_ID:c959f4526a0df321dff0a8636fec3428}
-naver:
-  client-id: ${NAVER_CLIENT_ID:Ob2i2TZtIsaNqH8j_q9X}
----
-spring: # local profile
-  config:
-    activate:
-      on-profile: local
-kakao:
-  client-secret: ${KAKAO_CLIENT_SECRET:placeholder}
-  redirect-uri: ${KAKAO_REDIRECT_URI:placeholder}
-naver:
-  client-secret: ${NAVER_CLIENT_SECRET:placeholder}
 ---
 spring: # dev,prod profile
   config:
@@ -66,9 +50,3 @@ cloud:
       auto: false
     stack:
       auto: false
-kakao:
-  client-secret: ${KAKAO_CLIENT_SECRET}
-  redirect-uri: ${KAKAO_REDIRECT_URI}
-naver:
-  client-secret: ${NAVER_CLIENT_SECRET}
-server-url: ${SERVER_URL}
