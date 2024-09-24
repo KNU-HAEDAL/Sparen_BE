@@ -5,6 +5,8 @@ spring: # default test profile
       - database
       - jwt
       - oauth2
+      - s3
+      - doc
   servlet:
     multipart:
       max-file-size: 5MB
@@ -12,10 +14,6 @@ spring: # default test profile
       resolve-lazily: true # 파일 업로드 시점에 메모리에 저장
   lifecycle:
     timeout-per-shutdown-phase: 15s # 스프링이 종료될때 모든 작업이 종료될때 까지 기다리는 시간
-springdoc:
-  default-consumes-media-type: application/json;charset=UTF-8
-  default-produces-media-type: application/json;charset=UTF-8
-  use-fqn: true # 패키지 경로를 포함한 클래스명으로 문서화 (FOR inner static class)
 server:
   shutdown: graceful
   tomcat:
@@ -34,19 +32,3 @@ server:
     threads:
       max: 200 # 최대 스레드 수 (기본값 200)
       min-spare: 10 # 최소 스레드 수 (기본값 10)
----
-spring: # dev,prod profile
-  config:
-    activate:
-      on-profile: dev, prod
-cloud:
-  aws:
-    s3.bucket: ${S3_BUCKET}
-    credentials:
-      access-key: ${S3_ACCESS_KEY}
-      secret-key: ${S3_SECRET_KEY}
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false
