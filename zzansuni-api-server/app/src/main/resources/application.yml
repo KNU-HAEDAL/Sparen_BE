@@ -50,7 +50,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: dev, prod # dev, prod 공통 설정
+      on-profile: local, dev, prod # dev, prod 공통 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -77,10 +77,10 @@ kakao:
 naver:
   client-id: ${NAVER_CLIENT_ID:Ob2i2TZtIsaNqH8j_q9X}
 ---
-spring: # dev profile
+spring: # local profile
   config:
     activate:
-      on-profile: dev
+      on-profile: local
   datasource:
     url: jdbc:mysql://localhost:3306/zzansuni?createDatabaseIfNotExist=true
     username: "root"
@@ -94,10 +94,10 @@ kakao:
 naver:
   client-secret: ${NAVER_CLIENT_SECRET:placeholder}
 ---
-spring: # prod profile
+spring: # dev,prod profile
   config:
     activate:
-      on-profile: prod
+      on-profile: dev, prod
   datasource:
     url: ${MYSQL_URL}
     username: ${MYSQL_USERNAME}
@@ -121,4 +121,4 @@ kakao:
   redirect-uri: ${KAKAO_REDIRECT_URI}
 naver:
   client-secret: ${NAVER_CLIENT_SECRET}
-server-url: 'https://api.reditus.site'
+server-url: ${SERVER_URL}
