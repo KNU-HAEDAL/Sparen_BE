@@ -146,7 +146,7 @@ class RecordServiceTest {
         Long userId = 1L;
         Long challengeId = 1L;
         ChallengeReviewCommand.Create command = new ChallengeReviewCommand.Create(
-            "Great challenge!", 5);
+            "Great challenge!", 5,1,1);
 
         when(userChallengeReader.findByUserIdAndChallengeId(userId, challengeId)).thenReturn(
             Optional.of(userChallenge));
