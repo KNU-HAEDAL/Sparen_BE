@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.challengereview.controller;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.Builder;
 import org.haedal.zzansuni.user.controller.UserRes;
@@ -40,7 +41,10 @@ public class ChallengeReviewRes {
         Integer challengeDifficulty,
         UserRes.User user,
         String content,
-        Integer rating
+        Integer rating,
+        Integer difficulty,
+        Integer achievement,
+        LocalDateTime createdAt
     ) {
 
         public static InfoWithChallenge from(
@@ -53,6 +57,9 @@ public class ChallengeReviewRes {
                 .user(user)
                 .content(challengeReviewWithChallenge.content())
                 .rating(challengeReviewWithChallenge.rating())
+                .difficulty(challengeReviewWithChallenge.difficulty())
+                .achievement(challengeReviewWithChallenge.achievement())
+                .createdAt(challengeReviewWithChallenge.createdAt())
                 .build();
         }
     }
