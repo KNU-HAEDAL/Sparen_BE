@@ -1,0 +1,10 @@
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  use-fqn: true # 패키지 경로를 포함한 클래스명으로 문서화 (FOR inner static class)
+---
+spring: # dev,prod profile
+  config:
+    activate:
+      on-profile: dev, prod
+server-url: ${SERVER_URL}

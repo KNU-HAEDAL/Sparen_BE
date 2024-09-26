@@ -1,0 +1,4 @@
+jwt:
+  secret: ${JWT_SECRET:4099a46b-39db-4860-a61b-2ae76ea24c43}
+  access-token-expire-time: 1800000 # 30 minutes
+  refresh-token-expire-time: 2592000000 # 30 days
