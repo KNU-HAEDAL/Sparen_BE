@@ -20,12 +20,12 @@ public class ChallengeReviewCommand {
         @Max(5)
         private final Integer rating;
 
-        @NotNull(message = "평점은 필수입니다.")
+        @NotNull(message = "체감난이도는 필수입니다.")
         @Min(1)
-        @Max(5)
+        @Max(3)
         private final Integer difficulty;
 
-        @NotNull(message = "평점은 필수입니다.")
+        @NotNull(message = "성취도는 필수입니다.")
         @Min(1)
         @Max(3)
         private final Integer achievement;
