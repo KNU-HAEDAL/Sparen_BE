@@ -64,6 +64,8 @@ class ChallengeReviewReaderImplTest {
                 .userChallenge(userChallenge)
                 .content("content")
                 .rating(i % 4 + 1)
+                .difficulty(1)
+                .achievement(1)
                 .build())
             .toList();
         // -> 1:3 / 2:3 / 3:3 / 4:2 / 5:0

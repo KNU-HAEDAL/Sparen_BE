@@ -1,5 +1,6 @@
 package org.haedal.zzansuni.challengereview.domain;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,10 @@ public class ChallengeReviewModel {
         Integer challengeDifficulty,
         UserModel.Main user,
         String content,
-        Integer rating
+        Integer rating,
+        Integer difficulty,
+        Integer achievement,
+        LocalDateTime createdAt
     ) {
 
         public static ChallengeReviewWithChallenge from(ChallengeReview challengeReview) {
@@ -58,6 +62,9 @@ public class ChallengeReviewModel {
                 .user(userModel)
                 .content(challengeReview.getContent())
                 .rating(challengeReview.getRating())
+                .difficulty(challengeReview.getDifficulty())
+                .achievement(challengeReview.getAchievement())
+                .createdAt(challengeReview.getCreatedAt())
                 .build();
         }
 
