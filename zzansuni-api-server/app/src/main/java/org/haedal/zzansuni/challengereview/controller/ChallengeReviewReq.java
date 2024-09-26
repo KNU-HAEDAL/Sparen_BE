@@ -14,8 +14,8 @@ public class ChallengeReviewReq {
             Integer achievement
     ) {
 
-        public ChallengeReviewCommand.Create toCommand() {
-            return ChallengeReviewCommand.Create.builder()
+        public ChallengeReviewCommand.Upsert toCommand() {
+            return ChallengeReviewCommand.Upsert.builder()
                     .content(content)
                     .rating(rating)
                     .difficulty(difficulty)

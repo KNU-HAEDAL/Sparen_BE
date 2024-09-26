@@ -20,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -145,7 +144,7 @@ class RecordServiceTest {
     void createReview() {
         Long userId = 1L;
         Long challengeId = 1L;
-        ChallengeReviewCommand.Create command = new ChallengeReviewCommand.Create(
+        ChallengeReviewCommand.Upsert command = new ChallengeReviewCommand.Upsert(
             "Great challenge!", 5,1,1);
 
         when(userChallengeReader.findByUserIdAndChallengeId(userId, challengeId)).thenReturn(
@@ -167,7 +166,7 @@ class RecordServiceTest {
         });
 
         //TODO: ChallengeReview가 정적메서드라 테스트하기 어려움
-        Long reviewId = challengeReviewService.createReview(command, challengeId, userId);
+        Long reviewId = challengeReviewService.upsertReview(command, challengeId, userId);
 
         //assertNotNull(reviewId);  // 리뷰 ID가 null이 아닌지 확인
         //assertEquals(1L, reviewId);  // 리뷰 ID가 1L인지 확인
