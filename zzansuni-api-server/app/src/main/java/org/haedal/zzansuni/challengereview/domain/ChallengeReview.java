@@ -44,7 +44,14 @@ public class ChallengeReview extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer achievement;
 
-    public static ChallengeReview create(UserChallenge userChallenge, ChallengeReviewCommand.Create command) {
+    public void update(ChallengeReviewCommand.Upsert command) {
+        this.content = command.getContent();
+        this.rating = command.getRating();
+        this.difficulty = command.getDifficulty();
+        this.achievement = command.getAchievement();
+    }
+
+    public static ChallengeReview create(UserChallenge userChallenge, ChallengeReviewCommand.Upsert command) {
         Long challengeGroupId = userChallenge.getChallenge().getChallengeGroupId();
         return ChallengeReview.builder()
             .userChallenge(userChallenge)

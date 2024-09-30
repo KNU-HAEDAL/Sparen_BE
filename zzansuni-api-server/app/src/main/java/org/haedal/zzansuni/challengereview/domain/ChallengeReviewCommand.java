@@ -10,7 +10,7 @@ import org.haedal.zzansuni.core.utils.SelfValidating;
 
 public class ChallengeReviewCommand {
     @Getter
-    public static class Create extends SelfValidating<Create> {
+    public static class Upsert extends SelfValidating<Upsert> {
 
         @NotBlank(message = "내용은 필수입니다.")
         private final String content;
@@ -31,7 +31,7 @@ public class ChallengeReviewCommand {
         private final Integer achievement;
 
         @Builder
-        public Create(String content, Integer rating, Integer difficulty, Integer achievement) {
+        public Upsert(String content, Integer rating, Integer difficulty, Integer achievement) {
             this.content = content;
             this.rating = rating;
             this.difficulty = difficulty;

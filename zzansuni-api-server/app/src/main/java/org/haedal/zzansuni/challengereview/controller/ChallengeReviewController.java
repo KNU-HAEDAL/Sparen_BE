@@ -61,14 +61,14 @@ public class ChallengeReviewController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "챌린지 리뷰 작성", description = "챌린지 리뷰를 작성한다.")
+    @Operation(summary = "챌린지 리뷰 Upsert", description = "챌린지 리뷰를 생성하거나 수정합니다.")
     @PostMapping("/api/challenges/{challengeId}/reviews")
     public ApiResponse<Long> challengeReviewCreate(
         @PathVariable Long challengeId,
         @AuthenticationPrincipal JwtUser jwtUser,
         @RequestBody ChallengeReviewReq.Create request
     ) {
-        Long response = challengeReviewService.createReview(request.toCommand(), challengeId,
+        Long response = challengeReviewService.upsertReview(request.toCommand(), challengeId,
             jwtUser.getId());
         return ApiResponse.success(response, "챌린지 리뷰 작성에 성공하였습니다.");
     }

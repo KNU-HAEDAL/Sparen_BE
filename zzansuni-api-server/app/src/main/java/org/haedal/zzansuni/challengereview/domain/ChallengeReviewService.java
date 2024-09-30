@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -21,19 +19,19 @@ public class ChallengeReviewService {
 
 
     /**
-     * 챌린지 리뷰 작성하기
+     * 챌린지 리뷰 작성하기 / 수정하기
      */
     @Transactional
-    public Long createReview(ChallengeReviewCommand.Create command, Long challengeId, Long userId) {
+    public Long upsertReview(ChallengeReviewCommand.Upsert command, Long challengeId, Long userId) {
         UserChallenge userChallenge = userChallengeReader.findByUserIdAndChallengeId(userId,
-                challengeId).orElseThrow(() -> new IllegalStateException("해당 챌린지 참여 기록이 없습니다."));
+            challengeId).orElseThrow(() -> new IllegalStateException("해당 챌린지 참여 기록이 없습니다."));
 
-        //이미 리뷰를 작성했는지 확인
-        challengeReviewReader.findByUserChallengeId(userChallenge.getId())
-                .ifPresent(review -> {
-                    throw new IllegalArgumentException("이미 리뷰를 작성했습니다.");
-                });
-        ChallengeReview challengeReview = ChallengeReview.create(userChallenge, command);
+        ChallengeReview challengeReview = challengeReviewReader.findByUserChallengeId(userChallenge.getId())
+            .map(review -> {
+                review.update(command);
+                return review;
+            })
+            .orElseGet(() -> ChallengeReview.create(userChallenge, command));
         challengeReviewStore.store(challengeReview);
         return challengeReview.getId();
     }
@@ -43,9 +41,9 @@ public class ChallengeReviewService {
      */
     @Transactional(readOnly = true)
     public Page<ChallengeReviewModel.ChallengeReviewWithChallenge> getChallengeReviewsByGroupId(
-            Long challengeGroupId, Pageable pageable) {
+        Long challengeGroupId, Pageable pageable) {
         Page<ChallengeReview> challengeReviewPage = challengeReviewReader.getChallengeReviewPageByChallengeGroupId(
-                challengeGroupId, pageable);
+            challengeGroupId, pageable);
 
         return challengeReviewPage.map(ChallengeReviewModel.ChallengeReviewWithChallenge::from);
     }
@@ -56,7 +54,7 @@ public class ChallengeReviewService {
     @Transactional(readOnly = true)
     public Page<ChallengeReviewModel.ChallengeReviewWithUserInfo> getChallengeReviews(Pageable pageable) {
         Page<ChallengeReview> challengeReviewPage = challengeReviewReader.getChallengeReviewPage(
-                pageable);
+            pageable);
 
         return challengeReviewPage.map(ChallengeReviewModel.ChallengeReviewWithUserInfo::from);
     }
@@ -66,7 +64,7 @@ public class ChallengeReviewService {
      */
     @Transactional(readOnly = true)
     public ChallengeReviewModel.Score getChallengeGroupReviewScore(
-            Long challengeGroupId) {
+        Long challengeGroupId) {
         return challengeReviewReader.getScoreModelByChallengeGroupId(challengeGroupId);
     }
 }
