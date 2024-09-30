@@ -10,6 +10,7 @@ import org.haedal.zzansuni.challengegroup.controller.ChallengeGroupReq;
 import org.haedal.zzansuni.challengegroup.domain.application.ChallengeGroupService;
 import org.haedal.zzansuni.common.controller.PagingRequest;
 import org.haedal.zzansuni.common.controller.PagingResponse;
+import org.haedal.zzansuni.common.domain.ImageUploader;
 import org.haedal.zzansuni.core.api.ApiResponse;
 import org.haedal.zzansuni.user.domain.UserModel;
 import org.haedal.zzansuni.user.domain.UserService;
@@ -18,6 +19,7 @@ import org.haedal.zzansuni.userchallenge.domain.ChallengeVerificationStatus;
 import org.haedal.zzansuni.userchallenge.domain.application.ChallengeVerificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class AdminController {
     private final ChallengeGroupService challengeGroupService;
     private final UserService userService;
     private final ChallengeVerificationService challengeVerificationService;
+    private final ImageUploader imageUploader;
 
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "매니저 등록", description = "매니저를 등록한다.")
@@ -89,6 +92,18 @@ public class AdminController {
                                                           @Valid @RequestParam ChallengeVerificationStatus status) {
         challengeVerificationService.confirm(challengeVerificationId, status);
         return ApiResponse.success(null, "챌린지 인증 승인/거절 성공");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "챌린지 그룹 이미지 등록", description = "챌린지 그룹 이미지를 등록 UPSERT")
+    @PostMapping("/api/admin/challengeGroups/{challengeGroupId}/image")
+    public ApiResponse<Void> createChallengeGroupImage(@PathVariable Long challengeGroupId,
+                                                       List<MultipartFile> images) {
+        List<String> imageUrls = images.stream()
+                .map(imageUploader::upload)
+                .toList();
+        challengeGroupService.updateChallengeGroupImages(challengeGroupId, imageUrls);
+        return ApiResponse.success(null, "챌린지 그룹 이미지 등록 성공");
     }
 
 }

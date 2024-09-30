@@ -26,4 +26,10 @@ public class ChallengeGroupImage extends BaseTimeEntity {
     @JoinColumn(name = "challenge_group_id", nullable = false)
     private ChallengeGroup challengeGroup;
 
+    public static ChallengeGroupImage create(ChallengeGroup challengeGroup, String imageUrl) {
+        return ChallengeGroupImage.builder()
+                .challengeGroup(challengeGroup)
+                .imageUrl(imageUrl)
+                .build();
+    }
 }

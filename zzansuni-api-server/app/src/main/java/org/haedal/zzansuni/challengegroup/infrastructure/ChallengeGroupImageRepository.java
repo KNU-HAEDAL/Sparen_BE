@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ChallengeGroupImageRepository extends JpaRepository<ChallengeGroupImage, Long> {
     List<ChallengeGroupImage> findByChallengeGroupId(Long challengeGroupId);
+    void deleteAllByChallengeGroupId(Long challengeGroupId);
 }
