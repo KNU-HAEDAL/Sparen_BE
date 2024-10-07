@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
     private final UserReader userReader;
     private final UserChallengeReader userChallengeReader;
 
@@ -30,8 +31,8 @@ public class UserService {
     public List<UserModel.Main> getManagerAndAdmin() {
         List<User> users = userReader.getManagerAndAdmin();
         return users.stream()
-                .map(UserModel.Main::from)
-                .toList();
+            .map(UserModel.Main::from)
+            .toList();
     }
 
     /**
@@ -46,15 +47,23 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserModel.Main> getUserPagingByRanking(Pageable pageable) {
-        Page<User> users =  userReader.getUserPagingByRanking(pageable);
+        Page<User> users = userReader.getUserPagingByRanking(pageable);
         return users.map(UserModel.Main::from);
     }
 
     @Transactional(readOnly = true)
-    public UserModel.Streak getUserStreak(Long id, LocalDate startDate, LocalDate endDate){
-        List<DayCountType> userStreaks = userChallengeReader.countAllByUserIdAndDate(id, startDate, endDate);
+    public UserModel.Streak getUserStreak(Long id, LocalDate startDate, LocalDate endDate) {
+        List<DayCountType> userStreaks = userChallengeReader.countAllByUserIdAndDate(id, startDate,
+            endDate);
         Map<LocalDate, Integer> map = userStreaks.stream()
-                .collect(Collectors.toMap(DayCountType::getDate, DayCountType::getCount));
+            .collect(Collectors.toMap(DayCountType::getDate, DayCountType::getCount));
         return UserModel.Streak.from(map, startDate, endDate);
+    }
+
+    @Transactional(readOnly = true)
+    public UserModel.MyRanking getMyRanking(Long id) {
+        User user = userReader.getById(id);
+        Integer rank = userReader.getRanking(user.getExp());
+        return UserModel.MyRanking.from(user, rank);
     }
 }

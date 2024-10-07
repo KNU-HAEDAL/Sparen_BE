@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserReader {
+
     User getById(Long id);
 
     boolean existsByEmail(String email);
@@ -20,4 +21,6 @@ public interface UserReader {
     Page<User> getUserPagingByRanking(Pageable pageable);
 
     List<User> getManagerAndAdmin();
+
+    Integer getRanking(Integer exp);
 }
