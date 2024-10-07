@@ -18,6 +18,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class UserReaderImpl implements UserReader {
+
     private final UserRepository userRepository;
     private final JPAQueryFactory queryFactory;
 
@@ -44,14 +45,14 @@ public class UserReaderImpl implements UserReader {
     @Override
     public Page<User> getUserPagingByRanking(Pageable pageable) {
         Long totalCount = queryFactory
-                .select(QUser.user.count())
-                .from(QUser.user)
-                .fetchOne();
+            .select(QUser.user.count())
+            .from(QUser.user)
+            .fetchOne();
         List<User> users = queryFactory.selectFrom(QUser.user)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(QUser.user.exp.desc())
-                .fetch();
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(QUser.user.exp.desc())
+            .fetch();
 
         return new PageImpl<>(users, pageable, totalCount == null ? 0 : totalCount);
     }
@@ -59,5 +60,10 @@ public class UserReaderImpl implements UserReader {
     @Override
     public List<User> getManagerAndAdmin() {
         return userRepository.findByRoleIn(List.of(Role.MANAGER, Role.ADMIN));
+    }
+
+    @Override
+    public Integer getRanking(Integer exp) {
+        return userRepository.countByExpGreaterThan(exp) + 1;
     }
 }
