@@ -8,10 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+
     Optional<User> findByAuthToken(String authToken);
+
     boolean existsByEmail(String email);
 
     Optional<User> findByEmail(String email);
 
     List<User> findByRoleIn(List<Role> roles);
+
+    Integer countByExpGreaterThan(Integer exp);
 }
