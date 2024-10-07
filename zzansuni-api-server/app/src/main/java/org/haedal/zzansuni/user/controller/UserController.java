@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @Operation(summary = "내 랭킹 조회", description = "유저 랭킹을 조회한다.")
-    @GetMapping("/api/users/my-ranking")
+    @GetMapping("/api/user/my-ranking")
     public ApiResponse<UserRes.MyRankingInfo> getMyRanking(
         @AuthenticationPrincipal JwtUser jwtUser
     ) {
