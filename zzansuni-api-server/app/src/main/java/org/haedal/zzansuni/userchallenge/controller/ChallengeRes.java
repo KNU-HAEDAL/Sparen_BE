@@ -75,6 +75,7 @@ public class ChallengeRes {
 
     @Builder
     public record ChallengeCurrentResponse(
+        Long challengeGroupId,
         Long challengeId,
         String title,
         Integer successCount,
@@ -91,6 +92,7 @@ public class ChallengeRes {
 
         public static ChallengeCurrentResponse from(UserChallengeModel.Current current) {
             return ChallengeCurrentResponse.builder()
+                .challengeGroupId(current.challengeGroupId())
                 .challengeId(current.challengeId())
                 .title(current.title())
                 .successCount(current.successCount())
@@ -107,6 +109,7 @@ public class ChallengeRes {
     @Builder
     public record ChallengeCompleteResponse(
         Long id,
+        Long challengeGroupId,
         String title,
         LocalDate successDate,
         ChallengeCategory category,
@@ -116,6 +119,7 @@ public class ChallengeRes {
         public static ChallengeCompleteResponse from(UserChallengeModel.Complete complete) {
             return ChallengeCompleteResponse.builder()
                 .id(complete.challengeId())
+                .challengeGroupId(complete.challengeGroupId())
                 .title(complete.title())
                 .successDate(complete.successDate())
                 .category(complete.category())

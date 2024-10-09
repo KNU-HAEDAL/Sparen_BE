@@ -41,6 +41,7 @@ public class UserChallengeModel {
 
     @Builder
     public record Current(
+            Long challengeGroupId,
             Long challengeId,
             String title,
             Integer totalCount,
@@ -55,6 +56,7 @@ public class UserChallengeModel {
         public static Current from(UserChallenge userChallenge, Boolean reviewWritten) {
             Challenge challenge = userChallenge.getChallenge();
             return Current.builder()
+                .challengeGroupId(challenge.getChallengeGroupId())
                     .challengeId(challenge.getId())
                     .title(challenge.getChallengeGroup().getTitle())
                     .totalCount(challenge.getRequiredCount())
@@ -69,6 +71,7 @@ public class UserChallengeModel {
 
     @Builder
     public record Complete(
+            Long challengeGroupId,
             Long challengeId,
             String title,
             LocalDate successDate,
@@ -81,6 +84,7 @@ public class UserChallengeModel {
             Challenge challenge = userChallenge.getChallenge();
 
             return Complete.builder()
+                .challengeGroupId(challenge.getChallengeGroupId())
                     .challengeId(challenge.getId())
                     .title(challenge.getChallengeGroup().getTitle())
                     // 성공한 날짜는 가장 최근에 인증한 날짜로 설정
