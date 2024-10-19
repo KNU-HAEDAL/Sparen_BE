@@ -100,5 +100,14 @@ public class ChallengeGroup extends BaseTimeEntity {
         this.challenges.removeAll(removeChallenges);
     }
 
+    public void addParticipants() {
+        if (cumulativeCount == null) {
+            this.cumulativeCount = 1;
+        }
+        else {
+            this.cumulativeCount += 1;
+        }
+    }
+
 
 }
