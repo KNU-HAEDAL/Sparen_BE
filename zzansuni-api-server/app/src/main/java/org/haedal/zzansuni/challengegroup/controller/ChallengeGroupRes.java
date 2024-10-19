@@ -22,7 +22,8 @@ public class ChallengeGroupRes {
         Integer participantCount,
         LocalDate startDate,
         LocalDate endDate,
-        ChallengeCategory category
+        ChallengeCategory category,
+        String imageUrl
 
     ) {
 
@@ -37,6 +38,7 @@ public class ChallengeGroupRes {
                 .startDate(challengeGroupDetail.joinStartDate())
                 .endDate(challengeGroupDetail.joinEndDate())
                 .category(challengeGroupDetail.category())
+                .imageUrl(challengeGroupDetail.imageUrls().get(0))
                 .build();
         }
 
