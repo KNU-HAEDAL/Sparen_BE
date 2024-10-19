@@ -59,7 +59,8 @@ public class UserChallengeService {
                 .create(challenge.getChallengeGroup(), user);
         challengeGroupUserExpStore.store(entity);
 
-        // TODO: 챌린지 그룹 누적 참여자수 증가 로직 추가
+        // 챌린지 그룹 누적 참여자수 증가
+        challenge.getChallengeGroup().addParticipants();
     }
 
     /**
