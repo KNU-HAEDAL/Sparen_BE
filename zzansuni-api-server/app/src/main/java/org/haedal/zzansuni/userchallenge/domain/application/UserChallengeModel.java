@@ -35,6 +35,8 @@ public class UserChallengeModel {
                     .recordIds(challengeVerificationList.stream()
                             .map(ChallengeVerification::getId)
                             .collect(Collectors.toList()))
+                    .startDate(challengeGroup.getJoinStartDate())
+                    .endDate(challengeGroup.getJoinEndDate())
                     .build();
         }
     }
